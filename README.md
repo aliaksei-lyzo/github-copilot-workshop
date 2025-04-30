@@ -6,52 +6,51 @@ This repository is a modified version of the Cypress Real-World App, adapted to 
 
 This workshop demonstrates how GitHub Copilot can assist developers in:
 
-- Writing and maintaining test cases using Cypress
-- Implementing new features and components
-- Debugging and fixing issues
-- Refactoring existing code
-- Writing documentation and comments
-
-## Key Demo Areas
-
-1. **Test Automation**
-   - Writing Cypress test cases
-   - Creating test fixtures and mocks
-   - Handling test assertions
-
-2. **Component Development**
-   - React component creation
-   - State management
-   - API integration
-
-3. **Code Refactoring**
-   - Improving code quality
-   - Implementing design patterns
-   - Performance optimization
+- Learning about the project, onboarding
+- Requirements / tasks analysis / Estimations
+- System Design (architecture, libraries, solutions)
+- Creating new components
+- Coding (algorithms, regexp, validation, error handling, queries etc.)
+- Documenting
+- Unit testing / E2E testing (including mock data generation, edge cases)
+- Code reviews
+- Troubleshooting / debugging / bug fixing
+- Refactoring
+- Deployment 
 
 ## Getting Started
 
-1. Install GitHub Copilot in your IDE
-2. Clone this repository
-3. Install dependencies: `npm install`
-4. Start the application: `npm start`
-5. Run tests: `npm test`
+### Prerequisites
 
-## Workshop Exercises
+- GitHub Copilot subscription
 
-Check the `exercises` directory for hands-on examples demonstrating GitHub Copilot's capabilities in:
+### Project Installation Steps
 
-- Test case generation
-- Component implementation
-- API integration
-- Documentation writing
-- Code optimization
+1. Install Node.js (v16 or higher) if not already installed
+2. Install Yarn (v1.22 or higher) if not already installed
+3. Install GitHub Copilot in your IDE
+4. Clone this repository
+5. Install dependencies: `yarn install`
+6. Start the application: `yarn start`
+7. Run tests: `yarn test`
+
 
 ## Resources
 
-- [GitHub Copilot Documentation](https://github.com/features/copilot)
-- [Cypress Documentation](https://docs.cypress.io)
 - [Original Real World App Repository](https://github.com/cypress-io/cypress-realworld-app)
+- [Examples of prompts for GitHub Copilot](https://docs.github.com/en/copilot/example-prompts-for-github-copilot-chat)
+- [GitHub Copilot Documentation](https://docs.github.com/en/copilot)
+- [Customizing GitHub Copilot prompts](https://docs.github.com/en/copilot/customizing-copilot/adding-custom-instructions-for-github-copilot)
+
+### Prompt Engineering
+Here are some helpful resources for learning prompt engineering:
+
+- [Prompt Engineering Guide](https://www.promptingguide.ai/)
+- [Learn Prompting](https://learnprompting.org/docs/intro)
+- [Prompt Engineering Tutorial](https://www.tutorialspoint.com/prompt_engineering/index.htm)
+- [ChatGPT API - Prompt Engineering for Developers](https://learn.deeplearning.ai/courses/chatgpt-prompt-eng/lesson/1/introduction)
+- [Best practices for prompt engineering with the OpenAI API](https://help.openai.com/en/articles/6654000-best-practices...html)
+
 
 ## License
 
