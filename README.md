@@ -34,6 +34,9 @@ This workshop demonstrates how GitHub Copilot can assist developers in:
 6. Start the application: `yarn start`
 7. Run tests: `yarn test`
 
+### WORKSHOP
+Check the documents in WORKSHOP folder and follow them.
+Set up copilot to exclude files from this folder.
 
 ## Resources
 
