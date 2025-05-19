@@ -1,9 +1,3 @@
-PROJECT GOAL:
-This is a project for demonstration / workshops of Github Copilot.
-It is not intended to be a production project.
-
-When generating text or docs, be short and concise. Use simple language.
-
 ### 🔄 Project Awareness & Context
 - **Always read `PLANNING.md`** at the start of a new conversation to understand the project's architecture, goals, style, and constraints.
 - **Use consistent naming conventions, file structure, and architecture patterns** as described in `PLANNING.md`.
