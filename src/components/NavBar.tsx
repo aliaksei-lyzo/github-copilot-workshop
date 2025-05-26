@@ -28,7 +28,7 @@ import {
 import { Link as RouterLink, useLocation } from "react-router-dom";
 
 import { DataContext, DataEvents, DataSchema } from "../machines/dataMachine";
-import TransactionNavTabs from "./TransactionNavTabs";
+import TransactionHeader from "./TransactionHeader";
 import RWALogo from "./SvgRwaLogo";
 import RWALogoIcon from "./SvgRwaIconLogo";
 
@@ -187,7 +187,7 @@ const NavBar: React.FC<NavBarProps> = ({ drawerOpen, toggleDrawer, notifications
         </IconButton>
       </Toolbar>
       {(match.pathname === "/" || RegExp("/(?:public|contacts|personal)").test(match.pathname)) && (
-        <TransactionNavTabs />
+        <TransactionHeader />
       )}
     </StyledAppBar>
   );
