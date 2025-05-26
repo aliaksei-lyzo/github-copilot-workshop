@@ -9,7 +9,6 @@
 - **Organize code into clearly separated modules**, grouped by feature or responsibility.
 - **Use clear, consistent imports** (prefer relative imports within packages).
 
-
 ### ✅ Task Completion
 - **Mark completed tasks in `TASK.md`** immediately after finishing them.
 - Add new sub-tasks or TODOs discovered during development to `TASK.md` under a “Discovered During Work” section.
