@@ -1,0 +1,274 @@
+GITHUB COPILOT UNIT TESTING - SOLUTIONS
+========================================
+
+---
+
+TASK #1: WRITE TESTS FOR TRANSACTION UTILITY FUNCTIONS
+
+Answer: ASK → AGENT (or AGENT directly)
+
+Phase 1: Understanding (ASK - Optional)
+
+Should use ASK:
+- Optional if unfamiliar with utility functions
+- Helpful to understand edge cases
+- Skip if you understand functions well
+
+Investigation Prompts:
+1. "@workspace Show me transaction utility functions in transactionUtils.ts. What do these do: hasSufficientFunds, getChargeAmount, formatFullName, getPaginatedItems?"
+2. "What edge cases should I test for hasSufficientFunds and getPaginatedItems? What could go wrong?"
+
+Findings:
+- hasSufficientFunds: zero balance, exact amount, overflow
+- formatFullName: missing fields, special characters
+- getPaginatedItems: empty arrays, invalid page numbers, boundaries
+- getChargeAmount: zero balance, exact amount, negative results
+
+Phase 2: Generate Tests (AGENT Mode)
+
+Why AGENT:
+- Need comprehensive test suite for multiple functions
+- Want both happy path and edge cases
+- Creating new test file with proper structure
+- Testing related functions together
+
+Recommended Prompt:
+"Create comprehensive unit tests for transaction utility functions in src/utils/transactionUtils.ts.
+
+Test these with Vitest:
+1. hasSufficientFunds - sufficient/insufficient funds, exact amount, zero balance
+2. getChargeAmount - calculation accuracy, edge cases
+3. formatFullName - normal names, missing fields, edge cases
+4. hasDateQueryFields - with/without date fields, partial fields
+5. getQueryWithoutFilterFields - filter removal, empty query
+6. getPaginatedItems - normal pagination, empty array, invalid page, boundaries
+
+Create at: src/__tests__/transactionUtils.test.ts
+
+Include proper imports, mock data, descriptive test names, clear assertions, edge case coverage.
+Follow patterns in src/__tests__/transactions.test.ts"
+
+Expected Structure:
+- Imports from Vitest
+- Mock data for users and transactions
+- Describe blocks for each function
+- Multiple it() blocks per function
+- Tests for happy path, edge cases, errors
+
+Example Tests:
+
+describe("hasSufficientFunds")
+  it("should return true when user has sufficient funds")
+  it("should return false when user has insufficient funds")
+  it("should return true when balance exactly equals amount")
+  it("should return false when user has zero balance")
+
+describe("getPaginatedItems")
+  it("should return correct items for page 1")
+  it("should handle last page with fewer items")
+  it("should return empty array for page beyond total")
+  it("should handle empty items array")
+
+Phase 3: Validation
+
+Run tests: yarn test:unit transactionUtils
+Check coverage: yarn test:unit --coverage
+
+Verify:
+✓ All tests pass
+✓ Edge cases covered
+✓ Descriptive test names
+✓ Clear assertions
+
+Key Learning:
+✓ AGENT created comprehensive suite efficiently
+✓ ASK (optional) helped identify edge cases upfront
+✓ Proper structure with describe blocks
+✓ Mock data keeps tests isolated
+
+Task Type: New test file creation
+Difficulty: Medium
+
+---
+
+TASK #2: ADD MISSING TEST CASES TO TRANSACTION TESTS
+
+Answer: ASK → EDIT (or EDIT directly)
+
+Phase 1: Understanding (ASK Mode)
+
+Why ASK first:
+- Need to understand existing test patterns
+- Want to match code style
+- Learn how database seeding works
+- See how similar tests structured
+
+Investigation Prompts:
+1. "@workspace Show me existing tests in src/__tests__/transactions.test.ts. How are they structured? What patterns?"
+2. "What test data available after seedDatabase()? How access users, transactions, accounts?"
+3. "Show me examples of testing error conditions in existing transaction tests."
+
+Findings:
+- Tests use beforeEach(() => seedDatabase())
+- Access users with getAllUsers()[index]
+- Descriptive it() blocks
+- Vitest expect() syntax
+- Error cases use .toThrow() or check return values
+
+Phase 2: Add Test Cases (EDIT Mode)
+
+Why EDIT:
+- Adding to existing file - EDIT perfect for this
+- Specific test cases - know exactly what to add
+- Matching existing style - EDIT preserves context
+- Individual tests - adding 4 distinct tests
+
+Test 1: Zero Balance Edge Case
+Prompt: "Add test case for creating transaction when sender has zero balance. Should deplete balance then attempt another transaction. Follow existing patterns."
+
+Test 2: Negative Amount Validation
+Prompt: "Add test case for creating transaction with negative amount. Should verify validation prevents negative amounts. Follow existing patterns."
+
+Test 3: Date Range Filter No Results
+Prompt: "Add test case for filtering transactions by date range when no transactions exist in that range. Should return empty array. Follow existing patterns."
+
+Test 4: Invalid Status Update
+Prompt: "Add test case for updating transaction with invalid status value. Should test validation of status enum. Follow existing patterns."
+
+Alternative: Use AGENT for All Four Tests
+
+Prompt: "Add these 4 missing test cases to src/__tests__/transactions.test.ts:
+1. Creating transaction when sender has zero balance
+2. Creating transaction with negative amount (should fail)
+3. Filtering by date range with no results
+4. Updating transaction with invalid status (should fail)
+Follow existing patterns, use same imports and seedDatabase setup, add at end of describe block."
+
+Why AGENT alternative:
+- Adding multiple related tests
+- Want consistent style across all four
+- Generate all at once more efficiently
+- Maintains existing file structure
+
+Phase 3: Validation
+
+Run tests: yarn test:unit transactions
+
+Verify:
+✓ All new tests added
+✓ Tests follow existing patterns
+✓ New tests pass (or fail if validation missing)
+✓ Code style matches
+✓ Proper assertions
+
+Expected Output:
+✓ should handle transaction creation when sender has zero balance
+✓ should reject transaction with negative amount
+✓ should return empty array when filtering by date range with no results
+✓ should reject updating transaction with invalid status
+
+Key Learning:
+✓ ASK helped understand existing patterns first
+✓ EDIT perfect for adding individual tests to existing file
+✓ AGENT alternative for adding multiple tests at once
+✓ Style consistency maintained
+
+Task Type: Extending existing test suite
+Difficulty: Easy-Medium
+
+---
+
+TESTING MODE SELECTION SUMMARY
+
+Task                          | Primary Mode  | Why                           | Complexity
+------------------------------|---------------|-------------------------------|------------
+Utility Function Tests        | ASK→AGENT     | New file, comprehensive       | Medium
+Add Missing Tests             | ASK→EDIT      | Existing file, specific cases | Easy-Medium
+
+---
+
+UNIT TESTING BEST PRACTICES
+
+1. Planning Tests (ASK Mode)
+   - Understand what needs testing
+   - Identify edge cases upfront
+   - Learn existing test patterns
+   - Explore coverage gaps
+
+Example ASK Prompts:
+"What edge cases should I test for this function?"
+"What test scenarios am I missing in this test suite?"
+"Show me examples of how to test error conditions."
+
+2. Generating Tests (EDIT vs AGENT)
+
+Use EDIT when:
+- Adding 1-2 specific test cases
+- Modifying existing tests
+- Working in existing test file
+- Know exactly what to test
+
+Use AGENT when:
+- Creating new test file
+- Need comprehensive coverage
+- Testing multiple related functions
+- Want both happy path + edge cases
+
+3. Test Structure
+
+describe("ModuleName")
+  // Mock data
+  describe("functionName")
+    it("should handle normal case")
+    it("should handle edge case")
+    it("should throw error for invalid input")
+
+4. Coverage Checklist
+
+For each function test:
+✓ Happy path - normal expected usage
+✓ Edge cases - boundary conditions, empty inputs, nulls
+✓ Error cases - invalid inputs, exceptions
+✓ Integration - how it works with other functions
+
+5. Copilot Prompting Tips
+
+Be Specific:
+✓ "Create tests for getPaginatedItems with edge cases: empty array, invalid page, boundaries"
+✗ "Write tests for pagination"
+
+Specify Framework:
+✓ "Using Vitest framework..."
+✓ "Using Jest with TypeScript..."
+
+Request Coverage:
+✓ "Include happy path, edge cases, and error scenarios"
+✓ "Test both success and failure conditions"
+
+Match Existing Style:
+✓ "Follow the existing test patterns in this file"
+✓ "Use the same mocking approach as other tests"
+
+---
+
+KEY TAKEAWAYS
+
+1. ASK before generating - understand what to test
+2. EDIT for additions - when working with existing files
+3. AGENT for new suites - comprehensive coverage from scratch
+4. Think edge cases - empty, null, boundary conditions
+5. Match existing patterns - consistency is important
+6. Run tests immediately - verify they work
+7. Test errors too - not just happy paths
+
+---
+
+SELF-CHECK
+
+- Understand when to use ASK vs EDIT vs AGENT for testing?
+- Can identify what edge cases to test?
+- Know how to structure comprehensive test suites?
+- Can match existing test patterns when adding tests?
+- Test both success and failure scenarios?
+
+Remember: Good tests are specific, comprehensive, and maintainable. Copilot helps write them faster, but you still need to think about what matters.

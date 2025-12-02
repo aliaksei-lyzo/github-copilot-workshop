@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎸 Гитарный Тренажёр</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 600px;
+            width: 100%;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 2em;
+        }
+
+        .settings {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+            font-weight: 600;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-bottom: 10px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn-start {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-stop {
+            background: #e74c3c;
+            color: white;
+            display: none;
+        }
+
+        .status {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .status-text {
+            font-size: 1.2em;
+            color: #555;
+        }
+
+        .countdown {
+            font-size: 3em;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .log {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 20px;
+            border-radius: 10px;
+            max-height: 300px;
+            overflow-y: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        .log-entry {
+            margin-bottom: 5px;
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateX(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .finger-display {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .finger-card {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            border: 3px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .finger-card.active {
+            border-color: #667eea;
+            background: #e8eaf6;
+            transform: scale(1.05);
+        }
+
+        .finger-name {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .finger-string {
+            font-size: 1.5em;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .finger-direction {
+            font-size: 0.9em;
+            color: #777;
+        }
+
+        @media (max-width: 600px) {
+            .finger-display {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎸 Гитарный Тренажёр</h1>
+        
+        <div class="settings" id="settingsPanel">
+            <div class="input-group">
+                <label for="interval">Интервал (в секундах):</label>
+                <input type="number" id="interval" value="2" min="0.1" step="0.1">
+            </div>
+            <div class="input-group">
+                <label for="duration">Общее время (в минутах):</label>
+                <input type="number" id="duration" value="1" min="0.1" step="0.1">
+            </div>
+        </div>
+
+        <button class="btn btn-start" id="startBtn">Начать тренировку</button>
+        <button class="btn btn-stop" id="stopBtn">Остановить</button>
+
+        <div class="status" id="status">
+            <div class="status-text">Настройте параметры и нажмите "Начать тренировку"</div>
+        </div>
+
+        <div class="finger-display hidden" id="fingerDisplay">
+            <div class="finger-card" data-finger="0">
+                <div class="finger-name">Указательный</div>
+                <div class="finger-string">3</div>
+                <div class="finger-direction">вверх</div>
+            </div>
+            <div class="finger-card" data-finger="1">
+                <div class="finger-name">Средний</div>
+                <div class="finger-string">3</div>
+                <div class="finger-direction">вверх</div>
+            </div>
+            <div class="finger-card" data-finger="2">
+                <div class="finger-name">Безымянный</div>
+                <div class="finger-string">3</div>
+                <div class="finger-direction">вверх</div>
+            </div>
+            <div class="finger-card" data-finger="3">
+                <div class="finger-name">Мизинец</div>
+                <div class="finger-string">3</div>
+                <div class="finger-direction">вверх</div>
+            </div>
+        </div>
+
+        <div class="log hidden" id="log"></div>
+    </div>
+
+    <script>
+        const fingers = ["указательный", "средний", "безымянный", "мизинец"];
+        let mainTimer = null;
+        let countdownTimer = null;
+        let trainingTimer = null;
+        let audioContext = null;
+
+        const startBtn = document.getElementById('startBtn');
+        const stopBtn = document.getElementById('stopBtn');
+        const status = document.getElementById('status');
+        const logElement = document.getElementById('log');
+        const fingerDisplay = document.getElementById('fingerDisplay');
+        const settingsPanel = document.getElementById('settingsPanel');
+
+        startBtn.addEventListener('click', startTraining);
+        stopBtn.addEventListener('click', stopTraining);
+
+        function initAudio() {
+            if (!audioContext) {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            }
+        }
+
+        function playBeep(frequency = 800, duration = 100) {
+            if (!audioContext) return;
+            
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator.frequency.value = frequency;
+            oscillator.type = 'sine';
+            
+            gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration / 1000);
+            
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + duration / 1000);
+        }
+
+        function startTraining() {
+            const interval = parseFloat(document.getElementById('interval').value) * 1000;
+            const totalMinutes = parseFloat(document.getElementById('duration').value);
+            const totalTime = totalMinutes * 60 * 1000;
+
+            if (!interval || interval <= 0 || !totalMinutes || totalMinutes <= 0) {
+                alert('❌ Неверные значения. Введите положительные числа.');
+                return;
+            }
+
+            initAudio();
+
+            startBtn.style.display = 'none';
+            stopBtn.style.display = 'block';
+            settingsPanel.style.display = 'none';
+            fingerDisplay.classList.remove('hidden');
+            logElement.classList.remove('hidden');
+            logElement.innerHTML = '';
+
+            const fingerStates = fingers.map(() => ({
+                stringNum: 3,
+                direction: "вверх",
+            }));
+
+            updateFingerDisplay(fingerStates);
+
+            addLog('🏁 Подготовка... Тренировка начнется через 5 секунд!');
+            let countdown = 5;
+
+            countdownTimer = setInterval(() => {
+                status.innerHTML = `<div class="countdown">${countdown}</div>`;
+                addLog(`⏳ ${countdown}...`);
+                playBeep(600, 150);
+                countdown--;
+
+                if (countdown < 0) {
+                    clearInterval(countdownTimer);
+                    addLog('🎸 Поехали!\n');
+                    playBeep(1000, 200);
+
+                    trainingTimer = setInterval(() => {
+                        const fingerIndex = Math.floor(Math.random() * fingers.length);
+                        const finger = fingers[fingerIndex];
+                        const state = fingerStates[fingerIndex];
+
+                        if (state.direction === "вверх") {
+                            if (state.stringNum < 6) state.stringNum++;
+                            else {
+                                state.direction = "вниз";
+                                state.stringNum--;
+                            }
+                        } else {
+                            if (state.stringNum > 1) state.stringNum--;
+                            else {
+                                state.direction = "вверх";
+                                state.stringNum++;
+                            }
+                        }
+
+                        playBeep(800, 100);
+                        addLog(`${finger} → ${state.direction} (струна ${state.stringNum})`);
+                        updateFingerDisplay(fingerStates, fingerIndex);
+                    }, interval);
+
+                    status.innerHTML = `<div class="status-text">⏱️ Тренировка началась!<br>Интервал: ${interval / 1000} сек, общее время: ${totalMinutes} мин.</div>`;
+
+                    mainTimer = setTimeout(() => {
+                        stopTraining();
+                        addLog('✅ Время вышло! Тренировка завершена.');
+                        status.innerHTML = '<div class="status-text">✅ Тренировка завершена!</div>';
+                        playBeep(1200, 300);
+                    }, totalTime);
+                }
+            }, 1000);
+        }
+
+        function stopTraining() {
+            if (countdownTimer) clearInterval(countdownTimer);
+            if (trainingTimer) clearInterval(trainingTimer);
+            if (mainTimer) clearTimeout(mainTimer);
+
+            startBtn.style.display = 'block';
+            stopBtn.style.display = 'none';
+            settingsPanel.style.display = 'block';
+
+            if (status.querySelector('.countdown') || status.textContent.includes('Тренировка началась')) {
+                addLog('⏹️ Тренировка остановлена.');
+                status.innerHTML = '<div class="status-text">⏹️ Тренировка остановлена</div>';
+            }
+        }
+
+        function addLog(message) {
+            const entry = document.createElement('div');
+            entry.className = 'log-entry';
+            entry.textContent = message;
+            logElement.appendChild(entry);
+            logElement.scrollTop = logElement.scrollHeight;
+        }
+
+        function updateFingerDisplay(fingerStates, activeIndex = -1) {
+            fingerStates.forEach((state, index) => {
+                const card = document.querySelector(`[data-finger="${index}"]`);
+                card.querySelector('.finger-string').textContent = state.stringNum;
+                card.querySelector('.finger-direction').textContent = state.direction;
+                
+                if (index === activeIndex) {
+                    card.classList.add('active');
+                    setTimeout(() => card.classList.remove('active'), 300);
+                }
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,327 @@
+CUSTOM COPILOT INSTRUCTIONS
+============================
+
+LEARNING OBJECTIVES
+
+- Understand three types of Copilot instructions and their priority
+- Create and test custom instructions
+- Observe how instructions change AI output
+- Learn what makes instructions effective vs ineffective
+
+---
+
+INSTRUCTION TYPES & PRIORITY
+
+Priority (highest to lowest):
+1. Chat Instructions (inline in prompt) - overrides everything
+2. Repository Instructions (.github/copilot-instructions.md) - overrides global
+3. Global Instructions (VS Code Settings) - overrides default
+4. Default Copilot Behavior
+
+When to use:
+- Chat: One-off tasks, temporary overrides, domain-specific context
+- Repository: Project standards, team conventions, architecture patterns
+- Global: Personal preferences across all your projects
+
+---
+
+EXERCISE 1: BASELINE - NO INSTRUCTIONS
+
+Task: Establish baseline by testing Copilot without any custom instructions.
+
+Steps:
+1. Ensure no .github/copilot-instructions.md exists in this project
+2. Clear any Global instructions (VS Code Settings → GitHub Copilot › Chat: Instructions)
+3. Test these 3 prompts in Copilot Chat and save the output:
+
+Prompt 1: "Create a function to calculate transaction fees"
+Prompt 2: "Create a React component for displaying user profile"
+Prompt 3: "Create an API endpoint to fetch transactions"
+
+Expected: Baseline output showing default Copilot behavior (style, structure, what's included/missing)
+Hint: Save results in a file called baseline-results.txt for comparison later
+
+---
+
+EXERCISE 2: CREATE REPOSITORY INSTRUCTIONS
+
+Task 2.1: Write Instructions with Intentional Issues
+
+Task: Create instructions file with mix of good and problematic rules to learn what works.
+
+Steps:
+1. Create .github/copilot-instructions.md in this project
+2. Add these 5 rules (some intentionally vague to demonstrate what doesn't work):
+
+### Code Style
+- Always use TypeScript with strict mode enabled
+- Write good code and follow best practices
+
+### Documentation
+- Add JSDoc comments to all exported functions
+- Document everything properly
+
+### Testing
+- Use Vitest for all unit tests
+- Test file should be alongside source file with .test.ts extension
+
+Note: Rules 2 and 4 are intentionally vague to show ineffective instructions.
+
+Expected: Instructions file created with mix of specific and vague rules
+Hint: The vague rules ("good code", "properly") are designed to be ineffective
+
+Task 2.2: Test and Observe Which Rules Work
+
+Steps:
+1. Save .github/copilot-instructions.md
+2. Reload VS Code window (Cmd+Shift+P → "Reload Window")
+3. Run the SAME 3 prompts from Exercise 1
+4. Compare with baseline results
+
+Questions to answer:
+- Which rules did Copilot follow? (Hint: specific ones like TypeScript, Vitest)
+- Which rules were ignored? (Hint: vague ones like "good code")
+- What's the difference between specific vs vague instructions?
+
+Expected: Notice that specific rules (TypeScript, Vitest) are followed, vague rules ("good code") are ignored
+Hint: Create comparison-results.txt documenting what changed and what didn't
+
+---
+
+EXERCISE 3: FIX THE VAGUE INSTRUCTIONS
+
+Task: Rewrite the 2 vague rules to be specific and actionable.
+
+Steps:
+1. Identify which 2 rules from Exercise 2 didn't work (the vague ones)
+2. Rewrite them to be specific:
+
+Change from: "Write good code and follow best practices"
+Change to: "Use descriptive variable names, max 20 lines per function, avoid nested ternaries"
+
+Change from: "Document everything properly"
+Change to: "Include @param and @returns tags in JSDoc, add example usage for functions with 3+ parameters"
+
+3. Save updated .github/copilot-instructions.md
+4. Reload VS Code
+5. Test with NEW prompts:
+
+Prompt 4: "Create a function to validate email addresses"
+Prompt 5: "Create a utility function to format currency"
+
+Expected: Copilot now follows the rewritten specific rules
+Hint: Notice how specific instructions produce consistent results
+
+---
+
+EXERCISE 4: TEST INSTRUCTION PRIORITY
+
+Task 4.1: Add Global Instructions
+
+Steps:
+1. Open VS Code Settings (Cmd+,)
+2. Search for "GitHub Copilot Instructions"
+3. Find "GitHub Copilot › Chat: Instructions"
+4. Add: "Always include console.log statements for debugging"
+
+Task 4.2: Create Priority Conflict
+
+Your repository instructions say: "Use TypeScript with strict mode"
+Your global instructions say: "Always include console.log statements"
+
+Test with prompt: "Create a utility function to format dates"
+
+Questions:
+- Does output use TypeScript? (Yes - repository rule)
+- Does output include console.log? (Yes - global rule)
+- Both rules are followed because they don't conflict
+
+Task 4.3: Create Actual Conflict
+
+Steps:
+1. Add to Global instructions: "Never use TypeScript, always use JavaScript"
+2. Repository still says: "Always use TypeScript with strict mode"
+3. Test prompt: "Create a function to parse JSON safely"
+
+Question: Which wins? (Answer: Repository overrides Global)
+
+Expected: Understanding that Repository > Global in priority
+Hint: Repository instructions always override global when they conflict
+
+---
+
+EXERCISE 5: CHAT INSTRUCTIONS (HIGHEST PRIORITY)
+
+Task 5.1: Override Repository Rules Temporarily
+
+Your repository says: "Use TypeScript with strict mode"
+
+Try this prompt:
+"For this task only: ignore TypeScript rules, use plain JavaScript.
+
+Create a quick prototype function to shuffle an array"
+
+Expected: JavaScript output despite repository requiring TypeScript
+Hint: "For this task only" makes Copilot temporarily ignore other instructions
+
+Task 5.2: Add Domain-Specific Context
+
+Try this prompt:
+"Context: Financial application handling money
+Rules:
+- Use Decimal.js for all currency calculations (never native numbers)
+- Round all amounts to 2 decimal places
+- Validate amounts are positive before processing
+
+Create a function to calculate transaction fees with 2.5% rate"
+
+Expected: Function using Decimal.js, proper rounding, validation
+Hint: Inline context adds specialized knowledge not in repository instructions
+
+---
+
+EXERCISE 6: FIND WHAT WORKS FOR YOU
+
+Task: Experiment with different instruction styles.
+
+Test A - Strict Style:
+Repository instruction: "Every function must have corresponding unit test written first (TDD approach)"
+Prompt: "Create a function to parse CSV data"
+Result: Does it generate tests? How practical is this?
+
+Test B - Flexible Style:
+Repository instruction: "Write unit tests for complex business logic and edge cases"
+Prompt: "Create a function to parse CSV data"
+Result: Does it generate tests? More practical?
+
+Document:
+- Which style produces better code for your workflow?
+- When is strict better? When is flexible better?
+- What did you learn about your preferences?
+
+Expected: Understanding of your preferred instruction style
+Hint: Different projects and teams may need different approaches
+
+
+---
+
+EXERCISE 7: FILE-SPECIFIC CUSTOM INSTRUCTIONS
+
+Task 7.1: Create Frontend Instructions File
+
+Task: Create custom instructions that apply only to frontend files.
+
+Steps:
+1. Open Command Palette (Cmd+Shift+P)
+2. Run: "Chat: New Instructions File"
+3. Select default folder (.github/instructions)
+4. Name file: "frontend"
+5. In applyTo field, specify frontend file patterns:
+   - src/components/**/*.tsx
+   - src/containers/**/*.tsx
+   - src/hooks/**/*.ts
+6. Add frontend-specific rules:
+   - Use Material-UI components exclusively
+   - Every interactive element must have data-test attribute
+   - Use React functional components with hooks only
+   - Implement loading states and error boundaries
+
+Expected: Frontend instruction file that applies only to React component files
+Hint: applyTo field uses glob patterns to match specific files
+
+Task 7.2: Create Test Instructions File
+
+Task: Create custom instructions that apply only to test files.
+
+Steps:
+1. Open Command Palette (Cmd+Shift+P)
+2. Run: "Chat: New Instructions File"
+3. Select default folder (.github/instructions)
+4. Name file: "tests"
+5. In applyTo field, specify test file patterns:
+   - **/*.test.ts
+   - **/*.test.tsx
+   - src/__tests__/**/*.ts
+6. Add test-specific rules:
+   - Use Vitest framework with describe/it/expect syntax
+   - Test happy path, edge cases, and error scenarios
+   - Use Arrange-Act-Assert pattern
+   - Mock external dependencies and API calls
+   - Include descriptive test names
+
+Expected: Test instruction file that applies only to test files
+Hint: Use **/*.test.* pattern to match all test files
+
+Task 7.3: Verify File-Specific Instructions Work
+
+Steps:
+1. Open or create a file matching frontend pattern: src/components/TestComponent.tsx
+2. Ask Copilot: "Create a button component"
+3. Observe: Should use Material-UI and include data-test attribute
+
+4. Open or create a file matching test pattern: src/components/TestComponent.test.tsx
+5. Ask Copilot: "Create tests for the button component"
+6. Observe: Should use Vitest syntax and AAA pattern
+
+Expected: Different instructions applied based on file type/location
+Hint: File path determines which instruction file is active
+
+KEY TAKEAWAYS
+
+Effective Instructions Are:
+✓ Specific: "Use Vitest" not "use testing tools"
+✓ Actionable: Clear what to do
+✓ Testable: You can verify if followed
+✓ Consistent: No contradictions
+
+Ineffective Instructions Are:
+✗ Vague: "Write good code"
+✗ Ambiguous: "Document properly"
+✗ Contradictory: Conflicting rules
+
+Priority Reminder:
+Chat > Repository > Global > Default
+(Each level overrides the one below)
+
+When to Use Each:
+- Chat: One-off tasks, temporary overrides, domain-specific needs
+- Repository: Team standards, project conventions, shared rules
+- Global: Personal coding style preferences across all projects
+
+---
+
+FINAL CHALLENGE
+
+Create complete instruction system and document your learnings:
+
+1. Repository instructions (.github/copilot-instructions.md)
+   - 5-10 project-specific rules
+   - All specific and actionable
+   - No vague statements
+
+2. Global instructions (VS Code Settings)
+   - 3-5 personal coding preferences
+   - Apply across all your projects
+
+3. Documentation (create MY_INSTRUCTION_EXPERIMENTS.md)
+   - Baseline results (what rules were ignored)
+   - Before/after comparisons (vague vs specific)
+   - Priority test results (global vs repository)
+   - Your A/B test findings
+
+4. 2 A/B tests comparing approaches
+   - Document which worked better and why
+
+Success criteria:
+✓ Instructions produce consistent results
+✓ You can explain WHY specific > vague
+✓ You tested and understand the priority system
+✓ You documented what works for your workflow
+
+---
+
+RESOURCES
+
+- GitHub Copilot Docs: https://docs.github.com/en/copilot/customizing-copilot/adding-custom-instructions-for-github-copilot
+- Your experiments: MY_INSTRUCTION_EXPERIMENTS.md
+- Project context: PLANNING.md

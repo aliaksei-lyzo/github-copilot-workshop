@@ -1,0 +1,143 @@
+AWESOME COPILOT INTEGRATION
+============================
+
+WHAT IS AWESOME COPILOT?
+
+Community repository with reusable:
+- Prompts - Ready-to-use templates for specific tasks
+- Instructions - Coding standards and best practices
+- Chat Modes - Specialized AI personas
+- Collections - Curated sets of related resources
+
+Repository: https://github.com/github/awesome-copilot
+
+---
+
+TASK #1: ADD TESTING PROMPT FROM AWESOME COPILOT
+
+Task: Install reusable test generation prompt to help create better tests.
+
+Steps:
+1. Browse awesome-copilot prompts: https://github.com/github/awesome-copilot/tree/main/prompts
+2. Find testing-related prompt (unit tests, integration tests)
+3. Install to .github/copilot-prompts/ in this project
+4. Test by generating a test for a component
+
+Questions:
+- Which prompt did you choose and why?
+- How does it compare to writing tests manually?
+- Did you need to customize it for this project?
+
+Expected: Installed testing prompt that generates quality tests matching project patterns
+Hint: Look for React/TypeScript testing prompts, copy .prompt.md file, test with # in Chat
+
+---
+
+TASK #2: CREATE CUSTOM INSTRUCTIONS FOR THIS PROJECT
+
+Task: Write custom instructions that help Copilot understand this project better.
+
+Steps:
+1. Look at examples: https://github.com/github/awesome-copilot/tree/main/instructions
+2. Create .github/copilot-instructions.md for this project
+3. Include:
+   - Tech stack (React, TypeScript, Material-UI, Express)
+   - Patterns (Formik forms, styled components with PREFIX)
+   - Naming conventions (data-test attributes, validation patterns)
+   - File organization
+
+Questions:
+- What patterns did you document?
+- How specific should instructions be?
+- Did Copilot generate better code after adding instructions?
+
+Expected: Custom instructions file that improves Copilot's code generation for this project
+Hint: Document project-specific patterns, be specific about conventions, reference key files
+
+---
+
+TASK #3: TRY README GENERATOR PROMPT
+
+Task: Use awesome-copilot's README generator to improve project docs.
+
+Steps:
+1. Install README generator: https://github.com/github/awesome-copilot/blob/main/prompts/readme-blueprint-generator.prompt.md
+2. Run it to generate new README section
+3. Compare with existing PROJECT_README.md
+4. Add any missing useful sections
+
+Questions:
+- What new sections did it suggest?
+- Is generated content accurate?
+- What would you keep vs. rewrite?
+
+Expected: Enhanced project documentation with useful sections
+Hint: Copy prompt file, invoke with #, review generated content before adding to docs
+
+---
+
+TASK #4: DISCOVER RESOURCES WITH SUGGESTION PROMPT
+
+Task: Let Copilot suggest relevant awesome-copilot resources for this project.
+
+Steps:
+1. Install suggest prompts: https://github.com/github/awesome-copilot/blob/main/prompts/suggest-awesome-github-copilot-prompts.prompt.md
+2. Run it to discover relevant resources
+3. Review suggestions and install 2-3 useful ones
+4. Test them on real project tasks
+
+Questions:
+- What resources did Copilot suggest?
+- Were suggestions relevant to this project?
+- Which ones are most useful for your workflow?
+
+Expected: 2-3 additional useful prompts/resources installed and tested
+Hint: Run discovery prompt, evaluate relevance, install most useful ones, test on actual tasks
+
+---
+
+TIPS FOR SUCCESS
+
+Finding Resources:
+- Search by tech stack (React, TypeScript, Node.js)
+- Look for patterns matching your project
+- Check collections for grouped resources
+
+Installing:
+- Copy .prompt.md files to .github/copilot-prompts/
+- Copy .instructions.md to .github/copilot-instructions.md
+- Test with # in Copilot Chat to see your prompts
+
+Customizing:
+- Adapt examples to your project structure
+- Keep instructions specific and actionable
+- Test and refine based on results
+
+---
+
+BONUS CHALLENGES
+
+1. Create Form Prompt: Make reusable prompt for generating Material-UI + Formik forms based on project pattern
+
+2. Share Back: Contribute your custom prompt to awesome-copilot if useful for others
+
+3. Build Collection: Create collection of prompts/instructions for React payment apps
+
+---
+
+SUCCESS METRICS
+
+Successfully integrated awesome-copilot when:
+✓ At least 2-3 prompts installed and working
+✓ Custom instructions improve code generation
+✓ Resources save time on repetitive tasks
+✓ Generated code matches project patterns
+
+---
+
+RESOURCES
+
+- Awesome Copilot Repo: https://github.com/github/awesome-copilot
+- Contributing Guide: https://github.com/github/awesome-copilot/blob/main/CONTRIBUTING.md
+- Prompts Directory: https://github.com/github/awesome-copilot/tree/main/prompts
+- Instructions Directory: https://github.com/github/awesome-copilot/tree/main/instructions

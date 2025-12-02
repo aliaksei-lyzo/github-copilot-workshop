@@ -1,0 +1,172 @@
+COPILOT CHAT MODE SELECTION TRAINING
+=====================================
+
+MODE SELECTION GUIDE:
+- ASK: Unclear goals, exploration, understanding existing code
+- EDIT: Small local edits (one function/file)
+- EDIT + ASK: Guided iterative improvements
+- ASK → EDIT → VALIDATE: Higher-risk multi-step changes
+- AGENT: Multi-file changes, complex features, refactoring
+
+DECISION TREE:
+Task clear? → NO → ASK mode
+           → YES → Multiple files? → YES → AGENT mode
+                                  → NO → Risky/unfamiliar? → YES → ASK → EDIT
+                                                           → NO → EDIT mode
+
+---
+
+TASK 1: UNDERSTAND AUTHENTICATION FLOW
+
+Coding Task: Need to add new auth provider but don't understand current implementation.
+
+Goal: Understand auth architecture, identify files, learn what to modify
+
+Question: Which mode(s)? Why?
+
+Expected: List of auth files, flow explanation, modification points
+Hint: You need to explore before you can modify
+
+---
+
+TASK 2: FIX MISSING INPUT VALIDATION
+
+Coding Task: Users can add themselves as contacts - prevent this.
+
+File: backend/contact-routes.ts
+Goal: Add validation: contactUserId != currentUserId, return 400 error
+
+Question: Which mode(s)? Why?
+
+Expected: Validation check added to POST /contacts endpoint
+Hint: Single file, single function, clear requirement
+
+---
+
+TASK 3: IMPROVE ERROR HANDLING
+
+Coding Task: Bank account routes lack consistent error handling and helpful messages.
+
+File: backend/bankaccount-routes.ts
+Goal: Add proper error handling with appropriate HTTP codes (404, 403, 500)
+
+Question: Which mode(s)? Why? Multiple modes?
+
+Expected: Consistent try-catch blocks, proper status codes, helpful error messages
+Hint: Not sure about best practices? Should you ask first?
+
+---
+
+TASK 4: ADD REQUEST RATE LIMITING
+
+Coding Task: Prevent API abuse with rate limiting on transaction creation.
+
+Files: backend/transaction-routes.ts, possibly backend/rate-limiter.ts
+Goal: 100 requests per 15 minutes per IP on transaction endpoint
+
+Question: Which mode(s)? What order? Why?
+
+Expected: Rate limiting middleware, applied to endpoint
+Hint: Unknown: existing packages? Best config? Start with exploration?
+
+---
+
+TASK 5: ADD TRANSACTION ANALYTICS DASHBOARD
+
+Coding Task: Create analytics showing transaction stats and monthly trends.
+
+Files: backend/transaction-routes.ts (new endpoint), src/components/AnalyticsCard.tsx (new), src/containers/AnalyticsDashboard.tsx (new)
+Goal: Complete analytics feature with backend + frontend
+
+Question: Which mode? Why?
+
+Expected: New analytics endpoint, dashboard components, data visualization
+Hint: Multiple new files, full feature implementation
+
+---
+
+TASK 6: REFACTOR DATABASE QUERY FUNCTIONS
+
+Coding Task: Standardize inconsistent database functions without breaking existing code.
+
+File: backend/database.ts (potentially others)
+Goal: Consistent async/await, error handling, JSDoc, return types. NO breaking changes.
+
+Question: Which mode? Why?
+
+Expected: Standardized functions, no broken API routes
+Hint: Multiple functions, strict constraints, high risk of breaking changes
+
+---
+
+TASK 7: ADD NOTIFICATION PREFERENCES FEATURE
+
+Coding Task: Let users control which notification types they receive.
+
+Requirements:
+- Add notificationPreferences to User model
+- Create PATCH /users/:userId/preferences endpoint
+- Add validation
+- Create NotificationPreferences component
+- Integrate into UserSettings
+- Respect preferences in notification creation
+
+Question: Which mode? Why?
+
+Expected: Complete preferences system across models, routes, and UI
+Hint: Multiple files, multiple layers, complete feature
+
+---
+
+TASK 8: DEBUG FAILING TEST
+
+Coding Task: Test for getTransactionById fails with "Cannot read property 'id' of undefined".
+
+Files: src/__tests__/transactions.test.ts, possibly backend/database.ts
+Goal: Find root cause and fix test
+
+Question: Which mode(s)? Why?
+
+Expected: Identified issue, fixed test
+Hint: Investigation required before fixing
+
+---
+
+TASK 9: ADD LOGGING STATEMENT
+
+Coding Task: Add debug logging to see data passed to createTransaction.
+
+File: backend/database.ts
+Goal: Add console.log('Creating transaction:', transactionData); before creation
+
+Question: Which mode? Or manual edit?
+
+Expected: Single log statement added
+Hint: Trivial change - is Copilot overkill?
+
+---
+
+TASK 10: CREATE USER ONBOARDING FLOW
+
+Coding Task: Build 4-step onboarding wizard (Welcome, Bank, Contacts, Profile).
+
+Files: New step components, wizard container, routing updates, backend onboarding status
+Goal: Complete onboarding with navigation, validation, progress tracking
+
+Question: Which mode? Why?
+
+Expected: Multi-step wizard with navigation and state management
+Hint: Multiple new files, complex UI flow, backend integration
+
+---
+
+CHECK YOUR ANSWERS:
+Review 03_02_SOLUTIONS.txt to compare your mode selections and understand reasoning.
+
+---
+
+KEY LEARNINGS:
+- Consider scope (single file vs. multiple files)
+- Assess knowledge (do you understand the requirement?)
+- Evaluate risk (could this break things?)
+- Simple changes may not need Copilot at all

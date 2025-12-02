@@ -1,0 +1,157 @@
+CONTEXT7 MCP SERVER
+===================
+
+WHAT IS CONTEXT7?
+
+Context7 is an MCP (Model Context Protocol) server that fetches up-to-date, version-specific documentation for libraries directly from the source.
+
+Repository: https://github.com/upstash/context7
+Website: https://context7.com
+
+Problem it solves:
+✗ LLMs suggest outdated APIs from old training data
+✗ Hallucinated methods that don't exist
+✗ Code examples for deprecated package versions
+
+What Context7 provides:
+✓ Current documentation for 1000+ libraries
+✓ Version-specific API references
+✓ Real code examples from official docs
+
+---
+
+EXERCISE: USING CONTEXT7 WITH COPILOT
+
+Goal: See difference between generic AI responses and documentation-backed answers.
+
+---
+
+PART 1: SETUP CONTEXT7 MCP
+
+Task: Install and configure Context7 MCP server.
+
+Steps:
+1. Open VS Code Settings (Cmd+,)
+2. Search for "GitHub Copilot MCP"
+3. Add Context7 configuration:
+
+{
+  "github.copilot.chat.mcp.servers": {
+    "context7": {
+      "command": "npx",
+      "args": ["-y", "@upstash/context7-mcp@latest"]
+    }
+  }
+}
+
+4. Reload VS Code (Cmd+Shift+P → "Reload Window")
+
+Expected: Context7 MCP server configured and ready
+Hint: Configuration goes in VS Code settings.json
+
+---
+
+PART 2: TEST WITHOUT CONTEXT7
+
+Task: Establish baseline by asking without Context7.
+
+Prompt in Copilot Chat (without Context7):
+"How do I configure Vitest to run tests in watch mode with coverage?"
+
+Expected: Generic answer based on training data, may be outdated
+Hint: Save the response to compare with Context7 version
+
+---
+
+PART 3: TEST WITH CONTEXT7
+
+Task: Ask same question with Context7 enabled.
+
+Prompt in Copilot Chat:
+"How do I configure Vitest to run tests in watch mode with coverage? use context7"
+
+Compare with Part 2:
+- Does it reference current Vitest documentation?
+- Are configuration options up-to-date?
+- Does it cite specific version information?
+
+Expected: More accurate, current response with documentation references
+Hint: Trigger phrase "use context7" activates the MCP server
+
+---
+
+PART 4: REAL-WORLD SCENARIOS
+
+Task: Test Context7 with multiple libraries and complex setups.
+
+Try these prompts with "use context7":
+
+Prompt 1:
+"Create a Next.js API route with rate limiting using Upstash Redis. use context7"
+
+Prompt 2:
+"Set up tRPC with React Query in a Next.js app. use context7"
+
+Prompt 3:
+"Configure Prisma with PostgreSQL for a TypeScript project. use context7"
+
+Expected: Accurate, current docs for multiple libraries (Next.js, Upstash, tRPC, Prisma)
+Hint: Context7 can fetch docs for multiple libraries in single request
+
+---
+
+BONUS: AUTO-INVOKE CONTEXT7
+
+Task: Configure automatic Context7 invocation for library questions.
+
+Setup (choose based on your editor):
+1. Open Cursor Settings → Rules
+   OR
+2. Create .cursorrules file
+   OR
+3. Create .windsurfrules file
+   OR
+4. Create CLAUDE.md file
+
+Add this rule:
+"Always use context7 when generating code that involves external libraries, 
+setup/configuration steps, or API documentation. Automatically invoke Context7 
+MCP tools without explicit prompting."
+
+Expected: Context7 automatically used for library-related questions without saying "use context7"
+Hint: Auto-invocation eliminates need to remember trigger phrase
+
+---
+
+KEY TAKEAWAYS
+
+- Context7 provides up-to-date library documentation
+- Use "use context7" trigger phrase to activate
+- Works with 1000+ popular libraries
+- Can fetch docs for multiple libraries at once
+- Optional: Auto-invoke with custom rules
+- Solves problem of outdated training data
+
+---
+
+WHEN TO USE CONTEXT7
+
+Use for:
+✓ Library configuration and setup
+✓ API method signatures and parameters
+✓ Version-specific features
+✓ Official code examples
+✓ Migration guides
+
+Don't need for:
+✗ General programming concepts
+✗ Project-specific business logic
+✗ Custom code patterns
+
+---
+
+RESOURCES
+
+- Context7 GitHub: https://github.com/upstash/context7
+- Context7 Website: https://context7.com
+- Model Context Protocol: https://modelcontextprotocol.io

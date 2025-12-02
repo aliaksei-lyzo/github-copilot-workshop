@@ -1,0 +1,228 @@
+GITHUB COPILOT BASIC USAGE WORKSHOP
+====================================
+
+LEARNING OBJECTIVES
+
+By the end of this module:
+- Use code suggestions with inline comments
+- Work with inline chat for quick edits
+- Leverage Copilot Chat in Ask mode for understanding code
+- Use Copilot Chat in Edit mode for code modifications
+- Apply Copilot Chat in Agent mode for complex multi-file tasks
+
+---
+
+EXERCISE 1: CODE SUGGESTIONS WITH INLINE COMMENTS
+
+Task: Create transaction filter utility using comment-driven development.
+
+File: src/utils/transactionFilters.ts (new file)
+
+Steps:
+1. Create new file src/utils/transactionFilters.ts
+2. Use inline comments to generate utility functions
+3. Let Copilot autocomplete implementation
+
+Comments to write:
+import { Transaction, TransactionStatus } from "../models/transaction";
+
+// Function to filter transactions by amount range
+// Parameters: transactions array, minAmount (optional), maxAmount (optional)
+// Returns: filtered array of transactions
+
+// Function to filter transactions by date range
+// Parameters: transactions array, startDate (optional), endDate (optional)
+// Returns: filtered array of transactions within the date range
+
+// Function to filter transactions by status
+// Parameters: transactions array, status
+// Returns: filtered array of transactions matching the status
+
+// Function to combine multiple filters
+// Parameters: transactions array, filters object with optional amount, date, and status filters
+// Returns: filtered array of transactions matching all provided filters
+
+Expected: Complete function implementations with TypeScript typing, handles optional parameters
+Hint: Write descriptive comments, wait for suggestions, press Tab to accept
+
+Verification: yarn types (check no errors), manually test with sample data
+
+---
+
+EXERCISE 2: INLINE CHAT
+
+Task: Add error handling to API routes using inline chat.
+
+File: backend/transaction-routes.ts
+
+Steps:
+1. Open backend/transaction-routes.ts
+2. Find POST /transactions route handler
+3. Select route handler code block
+4. Open Inline Chat: Cmd+I (Mac) or Ctrl+I (Windows/Linux)
+5. Type: "Add comprehensive error handling with appropriate HTTP status codes and error logging"
+6. Review and accept changes
+
+Expected: Try-catch blocks, proper error responses (400, 404, 500), error logging, preserved functionality
+Hint: Select code first, use Cmd+I for quick focused edits
+
+---
+
+EXERCISE 3: COPILOT CHAT - ASK MODE
+
+Task: Understand transaction flow using Ask mode.
+
+File: backend/transaction-routes.ts
+
+Steps:
+1. Open backend/transaction-routes.ts
+2. Find POST route for creating transactions
+3. Select entire route handler code
+4. Open Copilot Chat panel
+5. Type: "@workspace /explain How does the transaction creation flow work from API request to database storage? Include validation, authentication, and error handling."
+
+Expected: Clear explanation of end-to-end flow, mentions validation/auth/database, references relevant files
+Hint: Use @workspace for codebase-wide understanding, Ask mode doesn't modify code
+
+Follow-up questions to try:
+- "What happens if a transaction fails validation?"
+- "How is the user authenticated in this route?"
+- "Where is the transaction data persisted?"
+
+---
+
+EXERCISE 4: COPILOT CHAT - EDIT MODE
+
+Task: Add input validation to bank account form.
+
+File: src/components/BankAccountForm.tsx
+
+Steps:
+1. Open src/components/BankAccountForm.tsx
+2. Select form input handling code (inputs and submit handler)
+3. Open Copilot Chat in Edit mode
+4. Type: "Add client-side validation:
+   - Bank name: required, minimum 2 characters
+   - Account number: required, numeric only, 8-12 digits
+   - Routing number: required, exactly 9 digits
+   
+   Display error messages below each field using Material-UI FormHelperText.
+   Prevent form submission if validation fails."
+
+Expected: Validation logic with state management, error messages below inputs, TypeScript types updated, blocked submission on errors
+Hint: Select relevant code, be specific about validation rules and UI framework
+
+Verification: yarn types, yarn start, test form with invalid inputs in browser
+
+---
+
+EXERCISE 5: COPILOT CHAT - AGENT MODE
+
+Task: Implement transaction search feature across multiple files.
+
+Files: Multiple (frontend and backend)
+
+Steps:
+1. Open Copilot Chat
+2. Use @workspace agent
+3. Type: "@workspace Implement a transaction search feature:
+   
+   Backend (backend/transaction-routes.ts):
+   - Add GET /transactions/search endpoint
+   - Support query parameter: searchTerm (searches in description field)
+   - Return matching transactions with pagination
+   - Use existing authentication and validation patterns
+   
+   Frontend:
+   - Create SearchBar component in src/components/SearchBar.tsx with Material-UI TextField
+   - Add search input with debouncing (300ms) to avoid excessive API calls
+   - Display search results using existing TransactionList component
+   - Add to TransactionsTabs or appropriate container
+   
+   Follow existing code patterns and TypeScript conventions in the project."
+
+Expected: Multi-file changes, new backend route with auth/validation, React component with TypeScript, search in UI, debouncing, follows project conventions
+Hint: Use @workspace for complex tasks, let agent plan and coordinate changes, observe how it breaks down tasks
+
+Verification: yarn types, yarn start, test search functionality in UI
+
+What to observe:
+- How agent breaks down task into steps
+- File organization and imports
+- Integration with existing code
+- Error handling and edge cases
+
+---
+
+BEST PRACTICES LEARNED
+
+After completing exercises:
+
+1. Code Suggestions:
+   - Write clear, descriptive comments
+   - Let Copilot complete implementations
+   - Review and refine suggestions
+
+2. Inline Chat:
+   - Quick edits without switching context
+   - Select relevant code before prompting
+   - Use for focused, single-file changes
+
+3. Ask Mode:
+   - Understand unfamiliar code
+   - Learn project patterns
+   - Get explanations without modifications
+
+4. Edit Mode:
+   - Direct code modifications
+   - Specific feature requests
+   - Incremental improvements
+
+5. Agent Mode:
+   - Complex, multi-file tasks
+   - Coordinated changes across layers
+   - Maintains project consistency
+   - Automated testing validation
+
+---
+
+TIPS FOR SUCCESS
+
+- Be Specific: More detailed prompt = better output
+- Provide Context: Use @workspace, #file, or #selection when needed
+- Iterate: Don't expect perfection first try - refine and iterate
+- Review Carefully: Always review generated code before accepting
+- Follow Patterns: Reference existing code patterns in prompts
+- Test Early: Run yarn types and tests frequently
+
+---
+
+ADDITIONAL CHALLENGES
+
+Want more practice?
+
+1. Add Transaction Tags (Agent Mode): Allow users to add custom tags to transactions
+2. Create API Response Types (Edit Mode): Standardize all API responses with TypeScript interfaces
+3. Add Relative Time Display (Inline Chat): Show "2 hours ago" instead of full timestamps
+
+---
+
+COMPLETION CHECKLIST
+
+□ Exercise 1: Generated code using inline comments
+□ Exercise 2: Used inline chat for code edits
+□ Exercise 3: Asked Copilot to explain code
+□ Exercise 4: Modified code using Edit mode
+□ Exercise 5: Completed multi-file task with Agent mode
+□ All code compiles without TypeScript errors (yarn types)
+□ Tested new features in running application
+□ Understand when to use each Copilot mode
+
+---
+
+NEXT STEPS
+
+Once mastered basics, proceed to:
+- Module 03: Chat Participants (@workspace, @terminal, @github)
+- Module 04: Advanced Prompting Techniques
+- Module 05: Test-Driven Development with Copilot

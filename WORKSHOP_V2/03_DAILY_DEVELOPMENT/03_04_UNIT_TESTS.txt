@@ -1,0 +1,126 @@
+GITHUB COPILOT UNIT TESTING
+============================
+
+UNIT TESTING WORKFLOW:
+1. ASK Mode - Understand what to test and explore edge cases
+2. EDIT Mode - Generate specific test cases for known scenarios
+3. AGENT Mode - Generate comprehensive test suites covering multiple scenarios
+
+---
+
+TASK #1: WRITE TESTS FOR TRANSACTION UTILITY FUNCTIONS
+
+Coding Task: Create comprehensive unit tests for transaction utility functions.
+
+File: src/utils/transactionUtils.ts (source)
+Test File: src/__tests__/transactionUtils.test.ts (create new)
+
+Functions to test:
+- hasSufficientFunds(sender, transaction) - checks balance
+- getChargeAmount(sender, transaction) - calculates charge
+- formatFullName(user) - formats name
+- hasDateQueryFields(query) - checks date fields
+- getQueryWithoutFilterFields(query) - removes filters
+- getPaginatedItems(page, limit, items) - paginates array
+
+Context: Project uses Vitest, existing tests in src/__tests__/
+
+Questions:
+1. Use ASK to understand edge cases?
+2. Is EDIT sufficient for individual tests?
+3. Would AGENT be better for complete suite?
+4. How ensure testing success and failure cases?
+
+Expected: Complete test file with 3-4 utility functions tested, edge cases covered
+Hint: Multiple functions, need comprehensive coverage = consider full suite generation
+
+---
+
+TASK #2: ADD MISSING TEST CASES TO TRANSACTION TESTS
+
+Coding Task: Add 4 missing edge case tests to existing transaction test suite.
+
+File: src/__tests__/transactions.test.ts (modify existing)
+
+Missing test cases:
+1. Creating transaction when sender has zero balance
+2. Creating transaction with negative amount (should fail)
+3. Getting transactions filtered by date range with no results
+4. Updating transaction with invalid status value
+
+Context: File exists with passing tests, uses Vitest, seeds database with seedDatabase()
+
+Questions:
+1. Use ASK to understand existing test patterns?
+2. Is EDIT better since adding to existing file?
+3. Would AGENT help generate all 4 tests at once?
+4. How match style of existing tests?
+
+Expected: 4 new test cases added matching existing style, all passing
+Hint: Existing file with patterns = need to understand style first, then add focused tests
+
+---
+
+TESTING DECISION FRAMEWORK
+
+Use ASK when:
+- Need to understand edge cases
+- Want to explore test coverage gaps
+- Unfamiliar with code being tested
+- Need to understand existing test patterns
+- Want suggestions for test scenarios
+
+Use EDIT when:
+- Know exactly what test case to write
+- Adding single specific test
+- Modifying existing test
+- Test scenario straightforward
+
+Use AGENT when:
+- Need complete test suite for module
+- Want comprehensive coverage (happy path + edge cases)
+- Testing multiple related functions
+- Need both unit and integration tests
+
+Combine modes:
+- ASK for scenarios → EDIT/AGENT to generate
+- AGENT for initial suite → EDIT to refine
+- ASK for missing coverage → EDIT to add
+
+---
+
+PRO TESTING TIPS
+
+Planning:
+- Use ASK to explore what needs testing
+- Ask about edge cases you might miss
+- Understand test framework patterns first
+- Check existing tests for style consistency
+
+Generation:
+- EDIT for single tests - focused and quick
+- AGENT for suites - comprehensive coverage
+- Specify test framework (Vitest, Jest) in prompts
+- Request descriptive test names for clarity
+
+Validation:
+- Run tests immediately: yarn test:unit
+- Check coverage - ensure critical paths tested
+- Verify assertions - are they meaningful?
+- Test both success and failure paths
+
+---
+
+CHECK YOUR SOLUTIONS:
+Review 03_04_SOLUTIONS.txt for mode selection and test structure recommendations.
+
+---
+
+REFLECTION:
+- Did you think about edge cases before writing tests?
+- Which mode generated better quality tests?
+- How did you ensure comprehensive coverage?
+- What test scenarios did you initially miss?
+- How did you match existing code style?
+
+Key: Strategic planning followed by efficient generation using right mode for task.

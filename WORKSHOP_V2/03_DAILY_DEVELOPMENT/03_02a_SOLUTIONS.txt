@@ -1,0 +1,286 @@
+COPILOT CHAT MODE SELECTION - SOLUTIONS
+========================================
+
+---
+
+TASK 1: UNDERSTAND AUTHENTICATION FLOW
+
+Answer: ASK mode
+
+Why:
+- Goal is exploration, not code generation
+- Need to understand existing architecture before changes
+- No code modifications required
+- Multiple files and concepts need explanation
+
+Recommended Prompt:
+@workspace How does authentication work in this app? Explain the middleware chain. Which files are involved?
+
+Follow-up:
+What would I need to modify to add a new authentication provider?
+
+Key Learning: Use ASK when you need to understand before you act
+
+---
+
+TASK 2: FIX MISSING INPUT VALIDATION
+
+Answer: EDIT mode
+
+Why:
+- Single file (backend/contact-routes.ts)
+- Clear, specific requirement
+- Low risk, isolated change
+- Small scope - one function
+
+Approach:
+1. Open backend/contact-routes.ts
+2. Select POST /contacts route handler
+3. EDIT mode: "Add validation to ensure contactUserId is not the same as authenticated user's ID. Return 400 error with message 'Cannot add yourself as a contact' if they match."
+
+Key Learning: Use EDIT for small, focused, single-file changes with clear requirements
+
+---
+
+TASK 3: IMPROVE ERROR HANDLING
+
+Answer: ASK + EDIT (iterative)
+
+Why:
+- Unsure of best practices for this codebase
+- Need guidance first, then implementation
+- Single file but multiple functions
+- Want consistency with existing patterns
+
+Approach:
+Phase 1 - ASK: "@workspace What error handling improvements should I make to backend/bankaccount-routes.ts? What patterns are used elsewhere?"
+Phase 2 - EDIT: For each route, add try-catch with proper status codes
+Phase 3 - VALIDATE: Run yarn types, test endpoints
+
+Key Learning: Combine modes when you need guidance before implementation
+
+---
+
+TASK 4: ADD REQUEST RATE LIMITING
+
+Answer: ASK → EDIT → VALIDATE
+
+Why:
+- Unfamiliar territory (existing packages unknown)
+- Higher risk (affects API traffic)
+- Multi-step process
+- Need to validate dependencies and config
+
+Approach:
+Step 1 - ASK: "@workspace What's the best way to add rate limiting? Are there packages already installed?"
+Step 2 - EDIT: Create backend/rate-limiter.ts with middleware
+Step 3 - EDIT: Apply middleware to transaction route
+Step 4 - VALIDATE: Install packages if needed, test
+
+Key Learning: Use ASK → EDIT → VALIDATE for unfamiliar, risky changes
+
+---
+
+TASK 5: ADD TRANSACTION ANALYTICS DASHBOARD
+
+Answer: AGENT mode
+
+Why:
+- Multiple files (backend + frontend)
+- Full-stack feature requiring coordination
+- Clear requirements but complex implementation
+- Backend endpoint + frontend components working together
+
+Recommended Prompt:
+Create transaction analytics feature:
+Backend: Add GET /transactions/analytics endpoint with statistics
+Frontend: Create AnalyticsCard.tsx and AnalyticsDashboard.tsx
+Follow existing patterns and TypeScript conventions.
+
+Key Learning: Use AGENT for multi-file features with clear requirements
+
+---
+
+TASK 6: REFACTOR DATABASE QUERY FUNCTIONS
+
+Answer: AGENT mode
+
+Why:
+- Large file with many functions needing consistent changes
+- Refactoring across entire file
+- High risk of breaking things
+- Need to preserve function signatures
+
+Recommended Prompt:
+Refactor database.ts to standardize all query functions:
+- Consistent error handling
+- JSDoc comments
+- Consistent return types
+- Add logging
+IMPORTANT: Do NOT change function signatures or break existing routes.
+
+Alternative: ASK → AGENT (ask about patterns first)
+
+Key Learning: Use AGENT for systematic refactoring across large files
+
+---
+
+TASK 7: ADD NOTIFICATION PREFERENCES FEATURE
+
+Answer: AGENT mode
+
+Why:
+- Full-stack feature (model + API + UI)
+- Multiple new files and existing file modifications
+- Clear requirements but complex implementation
+- All layers need to work together
+
+Recommended Prompt:
+Implement notification preferences:
+1. Add notificationPreferences to User model
+2. Create PATCH /users/:userId/preferences route
+3. Add validation
+4. Create NotificationPreferences component with checkboxes
+5. Add to UserSettings
+6. Update notification creation to respect preferences
+Follow existing patterns.
+
+Key Learning: AGENT ideal for complete features spanning entire stack
+
+---
+
+TASK 8: DEBUG FAILING TEST
+
+Answer: ASK (then possibly EDIT)
+
+Why:
+- Investigation required
+- Unclear what's wrong from error message
+- May need to examine multiple files
+- Solution depends on findings
+
+Approach:
+Phase 1 - ASK: "@workspace I have a failing test for getTransactionById with error 'Cannot read property id of undefined'. Help me understand the cause."
+Phase 2 - ASK: "What's expected behavior when transaction doesn't exist?"
+Phase 3 - EDIT: Fix based on findings
+
+Key Learning: Use ASK for debugging and investigation
+
+---
+
+TASK 9: ADD LOGGING STATEMENT
+
+Answer: None (Manual) or EDIT if you want
+
+Why:
+- Trivial change (single line)
+- Exact location known
+- No complexity
+- Faster to do manually
+
+If Using Copilot: Just type it manually or use inline suggestion
+
+Key Learning: Don't over-use Copilot for trivial changes where manual is faster
+
+---
+
+TASK 10: CREATE USER ONBOARDING FLOW
+
+Answer: AGENT mode
+
+Why:
+- Complex feature with multiple components
+- Multiple new files (4 steps + container + routing)
+- State management across steps
+- Navigation logic and validation
+- Requires understanding existing patterns
+
+Recommended Prompt:
+Create 4-step onboarding wizard:
+- Step components: Welcome, BankAccount, Contacts, Profile
+- Wizard container with navigation, progress, validation
+- Add /onboarding route
+- Track completion on User model
+- Redirect new users after signup
+Use Material-UI Stepper, follow existing form patterns.
+
+Key Learning: AGENT handles complex multi-component features
+
+---
+
+MODE SELECTION SUMMARY TABLE
+
+Task                    | Mode              | Files | Complexity | Key Factor
+------------------------|-------------------|-------|------------|------------------
+1. Auth Understanding   | ASK               | N/A   | Low        | Exploration
+2. Input Validation     | EDIT              | 1     | Low        | Single focused change
+3. Error Handling       | ASK + EDIT        | 1     | Medium     | Need guidance first
+4. Rate Limiting        | ASK→EDIT→VALIDATE | 2     | Med-High   | Unfamiliar + risky
+5. Analytics Dashboard  | AGENT             | 3+    | High       | Multi-file feature
+6. Database Refactor    | AGENT             | 1 lg  | High       | Systematic changes
+7. Notification Prefs   | AGENT             | 5+    | High       | Full-stack feature
+8. Debug Test           | ASK               | 2     | Medium     | Investigation
+9. Add Log              | Manual/EDIT       | 1     | Very Low   | Trivial change
+10. Onboarding Flow     | AGENT             | 7+    | Very High  | Complex multi-component
+
+---
+
+DECISION FRAMEWORK
+
+Use ASK when:
+- Need to understand code/architecture
+- Requirements unclear
+- Investigating bugs
+- Exploring options
+- Understanding existing patterns
+
+Use EDIT when:
+- Single file, single function change
+- Requirements crystal clear
+- Low risk, isolated change
+- Know exactly what to do
+- Quick fix or small enhancement
+
+Use ASK + EDIT when:
+- Need guidance on best practices
+- Iterative improvements
+- Want to validate approach first
+- Learning while coding
+
+Use ASK → EDIT → VALIDATE when:
+- Unfamiliar technology/pattern
+- Higher risk changes
+- Need to research dependencies
+- Security-sensitive code
+- Performance-critical changes
+
+Use AGENT when:
+- Multiple files need changes
+- Full-stack features
+- Refactoring across codebase
+- New component with related files
+- Complex feature with many parts
+- Systematic changes following pattern
+
+---
+
+KEY PRINCIPLES
+
+1. Start with ASK if unsure
+2. EDIT for focused changes
+3. AGENT for coordination
+4. Validate risky changes
+5. Don't over-use Copilot
+6. Combine modes as needed
+
+---
+
+SELF-CHECK
+
+- Understand why each mode was chosen?
+- Identify key factors (scope, complexity, clarity)?
+- Make similar decisions on your own?
+- See patterns in mode selection?
+- Comfortable combining modes?
+
+If no to any, review explanations again.

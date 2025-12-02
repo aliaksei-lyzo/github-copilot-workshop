@@ -1,0 +1,321 @@
+CUSTOM PROMPTS WORKSHOP - SOLUTIONS
+====================================
+
+---
+
+TASK #1: CREATE FORM COMPONENT PROMPT FILE
+
+Answer: Study existing code → Create template → Test with EDIT/AGENT
+
+Approach:
+1. Analyze existing forms (CommentForm, BankAccountForm)
+2. Extract common patterns and variable parts
+3. Create template with clear placeholders
+4. Test by generating 2-3 different forms
+5. Refine based on generated code quality
+
+Example Reusable Prompt Template:
+
+File: .github/copilot-prompts/form-component.md
+
+---
+description: Generate form component following project patterns
+---
+
+# Form Component Generation Template
+
+Generate form component in src/components/[ComponentName].tsx following pattern in CommentForm.tsx and BankAccountForm.tsx.
+
+Component Specifications:
+- Component Name: [ComponentName] (e.g., BankTransferForm)
+- Props Interface with onSubmit: (values: [PayloadType]) => void
+
+Form Fields:
+For each field specify:
+- Field name, type (text/number/select/textarea)
+- Label, validation rules (required/optional)
+- data-test attribute: "[component-name]-[field-name]-input"
+
+Validation Schema (Yup):
+- Define validation rules with error messages for each field
+
+Standard Requirements:
+1. Material-UI Styling with PREFIX pattern
+2. Formik with initialValues, validationSchema, onSubmit
+3. TextField/Select components with error display
+4. TypeScript interfaces, no any types
+5. Proper spacing: theme.spacing(2)
+
+Testing Template:
+Test 1: SearchForm with searchQuery (text, min 3 chars) and category (select)
+Test 2: BankTransferForm with bankAccountId (select), amount (number, 0.01-5000), description (text, max 100)
+
+Success Indicators:
+✓ Generated forms compile without errors
+✓ Follow PREFIX styling pattern
+✓ All fields have validation
+✓ data-test attributes present
+✓ Code style matches existing forms
+✓ Only needed to fill placeholders
+
+---
+
+TASK #2: CREATE CUSTOM FORM WITH PROMPT ENGINEERING
+
+Answer: EDIT or AGENT mode with detailed prompt
+
+Example Prompt:
+
+"Create BankTransferForm component in src/components/BankTransferForm.tsx following exact pattern in CommentForm.tsx and BankAccountForm.tsx.
+
+Requirements:
+- TypeScript with proper interfaces
+- Material-UI styled components using PREFIX pattern (PREFIX = "BankTransferForm")
+- Formik for form handling, Yup validation
+
+Props Interface:
+interface BankTransferFormProps {
+  bankAccounts: BankAccount[];
+  onSubmit: (values: BankTransferPayload) => void;
+}
+
+interface BankTransferPayload {
+  bankAccountId: string;
+  amount: number;
+  description: string;
+}
+
+Form Fields:
+1. bankAccountId - Select
+   - Label: "Bank Account"
+   - Options: props.bankAccounts (show bankName + last 4)
+   - Validation: required
+   - data-test: "bank-transfer-bank-account-select"
+
+2. amount - Number Input
+   - Label: "Amount"
+   - Validation: required, min 0.01, max 5000
+   - data-test: "bank-transfer-amount-input"
+
+3. description - Text Field
+   - Label: "Description"
+   - Validation: required, max 100 characters
+   - data-test: "bank-transfer-description-input"
+
+4. Submit Button
+   - Label: "Transfer Funds"
+   - data-test: "bank-transfer-submit-button"
+
+Styling:
+- Root styled component pattern
+- Full width form, margin between fields: theme.spacing(2)
+- Follow exact styling pattern from CommentForm.tsx
+
+Validation Schema (Yup):
+- bankAccountId: string required
+- amount: number required, min 0.01, max 5000
+- description: string required, max 100 chars
+
+Error Handling:
+- Show validation errors inline
+- Use TextField error and helperText props
+- Only show errors after field touched"
+
+Expected Output Quality:
+✓ Compiles without TypeScript errors
+✓ Uses Material-UI Select for dropdown
+✓ All validation rules in Yup schema
+✓ Follows PREFIX pattern
+✓ Proper data-test attributes
+✓ Handles form submission with setSubmitting
+✓ Displays field-level errors
+
+Common Issues and Fixes:
+1. Wrong styling: "Update styling to match PREFIX pattern in CommentForm.tsx exactly"
+2. Missing validation: "Add Yup validation with min/max constraints for amount"
+3. Not using Select: "Change bankAccountId to use Material-UI Select with MenuItem options"
+4. Missing data-test: "Add data-test attributes to all inputs and submit button"
+
+Tips for Better Results:
+- Reference specific files
+- Include TypeScript interfaces in prompt
+- Be explicit about validation rules
+- Specify Material-UI components by name
+- Ask for data-test attributes upfront
+
+---
+
+TASK #3: CREATE API ROUTE GENERATION PROMPT TEMPLATE
+
+Answer: AGENT mode (multi-file) or step-by-step EDIT mode
+
+Reusable Prompt Template:
+
+File: Template for API routes
+
+# Express Route Generation Template
+
+Create Express route file following pattern in backend/transaction-routes.ts and backend/contact-routes.ts.
+
+Route File: backend/[RESOURCE_NAME]-routes.ts
+Base Path: /[RESOURCE_PATH]
+Authentication: Required for all routes
+
+Structure:
+1. Imports: Express types, express-validator, ensureAuthenticated, database utilities, validators, type definitions
+2. Router initialization: const router = Router();
+3. Route handlers: JSDoc comments, middleware, validation checks, database utilities, HTTP status codes, error handling
+4. Export: export default router;
+
+Routes to Implement:
+For each route specify:
+- Method and Path
+- Description
+- Auth requirements
+- Validation (query/body parameters)
+- Response (return type and status code)
+- Errors (possible error responses)
+- Business Logic (special rules/checks)
+
+Validation:
+- Create validators in backend/validators.ts
+- Follow existing patterns (isTransactionPayloadValidator)
+- Use express-validator: body(), query(), check()
+
+Error Handling Status Codes:
+- 200: Success (GET, PATCH, DELETE)
+- 201: Created (POST)
+- 400: Validation error
+- 401: Not authenticated
+- 403: Forbidden
+- 404: Not found
+- 422: Business logic error
+
+Specific Prompt for banktransfer-routes.ts:
+
+"Using Express route template, create backend/banktransfer-routes.ts:
+
+GET /banktransfers
+- Paginated list for authenticated user
+- Query: page (default 1), limit (default 10)
+- Auth: Required (ensureAuthenticated)
+- Response: Array of BankTransfer objects (200)
+- Logic: Only user's own transfers, support pagination
+
+GET /banktransfers/:transferId
+- Get specific transfer by ID
+- Auth: Required + ownership check
+- Params: transferId (valid shortId)
+- Response: Single BankTransfer (200)
+- Errors: 404 not found, 403 not owner
+
+POST /banktransfers
+- Create new transfer
+- Auth: Required
+- Validation: isBankTransferPayloadValidator
+- Body: bankAccountId (string), amount (0.01-5000), description (max 100)
+- Response: Created BankTransfer (201)
+- Errors: 400 validation, 404 account not found, 403 not owned, 422 insufficient funds
+- Logic: Verify account exists + owned, check balance, deduct amount, create transfer
+
+Also create validator in backend/validators.ts:
+isBankTransferPayloadValidator with body validations
+
+Database utilities needed:
+- getBankTransfersByUserId(userId, page, limit)
+- getBankTransferById(transferId)
+- createBankTransfer(payload)
+- getBankAccountById(bankAccountId)
+- updateBankAccountBalance(bankAccountId, newBalance)
+
+Follow exact pattern from transaction-routes.ts for error handling and status codes."
+
+Expected Code Structure:
+- Proper imports
+- Router initialization
+- JSDoc comments for each route
+- ensureAuthenticated middleware
+- Validation checks with validationResult
+- Database utility calls (no raw queries)
+- Proper HTTP status codes
+- Error responses: { errors: [{ message: "..." }] }
+- Export router
+
+Iterative Refinement:
+1. Missing error handling: "Add error handling for non-existent account (404) and not owned (403)"
+2. Wrong status codes: "Change insufficient funds to return 422 instead of 400"
+3. Missing validation: "Add validationResult check before proceeding"
+4. Not following patterns: "Update error format to match transaction-routes.ts: { errors: [{ message }] }"
+
+---
+
+KEY LEARNINGS - WHAT MAKES GOOD CUSTOM PROMPTS
+
+1. Specific References
+   ✓ "Follow pattern in CommentForm.tsx"
+   ✗ "Create a form component"
+
+2. Clear Requirements
+   ✓ "Amount: number, min 0.01, max 5000"
+   ✗ "Validate the amount"
+
+3. Context About Tech Stack
+   ✓ "Use Material-UI Select component"
+   ✗ "Use a dropdown"
+
+4. Examples and Structure
+   ✓ Include TypeScript interfaces
+   ✓ Show expected validation pattern
+   ✗ Just describe what you want
+
+5. Success Criteria
+   ✓ "Should compile without TypeScript errors"
+   ✓ "Match styling pattern of existing forms"
+
+---
+
+TEMPLATE VS AD-HOC PROMPTS
+
+Use Templates for:
+- Repeated tasks (routes, forms, tests)
+- Maintaining consistency
+- Onboarding new team members
+- Complex multi-file generation
+
+Use Ad-hoc Prompts for:
+- One-off tasks
+- Exploratory work
+- Quick fixes
+- Learning the codebase
+
+---
+
+ADVANCED TIPS
+
+Negative Constraints:
+"Create component following BankAccountForm.tsx.
+DO NOT: Use class components, use inline styles, skip TypeScript interfaces, forget data-test attributes"
+
+Validation Prompts:
+"Review generated BankTransferForm and verify:
+1. Follows Material-UI PREFIX pattern
+2. All fields have Yup validation
+3. TypeScript interfaces properly defined
+4. data-test attributes on all interactive elements"
+
+---
+
+SUCCESS METRICS
+
+Mastered custom prompts when:
+✓ Generated code matches existing patterns 90%+ of time
+✓ Rarely need to manually fix TypeScript errors
+✓ New developers can generate consistent code using templates
+✓ Code reviews have fewer style/pattern comments
+✓ Spend more time on logic, less on boilerplate
+
+---
+
+REMEMBER
+
+Goal isn't to replace thinking with prompts - it's to amplify your intent and maintain consistency while moving faster.

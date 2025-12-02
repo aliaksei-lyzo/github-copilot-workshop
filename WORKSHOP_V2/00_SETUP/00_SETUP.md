@@ -1,5 +1,9 @@
 # Project Setup Guide
 
+Fork this project repository to your own GitHub account before starting the workshop.
+
+Clone the repository to your local machine and follow the instructions below to set up the development environment.
+
 ## ✅ Setup Verification Task
 
 After completing the installation steps below, verify everything works correctly:

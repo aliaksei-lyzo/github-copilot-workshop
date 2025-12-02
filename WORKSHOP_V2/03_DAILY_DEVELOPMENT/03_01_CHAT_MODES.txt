@@ -1,0 +1,163 @@
+CHAT MODES IN GITHUB COPILOT
+=============================
+
+THREE MODES:
+- Ask Mode (@workspace) - Questions and exploration
+- Edit Mode - Code changes with preview
+- Agent Mode - Multi-step autonomous tasks
+
+---
+
+TASK 0.1: COMMENT AUTOCOMPLETE - GENERATE VALIDATION FUNCTION
+
+Coding Task: Create a reusable validation function for transaction amounts.
+
+File: src/components/TransactionCreateStepOne.tsx
+1. Navigate to line 50 (below existing validation)
+2. Type a comment describing validation function
+3. Wait for Copilot suggestion
+4. Press Tab to accept
+
+Expected: Complete function implementation from comment
+Hint: Try "// Function to validate transaction amount is between min and max values"
+
+---
+
+TASK 0.2: INLINE CHAT - ADD ERROR HANDLING
+
+Coding Task: Add robust error handling to the transaction creation endpoint.
+
+File: backend/transaction-routes.ts
+1. Select the POST /transactions endpoint function (entire function body)
+2. Press Cmd+I (Mac) or Ctrl+I (Windows)
+3. Request error handling addition
+
+Expected: Error handling wrapped around database operations
+Hint: Use prompt "Add try-catch error handling for database failures"
+
+---
+
+TASK 1: ASK MODE - EXPLORE AUTHENTICATION
+
+Coding Task: Need to modify auth - first understand how it works.
+
+1. Open Chat panel
+2. Ask about authentication implementation
+3. Review response and identified files
+
+Expected: List of auth-related files and flow explanation
+Hint: "@workspace How is authentication implemented in this application? Which files are involved?"
+
+---
+
+TASK 2: ASK MODE - TRACE TRANSACTION FLOW
+
+Coding Task: Need to add transaction validation - first understand the existing flow.
+
+1. Open Chat panel
+2. Ask about transaction creation flow
+3. Identify the sequence: component → API → database
+
+Expected: Step-by-step explanation of transaction lifecycle
+Hint: "@workspace Where is the transaction creation logic? Explain the flow from user action to database."
+
+---
+
+TASK 3: EDIT MODE - ADD TIMING LOGS
+
+Coding Task: Add performance monitoring to track slow transaction operations.
+
+File: backend/transaction-routes.ts
+1. Select the transaction creation endpoint function (lines 45-65)
+2. Open Edit mode
+3. Request logging additions
+
+Expected: console.time/timeEnd or timestamp logs added
+Hint: "Add console logging before and after the transaction is created to track timing"
+
+---
+
+TASK 4: EDIT MODE - ENHANCE AMOUNT VALIDATION
+
+Coding Task: Prevent invalid transaction amounts by adding min/max checks.
+
+File: src/components/TransactionCreateStepOne.tsx
+1. Locate and select the amount validation logic (around line 80)
+2. Open Edit mode
+3. Request min/max validation
+
+Expected: Added checks for amount > 0 and amount < 10000
+Hint: "Add validation to ensure the transaction amount is greater than 0 and less than 10000"
+
+---
+
+TASK 5: AGENT MODE - IMPLEMENT TRANSACTION SEARCH
+
+Coding Task: Users need to search transactions by description keyword.
+
+1. Open Agent mode
+2. Provide complete search feature requirements
+3. Let Agent create backend endpoint, search component, and integrate with list
+
+Expected: Search input in UI, backend /search endpoint, Fuse.js integration
+Hint: Specify "Implement a search feature for transactions that: 1. Adds a search endpoint in the backend that searches by description 2. Creates a search input component 3. Updates the transaction list to support search 4. Uses the existing Fuse.js library. Keep current display logic intact."
+
+---
+
+TASK 6: AGENT MODE - BUILD CSV EXPORT FEATURE
+
+Coding Task: Add ability for users to download transaction history as CSV.
+
+1. Open Agent mode
+2. Describe complete CSV export requirements
+3. Review multi-file changes (backend route, UI button, download logic)
+
+Expected: Export button in UI, backend /export endpoint, CSV download functionality
+Hint: "Add the ability to export transactions to CSV format: 1. Create a backend route that generates CSV from transactions 2. Add an export button to the transaction list 3. Trigger download of CSV file when clicked 4. Include transaction date, amount, sender, receiver, and description. Use the existing transaction filtering logic."
+
+---
+
+CHALLENGE 1: BUG INVESTIGATION
+
+Coding Task: Users report validation errors - find and fix bugs.
+
+1. Use Ask mode to find validation bugs
+2. Use Edit mode to fix identified issues
+3. Verify fixes don't break existing functionality
+
+Expected: 2-3 bugs identified and fixed
+Hint: Ask "Find potential bugs in the transaction validation logic", then edit to fix
+
+---
+
+CHALLENGE 2: PERFORMANCE OPTIMIZATION
+
+Coding Task: Transaction list is slow with 1000+ items - optimize rendering.
+
+1. Use Agent mode with performance analysis request
+2. Review suggested optimizations
+3. Apply React.memo and pagination changes
+
+Expected: Memoized components, pagination implementation, faster rendering
+Hint: "Analyze the transaction list rendering performance and optimize it: - Identify performance bottlenecks - Implement React.memo where appropriate - Add pagination if transactions list is large - Ensure the virtualized list works efficiently"
+
+---
+
+CHALLENGE 3: NOTIFICATION CENTER
+
+Coding Task: Build a notification system to alert users of failed transactions.
+
+1. Ask mode: Research current notification implementation
+2. Edit mode: Add failed transaction notification type
+3. Agent mode: Build notification center with badge
+
+Expected: Complete notification system with unread indicator
+Hint: Ask "How are notifications currently implemented?", edit notification types, then use Agent to "Implement notification center with unread count badge"
+
+---
+
+KEY POINTS:
+- Ask Mode = exploration and learning
+- Edit Mode = focused single-file changes
+- Agent Mode = complex multi-file features
+- Review diffs before applying changes

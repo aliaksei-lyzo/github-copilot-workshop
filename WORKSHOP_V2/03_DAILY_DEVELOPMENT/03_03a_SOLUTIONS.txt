@@ -1,0 +1,205 @@
+GITHUB COPILOT BUG FIXING - SOLUTIONS
+======================================
+
+---
+
+BUG #1: AVATARS NOT DISPLAYING
+
+Answer: ASK → EDIT → AGENT
+
+Phase 1: Investigation (ASK Mode)
+
+Why ASK first:
+- Issue affects multiple components
+- Root cause unclear (data/URL/rendering)
+- Need to trace data flow
+- Want to understand where avatars used
+
+Investigation Prompts:
+1. "@workspace Where are user avatars displayed? Show me all components that render avatars."
+2. "@workspace How are avatar URLs stored and retrieved? Show me User model and avatar generation."
+3. "@workspace I see avatars use dicebear.com API. Show me where URLs created. Has API endpoint changed?"
+
+Root Cause:
+Old URL: https://avatars.dicebear.com/api/human/{id}.svg (deprecated)
+New URL: https://api.dicebear.com/7.x/avataaars/svg?seed={id}
+External API changed!
+
+Phase 2: Fix (EDIT Mode)
+
+Why EDIT:
+- Fix in one location: scripts/seedDataUtils.ts
+- getUserAvatar function needs update
+- Small, focused change
+
+Steps:
+1. Open scripts/seedDataUtils.ts
+2. Locate getUserAvatar function (line ~113)
+3. Select function
+4. EDIT: "Update to use new dicebear API v7. Change from: https://avatars.dicebear.com/api/human/{identifier}.svg to: https://api.dicebear.com/7.x/avataaars/svg?seed={identifier}"
+
+Expected Change:
+export const getUserAvatar = (identifier: string) => {
+  return `https://api.dicebear.com/7.x/avataaars/svg?seed=${identifier}`;
+};
+
+Phase 3: Validation (AGENT Mode)
+
+Why AGENT:
+- Need to regenerate database with new URLs
+- Verify avatars across all components
+- Add tests to prevent future breaks
+
+Validation Prompt:
+"I've updated avatar URL generator. Now: 1. Regenerate database seed with new URLs 2. Verify avatars in NavDrawer, TransactionItem, TransactionDetail, UserListItem 3. Add test to verify URLs valid"
+
+Manual Validation:
+yarn db:seed
+yarn dev
+Check: navigation drawer, transaction list, transaction details, user selection
+
+Key Learning:
+✓ ASK discovered root cause (API change)
+✓ EDIT applied surgical fix
+✓ AGENT coordinated validation
+
+Bug Type: External API change
+Difficulty: Medium
+
+---
+
+BUG #2: TEXT INPUT PADDING ISSUE
+
+Answer: ASK → EDIT (or just EDIT if obvious)
+
+Phase 1: Investigation (ASK - Optional)
+
+Should use ASK:
+- Bug location specific (User Settings page)
+- Visual/CSS issue
+- Could find manually, but ASK faster
+
+Investigation Prompt:
+"@workspace I have padding issue in text inputs on User Settings page. Text too close to left border. Show me UserSettingsForm component and TextField styling."
+
+Root Cause:
+UserSettingsForm.tsx TextFields use variant="outlined" and margin="dense" but missing InputProps for proper padding.
+
+Phase 2: Fix (EDIT Mode)
+
+Why EDIT:
+- Fix in one component: UserSettingsForm.tsx
+- Simple styling adjustment
+- Clear solution
+
+Steps:
+1. Open src/components/UserSettingsForm.tsx
+2. Locate TextField components (lines ~70-95)
+3. Select first TextField
+4. EDIT: "Add proper input padding. Add InputProps with padding or use sx prop with appropriate padding. Apply to all TextFields in form."
+
+Expected Change Option 1:
+<TextField
+  // ...existing props...
+  InputProps={{
+    sx: { paddingLeft: '14px' }
+  }}
+/>
+
+Expected Change Option 2:
+<TextField
+  // ...existing props...
+  sx={{ '& .MuiOutlinedInput-input': { paddingLeft: '14px' } }}
+/>
+
+Phase 3: Validation (Manual)
+
+Why not AGENT:
+- Simple visual fix
+- No logic changes
+- Other forms use different styling
+
+Manual Validation:
+yarn dev
+Navigate to /user/settings
+Check all inputs have proper padding
+Verify form submits correctly
+Check error messages display properly
+
+Alternative: Direct EDIT (if you know the issue)
+If you recognize it's padding in UserSettingsForm:
+1. Open UserSettingsForm.tsx
+2. Add padding via InputProps or sx
+3. Test visually
+No ASK needed.
+
+Key Learning:
+✓ ASK optional for obvious bugs with known locations
+✓ EDIT perfect for isolated CSS/styling fixes
+✓ Manual testing sufficient for visual changes
+
+Bug Type: CSS/Styling
+Difficulty: Easy
+
+---
+
+BUG FIXING MODE SELECTION SUMMARY
+
+Bug                     | Primary Mode      | Why                              | Complexity
+------------------------|-------------------|----------------------------------|------------
+Avatars Not Displaying  | ASK→EDIT→AGENT   | Multi-component, external API    | Medium
+Input Padding           | EDIT (opt ASK)   | Simple CSS, single component     | Easy
+
+---
+
+BUG FIXING BEST PRACTICES
+
+1. Always Investigate First (non-obvious bugs)
+   - Use ASK to understand system
+   - Trace data/code flow
+   - Identify all affected components
+
+2. Apply Surgical Fixes
+   - Use EDIT for targeted changes
+   - Don't refactor while fixing (unless necessary)
+   - Keep changes minimal and focused
+
+3. Validate Thoroughly
+   - Test exact scenario from bug report
+   - Test edge cases and variations
+   - Ensure fix doesn't break other features
+   - Add regression tests
+
+4. Mode Selection Logic:
+   Root cause obvious? → YES → EDIT to fix
+                      → NO → ASK to investigate
+                           → Single file? → EDIT
+                           → Multi-file? → AGENT
+
+5. Common Bug Patterns:
+   - UI bugs → Usually EDIT (CSS/component)
+   - Data bugs → ASK (trace flow) → EDIT (fix query/transform)
+   - API bugs → ASK (error analysis) → EDIT (fix endpoint)
+   - State bugs → ASK (understand sync) → EDIT/AGENT (fix state)
+
+---
+
+KEY TAKEAWAYS
+
+1. ASK mode is debugging partner - understand before fixing
+2. EDIT mode for surgical strikes - precise fixes in known locations
+3. AGENT mode for complex fixes - multi-file changes and testing
+4. Always validate - test bug scenario and related functionality
+5. Add regression tests - prevent bug from returning
+
+---
+
+SELF-CHECK
+
+- Understand when to investigate vs. fix directly?
+- Can trace bugs from UI to backend to database?
+- Know which mode fits different bug types?
+- Can validate fixes comprehensively?
+- Understand state synchronization issues?
+
+Pro tip: Best workflow is ASK → EDIT → TEST, but simpler bugs can skip to EDIT if location and fix obvious.

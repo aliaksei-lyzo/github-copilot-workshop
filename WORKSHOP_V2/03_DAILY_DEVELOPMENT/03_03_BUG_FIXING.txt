@@ -1,0 +1,120 @@
+GITHUB COPILOT BUG FIXING
+==========================
+
+BUG FIXING WORKFLOW:
+1. ASK Mode - Investigate and understand root cause
+2. EDIT Mode - Apply fix to specific files
+3. AGENT Mode - Validate fix doesn't break anything (optional)
+
+---
+
+BUG #1: AVATARS NOT DISPLAYING
+
+Report: Avatars not displayed anywhere in app - navigation drawer, transaction lists, user lists all broken.
+
+Context:
+- Avatars worked before
+- Affects all avatar displays
+- No console errors
+- Avatar URLs stored in database
+
+Task: Investigate why avatars not displaying and fix
+
+Questions:
+1. Which mode(s) first? Why?
+2. Investigation strategy?
+3. Which mode to fix?
+4. How to validate everywhere?
+
+Expected: Avatars displaying correctly across all components
+Hint: Unknown location = investigate first. Affects multiple places = check if single root cause or multiple fixes needed.
+
+---
+
+BUG #2: TEXT INPUT PADDING ISSUE
+
+Report: Text inputs in User Settings have text too close to left border - looks cramped.
+
+Context:
+- Only User Settings page (/user/settings)
+- All text fields affected (First Name, Last Name, Email, Phone)
+- Other forms look fine
+- Using Material-UI TextField
+
+Task: Fix text input padding in User Settings form
+
+Questions:
+1. Which mode to investigate?
+2. Need broader context or simple CSS fix?
+3. Which mode for actual fix?
+4. How verify doesn't break other forms?
+
+Expected: Proper padding in User Settings text inputs
+Hint: Isolated to one page, visual issue, other forms fine = specific component problem
+
+---
+
+DEBUGGING DECISION FRAMEWORK
+
+Use ASK when:
+- Don't know where bug is
+- Bug could be in multiple places
+- Need to understand code flow
+- Want error traces explained
+- Need architecture context
+
+Use EDIT when:
+- Identified exact location
+- Fix is in single file
+- Know what needs to change
+- Simple bug fix
+
+Use AGENT when:
+- Bug affects multiple files
+- Need to refactor to fix properly
+- Want comprehensive test coverage
+- Validation requires checking many scenarios
+
+Combine modes:
+- ASK to investigate → EDIT to fix
+- ASK to understand → AGENT to fix + validate
+- EDIT to fix → ASK to verify approach
+- EDIT to fix → AGENT to add tests
+
+---
+
+PRO DEBUGGING TIPS
+
+Investigation:
+- Start with ASK if root cause unclear
+- Provide error messages to Copilot
+- Ask about data flow to trace bug
+- Request similar bugs to learn patterns
+
+Fixing:
+- Use EDIT for surgical fixes in known locations
+- Select relevant code before asking
+- Review generated fix before applying
+- Prefer small, focused changes
+
+Validation:
+- Ask for test cases covering bug scenario
+- Use AGENT to add regression tests
+- Verify edge cases
+- Check related functionality hasn't broken
+
+---
+
+CHECK YOUR SOLUTIONS:
+Review 03_03_SOLUTIONS.txt for debugging approach and step-by-step solutions.
+
+---
+
+REFLECTION:
+- Did you investigate before jumping to fix?
+- Which mode helped find bugs faster?
+- How did you validate fixes?
+- What patterns in effective debugging?
+- When did you combine multiple modes?
+
+Key: Strategic mode selection based on problem clarity and solution scope.

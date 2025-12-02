@@ -1,0 +1,257 @@
+GITHUB COPILOT PROMPT FILES
+============================
+
+WHAT ARE PROMPT FILES?
+
+Prompt files (.github/copilot-prompts/*.md) are reusable, shareable instructions that:
+- Stored in repository and version-controlled
+- Invoked in Copilot Chat with # command
+- Define reusable patterns for common tasks
+- Maintain consistency across team
+- Save time by eliminating repetitive context-setting
+- Support structured instructions with frontmatter
+
+Key Feature: Prompt files appear in Copilot Chat suggestions when typing #
+
+---
+
+PROMPT FILES STRUCTURE
+
+Location:
+.github/
+  copilot-prompts/
+    form-component.md
+    api-route.md
+    unit-test.md
+    bug-fix.md
+
+File Format:
+---
+description: Brief description shown in Copilot Chat
+---
+
+# Prompt Title
+
+[Detailed instructions for Copilot]
+[Can include code examples]
+[Can reference project patterns]
+[Can guide what user should provide]
+
+How to Use:
+1. Create .md file in .github/copilot-prompts/
+2. Add frontmatter with description
+3. Write detailed instructions
+4. In Copilot Chat, type # to see prompts
+5. Select prompt and provide required details
+
+---
+
+TASK #1: CREATE FORM COMPONENT PROMPT FILE
+
+Task: Create reusable prompt file that generates form components matching project patterns.
+
+File: .github/copilot-prompts/form-component.md (create new)
+
+Context: Forms use Material-UI styled components (PREFIX pattern), Formik, Yup validation, TypeScript interfaces
+
+Prompt File Must Include:
+1. Frontmatter with description
+2. Reference to existing patterns (CommentForm.tsx, BankAccountForm.tsx)
+3. Material-UI styled components with PREFIX pattern
+4. Formik + Yup validation requirements
+5. TypeScript interfaces for props and payload
+6. data-test attributes requirement
+7. Field-level error display
+8. Guidance on what user should provide (component name, fields, validation)
+
+Questions:
+1. How structure prompt so users know what to specify?
+2. Should you include code snippets as examples?
+3. How ensure consistency without being too rigid?
+4. What validation patterns should be highlighted?
+
+Expected: Prompt file that appears in Chat, generates compilable forms following project patterns
+Hint: Study existing forms first, reference them in prompt, provide clear structure for user input
+
+---
+
+TASK #2: CREATE CUSTOM FORM WITH PROMPT ENGINEERING
+
+Task: Write a custom prompt in Chat to generate BankTransferForm component matching existing patterns.
+
+Requirements:
+Fields:
+- bankAccountId (dropdown, required, UUID)
+- amount (number, min 0.01, max 5000, required)
+- description (text, max 100 chars, required)
+
+Props Interface:
+- bankAccounts: BankAccount[]
+- onSubmit: (values: BankTransferPayload) => void
+
+Pattern to follow: CommentForm.tsx, BankAccountForm.tsx
+Styling: PREFIX pattern with Material-UI
+Location: src/components/BankTransferForm.tsx
+
+Questions:
+1. How reference existing patterns in prompt?
+2. Should you include file paths to similar components?
+3. How specific should validation rules be?
+4. What info does Copilot need to match style?
+
+Expected: Complete, compilable component matching existing form patterns
+Hint: Reference specific files, be explicit about validation, mention TypeScript interfaces
+
+---
+
+TASK #3: CREATE API ROUTE GENERATION PROMPT TEMPLATE
+
+Task: Create reusable prompt template for generating API routes, then use it for banktransfer-routes.ts.
+
+Context: Existing patterns in transaction-routes.ts, bankaccount-routes.ts use Express, TypeScript, express-validator, centralized database utilities
+
+New Endpoint Requirements:
+
+GET /banktransfers - List transfers with pagination
+- Query: page, limit
+- Auth: Required
+- Returns: Array of transfers
+
+GET /banktransfers/:id - Get specific transfer
+- Auth: Required + ownership check
+- Errors: 404 not found, 403 not owner
+
+POST /banktransfers - Create transfer
+- Body: bankAccountId, amount, description
+- Validation: isBankTransferValidator
+- Logic: Check funds, deduct balance, create record
+- Returns: 201 created
+- Errors: 400 validation, 402 insufficient funds
+
+Template Should Include:
+1. Proper imports (express, validators, database utils)
+2. Router initialization
+3. Route handlers with TypeScript types
+4. Express-validator middleware
+5. Consistent error handling
+6. Proper HTTP status codes
+7. Database operations via utilities
+8. Authentication checks
+9. JSDoc comments
+
+Questions:
+1. Should template include specific file references?
+2. How ensure validation follows existing pattern?
+3. What level of detail helps Copilot generate better code?
+4. Generate all routes at once or one at a time?
+
+Expected: Complete route file following existing patterns with proper validation and error handling
+Hint: Analyze existing routes, identify common structure, create template with placeholders, use AGENT mode
+
+---
+
+CUSTOM PROMPT BEST PRACTICES
+
+DO:
+✓ Be specific about patterns and conventions
+✓ Reference existing files for context
+✓ Include examples of desired output
+✓ Specify frameworks/libraries used
+✓ Define error handling expectations
+✓ Use TypeScript types when applicable
+✓ Test prompts and iterate
+
+DON'T:
+✗ Be too vague ("make it good")
+✗ Contradict existing code patterns
+✗ Omit important context about project
+✗ Forget edge cases and error scenarios
+✗ Ignore existing validation patterns
+✗ Mix different styles in one prompt
+
+---
+
+PROMPT ENGINEERING TIPS
+
+1. Reference Existing Code
+   - "Follow pattern in CommentForm.tsx"
+   - "Use same validation approach as transaction-routes.ts"
+   - "Match styling of existing components"
+
+2. Specify Constraints
+   - "Must use existing database.ts utilities, not raw SQL"
+   - "Validators must be in validators.ts file"
+   - "Error messages must match existing format"
+
+3. Include Success Criteria
+   - "Component should compile without TypeScript errors"
+   - "All routes should have proper authentication checks"
+   - "Form should match styling of BankAccountForm"
+
+4. Iterate and Refine
+   - Generate → Review → Adjust prompt → Regenerate
+   - Save working prompts for reuse
+   - Build prompt library for common tasks
+
+---
+
+WORKFLOW: CREATING REUSABLE PROMPT TEMPLATES
+
+1. Identify Repeated Tasks
+   - Creating forms with validation
+   - Adding API routes
+   - Writing tests for components
+   - Building data utilities
+
+2. Extract Common Patterns
+   - Study 3-5 examples of pattern
+   - Document structure
+   - Note required imports and dependencies
+
+3. Write Template Prompt
+   - Clear structure with placeholders
+   - Reference existing examples
+   - Include validation/error handling
+   - Specify success criteria
+
+4. Test and Refine
+   - Use template for new task
+   - Review generated code quality
+   - Adjust template based on results
+   - Save refined version
+
+5. Share with Team
+   - Save templates in documentation
+   - Document in project README
+   - Create prompt library
+   - Include examples of filled-in templates
+
+---
+
+CHECK YOUR SOLUTIONS:
+Review 03_05a_SOLUTIONS.txt for example prompt templates and refinement tips.
+
+---
+
+KEY TAKEAWAYS
+
+1. Reusable prompts save time on repetitive tasks
+2. Well-crafted prompts generate better code faster
+3. Reference existing code instead of describing patterns
+4. Be specific about validation, errors, edge cases
+5. Iterate and refine prompts based on results
+6. Build library of proven prompts for common tasks
+7. Share with team to maintain consistency
+
+---
+
+NEXT STEPS
+
+After mastering custom prompts:
+1. Create prompt library for your team
+2. Build templates for frequent tasks (forms, routes, tests)
+3. Share successful prompts in team documentation
+4. Continuously refine based on code review feedback
+5. Measure time saved and code quality improvements
+
+Remember: Good prompts = Consistent code = Less debugging = Faster development
