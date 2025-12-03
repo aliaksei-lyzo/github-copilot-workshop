@@ -1,0 +1,97 @@
+GITHUB MCP SERVER SETUP & USAGE
+================================
+
+WHAT IS GITHUB MCP?
+
+The GitHub Model Context Protocol (MCP) server allows your AI assistant (Copilot) to directly interact with GitHub.
+It can:
+- Search and read repositories
+- Manage issues and pull requests
+- Push changes and create branches
+- Analyze commit history
+
+This bridge connects your coding environment directly to your GitHub workflow.
+
+---
+
+TASK 1: SETUP GITHUB MCP SERVER
+
+Goal: Configure the GitHub MCP server to allow Copilot to access your GitHub data.
+
+Prerequisites:
+- GitHub Account
+- Personal Access Token (PAT) with `repo` scope
+
+Steps:
+1.  **Generate a GitHub PAT:**
+    -   Go to GitHub Settings -> Developer settings -> Personal access tokens -> Tokens (classic).
+    -   Generate new token (classic).
+    -   Select scopes: `repo`, `user`, `read:org`.
+    -   Copy the token (you won't see it again!).
+
+2.  **Configure the Server:**
+    -   Open the Command Palette (`Cmd+Shift+P` or `Ctrl+Shift+P`).
+    -   Type and select **"MCP: Add Server"**.
+    -   Choose **"Browse MCP Servers"**.
+    -   Search for **"GitHub"** and select it.
+    -   Follow the prompts to install. You will be asked to provide your Personal Access Token (PAT) generated in Step 1.
+
+3.  **Restart VS Code / Reload Window** to apply changes.
+
+Question:
+-   How do you verify the server is running? (Hint: Ask Copilot "Can you list my recent issues?")
+
+---
+
+TASK 2: CREATE AN ISSUE
+
+Goal: Create a new issue directly from the chat to track a task.
+
+Action:
+Ask Copilot: "Create a new issue in this repository titled 'Update README with MCP instructions' with the body 'We need to document how to use the GitHub MCP server.'"
+
+Expected Output:
+- Copilot should confirm the issue creation and provide the Issue Number (e.g., #12).
+
+---
+
+TASK 3: READ ISSUE
+
+Goal: Verify the issue exists and read its details.
+
+Action:
+Ask Copilot: "Read the details of the issue I just created." or "Show me issue #12."
+
+Expected Output:
+- Copilot displays the title, body, and status of the issue.
+
+---
+
+TASK 4: GENERATE PR DESCRIPTION & OPEN PR
+
+Goal: Automate the Pull Request creation process.
+
+Steps:
+1.  **Make a change:** Create a new branch (e.g., `docs/mcp-setup`) and add a small text file or comment.
+2.  **Stage changes:** Run `git add .` (or use Source Control view).
+3.  **Ask Copilot:** "Generate a PR description for these staged changes and open a new Pull Request to close issue #12."
+
+Expected Output:
+- Copilot analyzes the changes.
+- Generates a summary title and description.
+- Opens the PR on GitHub and provides the link.
+
+---
+
+TROUBLESHOOTING
+
+-   **"Tool not found":** Ensure the MCP server is properly registered in the config file.
+-   **"Authentication failed":** Check your PAT. It might be expired or lack the `repo` scope.
+-   **"Rate limited":** GitHub API has limits. If you hit them, wait a while.
+
+---
+
+KEY LEARNINGS
+-   MCP turns Copilot into an *agent* that can perform actions, not just generate text.
+-   You can interact with remote repositories as easily as local files.
+-   Context from issues and PRs can be pulled directly into your chat to solve problems.

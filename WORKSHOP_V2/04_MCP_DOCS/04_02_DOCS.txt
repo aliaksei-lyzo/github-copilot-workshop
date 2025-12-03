@@ -1,0 +1,76 @@
+COPILOT DOCUMENTATION GENERATION
+================================
+
+WHAT IS THIS?
+Copilot isn't just for code. It can generate, update, and visualize documentation.
+This module covers:
+- Keeping docs in sync with code
+- Generating diagrams (Mermaid, Draw.io)
+- Automating documentation updates
+
+---
+
+TASK 1: UPDATE PROJECT README
+
+Goal: Update the main project documentation to reflect recent changes.
+
+Context: The `PROJECT_README.md` file might be outdated.
+Action:
+1. Open `PROJECT_README.md`.
+2. Ask Copilot: "Read the file `backend/app.ts` and `backend/auth.ts`. Update the 'Authentication' section in `PROJECT_README.md` to accurately reflect the current implementation."
+
+Expected Output:
+- Copilot suggests changes to the README based on the actual code.
+
+---
+
+TASK 2: GENERATE MERMAID DIAGRAMS
+
+Goal: Visualize the database schema or API structure using Mermaid.js.
+
+Context: `backend/graphql/schema.graphql` defines the data model.
+Action:
+1. Create a new file `docs/schema_diagram.md` (create the folder `docs` if needed).
+2. Ask Copilot: "Generate a Mermaid class diagram representing the GraphQL schema defined in `backend/graphql/schema.graphql`."
+3. Preview the markdown to see the diagram.
+
+Expected Output:
+- A valid Mermaid code block that renders a class diagram of Users, BankAccounts, Transactions, etc.
+
+---
+
+TASK 3: CREATE DRAW.IO ARCHITECTURE DIAGRAM
+
+Goal: Create a high-level architecture diagram using Draw.io XML.
+
+Context: You want a visual representation of the system architecture.
+Action:
+1. Create a new file `docs/architecture.drawio`.
+2. Ask Copilot: "Generate the XML content for a Draw.io diagram showing the high-level architecture: React Frontend -> Express Backend -> JSON Database. Include the Authentication service."
+3. Paste the generated XML into `docs/architecture.drawio`.
+4. Open the file (requires Draw.io extension) to view the diagram.
+
+Expected Output:
+- XML content that renders as a diagram in Draw.io.
+
+---
+
+TASK 4: AUTOMATE DOC UPDATES (CUSTOM INSTRUCTIONS)
+
+Goal: Ensure documentation is updated whenever code changes.
+
+Action:
+1. Open your Copilot Custom Instructions (or just give a session instruction).
+2. Prompt: "For the rest of this session, whenever I modify a backend route, please remind me to update `PROJECT_README.md` and suggest the specific text changes."
+3. Modify `backend/transaction-routes.ts` (e.g., add a comment or small change).
+4. Observe Copilot's response.
+
+Expected Output:
+- Copilot includes a reminder or a suggested doc update in its response.
+
+---
+
+KEY LEARNINGS
+- Documentation should live with the code.
+- Visuals (Mermaid) are easy to generate from code.
+- You can condition Copilot to act as a "Documentation Guardian".
