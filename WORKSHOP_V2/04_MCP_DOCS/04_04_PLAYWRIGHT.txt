@@ -1,0 +1,99 @@
+PLAYWRIGHT MCP SERVER USAGE
+===========================
+
+WHAT IS PLAYWRIGHT MCP?
+The Playwright MCP server allows Copilot to interact with Playwright to generate, run, and debug tests.
+It can:
+- Generate tests from user scenarios
+- Run tests and report results
+- Debug failing tests
+- Manage Playwright browsers
+
+---
+
+TASK 1: INSTALLATION AND SETUP
+
+Goal: Install Playwright and the Playwright MCP server.
+
+Steps:
+1.  **Install Playwright:**
+    -   Run `yarn create playwright` in the terminal.
+    -   Select `tests` as the tests directory (or `e2e` if you prefer).
+    -   Install browsers when prompted.
+
+2.  **Install Playwright MCP Server:**
+    -   Open Command Palette (`Cmd+Shift+P`).
+    -   Type "MCP: Add Server".
+    -   Search for "Playwright" (or "mcp-playwright").
+    -   Install it.
+
+3.  **Verify Installation:**
+    -   Ask Copilot: "Can you list the available Playwright tools?"
+
+---
+
+TASK 2: GENERATE TEST PLAN (PROMPT ENGINEERING)
+
+Goal: Create a reusable prompt for generating high-quality Playwright tests.
+
+Context: We want to ensure Copilot follows a strict process when generating tests: analyze -> plan -> generate -> verify.
+
+Action:
+1.  Create a file `prompts/generate_test.prompt.md` (create folder if needed).
+2.  Paste the following content into it:
+
+    ```markdown
+    - You are a playwright test generator.
+    - You are given a scenario and you need to generate a playwright test
+    - DO NOT generate test code based on the scenario alone.
+    - DO run steps one by one using the tools provided by the Playwright MCP
+    - Only after all steps are completed, emit a Playwright TypeScript test
+    - Save generated test file in the tests directory
+    - Execute the test file and iterate until the test passes
+    ```
+
+3.  **Usage:** When you want to generate a test, you can reference this prompt or paste it into the chat context.
+
+---
+
+TASK 3: GENERATE SPECIFIC TEST (LOGIN)
+
+Goal: Generate a test for the login functionality of this application.
+
+Context: The app has a login page at `/signin`. We want to test a successful login.
+The default user is `Katharina_Bernier` (or check `data/database.json` for a valid username) with password `s3cret`.
+
+Action:
+Ask Copilot (using the prompt from Task 2):
+"Using the instructions in `prompts/generate_test.prompt.md`, generate a Playwright test for the login flow.
+Scenario:
+1. Navigate to the sign-in page.
+2. Enter valid credentials (username: 'Katharina_Bernier', password: 's3cret').
+3. Click the sign-in button.
+4. Verify that the user is redirected to the home page."
+
+Expected Output:
+- Copilot should use MCP tools to create the file `tests/login.spec.ts`.
+- It should run the test.
+- If it fails, it should attempt to fix it.
+
+---
+
+TASK 4: RUN AND DEBUG TESTS
+
+Goal: Use MCP to run tests and debug issues.
+
+Action:
+1.  **Run all tests:** Ask Copilot "Run all Playwright tests."
+2.  **Debug a specific test:** If a test fails, ask "Debug the test `tests/login.spec.ts` and explain why it failed."
+
+Expected Output:
+- Copilot runs the tests using the MCP tool.
+- It provides a summary of the results.
+
+---
+
+KEY LEARNINGS
+- MCP allows Copilot to *execute* tests, not just write them.
+- Structured prompts (like Task 2) improve the reliability of agentic workflows.
+- You can iterate on tests (Write -> Run -> Fix) entirely within the chat.
