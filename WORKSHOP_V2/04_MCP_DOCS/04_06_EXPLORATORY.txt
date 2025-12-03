@@ -1,0 +1,241 @@
+EXPLORATORY API TESTING WITH GITHUB COPILOT
+============================================
+
+OVERVIEW:
+Use GitHub Copilot to generate scripts for exploratory testing of all API endpoints.
+This task teaches you how to leverage Copilot's code generation capabilities
+combined with its understanding of your codebase to create comprehensive API tests.
+
+---
+
+SCENARIO: API COVERAGE ANALYSIS
+
+Report: The QA team needs to verify all API endpoints are working correctly after a deployment.
+Instead of manually testing each endpoint, we want to generate an automated script.
+
+Context:
+-   Backend runs on: http://localhost:3001
+-   Authentication: Session-based (login via POST /login)
+-   Test user: username 'Johan3', password 's3cret'
+-   Route files are in: backend/*.ts
+
+Prerequisites:
+-   Ensure the app is running (`npm run dev` in a separate terminal).
+
+---
+
+TASK 1: DISCOVER API ENDPOINTS
+
+Goal: Have Copilot analyze the codebase and list all API endpoints.
+
+Action:
+Ask Copilot in Agent mode:
+"Analyze the backend folder and list all API endpoints in this project. Include HTTP method, path, authentication requirement, and expected request body format for each endpoint."
+
+Expected Output:
+Copilot should identify endpoints from these route files:
+-   auth.ts: POST /login, POST /logout, GET /checkAuth
+-   user-routes.ts: GET /users, GET /users/search, POST /users, GET /users/:userId, GET /users/profile/:username, PATCH /users/:userId
+-   contact-routes.ts: GET /contacts/:username, POST /contacts, DELETE /contacts/:contactId
+-   bankaccount-routes.ts: GET /bankAccounts, GET /bankAccounts/:bankAccountId, POST /bankAccounts, DELETE /bankAccounts/:bankAccountId
+-   transaction-routes.ts: GET /transactions, GET /transactions/contacts, GET /transactions/public, POST /transactions, GET /transactions/:transactionId, PATCH /transactions/:transactionId
+-   notification-routes.ts: GET /notifications, POST /notifications/bulk, PATCH /notifications/:notificationId
+-   like-routes.ts: GET /likes/:transactionId, POST /likes/:transactionId
+-   comment-routes.ts: GET /comments/:transactionId, POST /comments/:transactionId
+-   banktransfer-routes.ts: GET /bankTransfers
+
+---
+
+TASK 2: GENERATE API TEST SCRIPT
+
+Goal: Create a comprehensive API test script using a REST client library.
+
+Action:
+Ask Copilot:
+"Create a Node.js script at scripts/api-test.ts that tests all backend API endpoints. The script should:
+1. Use axios for HTTP requests
+2. Login first with username 'Johan3' and password 's3cret'
+3. Store and reuse session cookies for authenticated requests
+4. Test each endpoint and log success/failure
+5. Use real IDs from the database (check data/database.json for valid user IDs and transaction IDs)
+6. Print a summary at the end with pass/fail counts
+
+Base URL: http://localhost:3001"
+
+Expected Output:
+- Copilot creates scripts/api-test.ts with comprehensive endpoint coverage.
+- Script handles authentication and session management.
+- Each endpoint test logs the result.
+
+---
+
+TASK 3: RUN THE TEST SCRIPT
+
+Goal: Execute the generated test script and verify results.
+
+Action:
+Ask Copilot:
+"Run the API test script at scripts/api-test.ts using ts-node."
+
+If there are errors, ask:
+"Fix the errors in the API test script and run it again."
+
+Expected Output:
+- Script executes successfully.
+- All endpoints return expected status codes.
+- Summary shows pass/fail count.
+
+---
+
+TASK 4: ADD NEGATIVE TEST CASES
+
+Goal: Extend the script to include negative test scenarios.
+
+Action:
+Ask Copilot:
+"Add negative test cases to scripts/api-test.ts for:
+1. Accessing protected endpoints without authentication (expect 401)
+2. Accessing non-existent resources (expect 404)
+3. Sending invalid data formats (expect 400)
+4. Accessing another user's private data (expect 401 or 403)
+
+Each negative test should verify the expected error status code."
+
+Expected Output:
+- Script includes negative test cases.
+- Tests validate proper error handling.
+- Summary distinguishes between positive and negative tests.
+
+---
+
+TASK 5: GENERATE TEST REPORT
+
+Goal: Create a structured test report from the results.
+
+Action:
+Ask Copilot:
+"Modify the API test script to output results in JSON format to scripts/api-test-results.json with this structure:
+{
+  'timestamp': ISO date string,
+  'summary': { 'total': number, 'passed': number, 'failed': number },
+  'results': [
+    { 'endpoint': string, 'method': string, 'status': 'pass'|'fail', 'statusCode': number, 'duration': number }
+  ]
+}"
+
+Expected Output:
+- Script outputs structured JSON report.
+- Report includes timing information.
+- Can be used for CI/CD integration.
+
+---
+
+TASK 6: CREATE POSTMAN/INSOMNIA COLLECTION
+
+Goal: Generate an importable API collection for manual testing.
+
+Action:
+Ask Copilot:
+"Based on the API endpoints you discovered, generate a Postman collection JSON file at scripts/api-collection.postman.json that includes:
+1. All endpoints organized by resource (Users, Transactions, etc.)
+2. Environment variable for base URL
+3. Pre-configured authentication using {{username}} and {{password}} variables
+4. Example request bodies for POST/PATCH endpoints"
+
+Expected Output:
+- Valid Postman collection JSON file.
+- Endpoints organized in folders.
+- Can be imported into Postman or Insomnia.
+
+---
+
+BONUS TASK: INTERACTIVE API EXPLORER
+
+Goal: Create a simple CLI tool for exploring API endpoints.
+
+Action:
+Ask Copilot:
+"Create an interactive CLI script at scripts/api-explorer.ts that:
+1. Shows a menu of all available endpoints
+2. Allows selecting an endpoint to test
+3. Prompts for required parameters (IDs, request body)
+4. Executes the request and displays the response
+5. Uses inquirer or readline for user input
+
+Include login functionality at startup."
+
+Expected Output:
+- Interactive CLI tool for API exploration.
+- User-friendly interface for testing.
+- Useful for debugging and exploration.
+
+---
+
+API ENDPOINT REFERENCE
+
+For quick reference, here are all endpoints in this application:
+
+AUTHENTICATION (no prefix):
+-   POST /login              - Login with username/password
+-   POST /logout             - End session
+-   GET /checkAuth           - Verify authentication status
+
+USERS (/users):
+-   GET /users               - List all users (auth required)
+-   GET /users/search?q=     - Search users (auth required)
+-   POST /users              - Create new user
+-   GET /users/:userId       - Get user by ID (auth required, owner only)
+-   GET /users/profile/:username - Get user profile (public)
+-   PATCH /users/:userId     - Update user (auth required)
+
+CONTACTS (/contacts):
+-   GET /contacts/:username  - Get contacts by username
+-   POST /contacts           - Create contact (auth required)
+-   DELETE /contacts/:contactId - Delete contact (auth required)
+
+BANK ACCOUNTS (/bankAccounts):
+-   GET /bankAccounts        - List user's bank accounts (auth required)
+-   GET /bankAccounts/:id    - Get bank account by ID (auth required)
+-   POST /bankAccounts       - Create bank account (auth required)
+-   DELETE /bankAccounts/:id - Delete bank account (auth required)
+
+TRANSACTIONS (/transactions):
+-   GET /transactions        - List user's transactions (auth required)
+-   GET /transactions/contacts - List contacts' transactions (auth required)
+-   GET /transactions/public - List public transactions (auth required)
+-   POST /transactions       - Create transaction (auth required)
+-   GET /transactions/:id    - Get transaction by ID (auth required)
+-   PATCH /transactions/:id  - Update transaction (auth required)
+
+NOTIFICATIONS (/notifications):
+-   GET /notifications       - List unread notifications (auth required)
+-   POST /notifications/bulk - Create bulk notifications (auth required)
+-   PATCH /notifications/:id - Update notification (auth required)
+
+LIKES (/likes):
+-   GET /likes/:transactionId  - Get likes for transaction (auth required)
+-   POST /likes/:transactionId - Like a transaction (auth required)
+
+COMMENTS (/comments):
+-   GET /comments/:transactionId  - Get comments for transaction (auth required)
+-   POST /comments/:transactionId - Add comment (auth required)
+
+BANK TRANSFERS (/bankTransfers):
+-   GET /bankTransfers       - List user's bank transfers (auth required)
+
+---
+
+DEBUGGING TIPS
+
+-   **Cookie handling:** Axios needs `withCredentials: true` and a cookie jar library to persist session cookies across requests.
+-   **Order matters:** Some endpoints require existing data. Test creation endpoints before retrieval.
+-   **Real IDs:** Use IDs from data/database.json for testing GET/PATCH/DELETE operations.
+-   **Validation errors:** If you get 400 errors, check the validators.ts file for required fields.
+
+---
+
+REFLECTION:
+-   How can automated API tests be integrated into your CI/CD pipeline?
+-   What's the difference between exploratory testing and regression testing?
+-   How would you handle API versioning in your test scripts?
+-   What additional validations would you add (response schema, performance)?

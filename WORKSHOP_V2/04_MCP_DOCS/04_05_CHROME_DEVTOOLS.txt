@@ -1,0 +1,156 @@
+CHROME DEVTOOLS MCP
+===================
+
+DEBUGGING WORKFLOW:
+1. INSTALL - Set up the Chrome DevTools MCP server
+2. LAUNCH - Open a browser instance controlled by Copilot
+3. INSPECT - Analyze Console, Network, and DOM state
+
+---
+
+SETUP: INSTALLATION
+
+To use browser debugging tools, you need the Chrome DevTools MCP server.
+
+1.  **Install Server:**
+    -   Open Command Palette (`Cmd+Shift+P` or `Ctrl+Shift+P`).
+    -   Type and select **"MCP: Add Server"**.
+    -   Choose **"Browse MCP Servers"**.
+    -   Search for **"Chrome DevTools"** and select it.
+    -   Follow the prompts to install.
+
+2.  **Verify Connection:**
+    Ask Copilot: "Launch a browser and go to google.com" to test if the tool is available.
+
+---
+
+SCENARIO: PUBLIC TRANSACTIONS DEBUGGING
+
+Report: Users complain that the "Public Transactions" feed is slow or showing stale data. We need to inspect the network traffic and application state to verify the behavior.
+
+Context:
+-   App URL: http://localhost:3000
+-   API Endpoint: GET /transactions/public
+-   We need to verify the response status and payload size.
+
+Task: Use Chrome DevTools MCP to debug the running application.
+
+Prerequisites:
+-   Ensure the app is running (`npm run dev` in a separate terminal).
+
+Steps:
+1.  **Launch Browser:**
+    Ask Copilot: "Launch a browser and navigate to http://localhost:3000"
+
+2.  **Login:**
+    Ask Copilot to "Take a screenshot" to confirm you are on the login page.
+    Ask Copilot to "Use evaluate_script to fill the login form: set #username to 'Johan3', #password to 's3cret', and click [data-test='signin-submit']".
+    *Note: Providing specific selectors (like `#username`) helps Copilot execute the script correctly.*
+
+3.  **Inspect Network:**
+    Ask Copilot: "Monitor network requests."
+    Ask Copilot: "Use evaluate_script to click the tab with data-test='nav-public-tab' (labeled 'Everyone')."
+    Ask Copilot: "Show me the details of the GET request to /transactions/public".
+
+4.  **Check Console:**
+    Ask Copilot: "Read the browser console logs."
+
+Questions:
+1.  What is the HTTP status code for the transactions request?
+2.  How many items are in the `results` array of the response?
+3.  Are there any warnings in the console regarding "unique keys" or similar React issues?
+
+Expected:
+-   Copilot successfully controls the browser.
+-   You can see the JSON response from the API.
+-   You can identify if there are client-side errors.
+
+---
+
+SCENARIO: PERFORMANCE ANALYSIS
+
+Report: Users report the app feels slow on initial load. We need to analyze performance metrics and identify optimization opportunities.
+
+Context:
+-   App URL: http://localhost:3000
+-   We need to measure Core Web Vitals and identify bottlenecks.
+
+Task: Use Chrome DevTools MCP to run a performance trace and analyze insights.
+
+Prerequisites:
+-   Ensure the app is running (`npm run dev` in a separate terminal).
+-   Close any existing browser instances to avoid conflicts.
+
+Steps:
+1.  **Launch Browser and Login:**
+    Ask Copilot: "Launch a browser, navigate to http://localhost:3000/signin, fill username 'Johan3' and password 's3cret', then click sign in."
+
+2.  **Run Performance Trace:**
+    Ask Copilot: "Start a performance trace with reload enabled and auto-stop."
+    *This will reload the page while capturing performance data.*
+
+3.  **Analyze Core Web Vitals:**
+    The trace results will show:
+    - LCP (Largest Contentful Paint) - target < 2.5s
+    - CLS (Cumulative Layout Shift) - target < 0.1
+    - TTFB (Time to First Byte) - target < 600ms
+
+4.  **Deep Dive into Insights:**
+    Ask Copilot to analyze specific insights:
+    - "Analyze the LCPBreakdown insight for NAVIGATION_0"
+    - "Analyze the NetworkDependencyTree insight for NAVIGATION_0"
+    - "Analyze the DocumentLatency insight for NAVIGATION_0"
+    - "Analyze the ThirdParties insight for NAVIGATION_0"
+
+Questions:
+1.  What is the LCP time and what percentage is render delay vs TTFB?
+2.  What is the critical path length in the network dependency tree?
+3.  Which third-party resources have the largest impact?
+4.  Is compression enabled on the document response?
+
+Expected Findings:
+-   LCP breakdown showing render delay as the main contributor
+-   Network dependency chain showing API calls at the end of long chains
+-   Third-party avatars (dicebear.com) loading ~60 kB
+-   Document response missing compression
+
+Improvement Options to Discuss:
+1.  **Reduce Render Delay:**
+    - Code splitting and lazy loading routes
+    - Defer non-critical JavaScript
+    - Optimize bundle size
+
+2.  **Optimize Network Chain:**
+    - Add `<link rel="preconnect">` for API server
+    - Preload critical API requests
+    - Upgrade to HTTP/2
+
+3.  **Enable Compression:**
+    - Configure gzip/brotli on server responses
+
+4.  **Reduce Third-Party Impact:**
+    - Cache or self-host avatar images
+    - Use smaller image formats
+
+5.  **Clean Up Dependencies:**
+    - Remove faker.js from production (dev-only)
+    - Tree-shake unused MUI icons
+    - Lazy load heavy libraries (react-virtualized, date-fns)
+
+---
+
+DEBUGGING TIPS
+
+-   **Screenshots are key:** Since you might not see the browser, ask for screenshots frequently: "Take a screenshot of the current page."
+-   **Selectors:** You can ask Copilot to "Click the button with text 'Login'" or use CSS selectors.
+-   **Console Logs:** Great for catching unhandled exceptions that don't crash the whole app but break features.
+-   **Performance Traces:** Use `performance_start_trace` with `reload: true` to capture full page load metrics.
+-   **Insight Analysis:** Use `performance_analyze_insight` with the insight name and insight set ID to get detailed recommendations.
+
+---
+
+REFLECTION:
+-   How does this help when debugging CI/CD failures where you have no UI?
+-   Can you use this to automate reproduction steps for a bug report?
+-   How can performance traces help identify regressions before they reach production?
+-   What metrics would you add to your CI pipeline based on this analysis?
