@@ -1,0 +1,560 @@
+```plaintext
+SPEC KIT: SPECIFICATION-DRIVEN DEVELOPMENT
+===========================================
+
+WHAT IS SPEC KIT?
+
+Spec Kit is an open-source toolkit from GitHub that enables Specification-Driven Development (SDD).
+Instead of "vibe coding" from scratch, you:
+- Define WHAT you want before HOW to build it
+- Generate structured specifications from natural language
+- Create implementation plans with your tech stack
+- Break down into actionable tasks
+- Execute implementation systematically
+
+Key Philosophy:
+- Specifications become executable (not just documentation)
+- Multi-step refinement instead of one-shot code generation
+- Intent-driven development (what & why before how)
+- Heavy reliance on AI model capabilities
+
+---
+
+PREREQUISITES
+
+Before starting:
+1. Python 3.11+ installed
+2. uv package manager installed (https://docs.astral.sh/uv/)
+3. Git installed
+4. VS Code with GitHub Copilot extension
+5. This workshop project cloned
+
+---
+
+TASK 1: INSTALL SPEC KIT CLI
+
+Goal: Install the Specify CLI tool to enable spec-driven development.
+
+Steps:
+
+1. Open terminal in VS Code (Ctrl+` or Cmd+`)
+
+2. Install Specify CLI (choose one method):
+
+   Option A - Persistent Installation (Recommended):
+   ```bash
+   uv tool install specify-cli --from git+https://github.com/github/spec-kit.git
+   ```
+
+   Option B - One-time Usage:
+   ```bash
+   uvx --from git+https://github.com/github/spec-kit.git specify check
+   ```
+
+3. Verify installation:
+   ```bash
+   specify check
+   ```
+
+Expected Output:
+- List of detected tools (git, VS Code, etc.)
+- "Specify CLI is ready to use!" message
+
+Troubleshooting:
+- If "command not found": Ensure uv is in PATH
+- If Python errors: Verify Python 3.11+
+
+---
+
+TASK 2: INITIALIZE SPEC KIT IN PROJECT
+
+Goal: Bootstrap Spec Kit in the workshop project with GitHub Copilot support.
+
+Steps:
+
+1. Navigate to project root:
+   ```bash
+   cd /path/to/github-copilot-workshop
+   ```
+
+2. Initialize Spec Kit for GitHub Copilot:
+   ```bash
+   specify init --here --ai copilot
+   ```
+
+   If directory has files (it does), add --force:
+   ```bash
+   specify init --here --force --ai copilot
+   ```
+
+3. Verify initialization - check for new files:
+   - .github/prompts/ folder with speckit commands
+   - scripts/bash/ folder with helper scripts
+   - templates/ folder with specification templates
+   - memory/ folder for constitution
+
+Expected Output:
+- New folders: .github/prompts/, scripts/, templates/, memory/
+- Slash commands available: /speckit.specify, /speckit.plan, /speckit.tasks, etc.
+
+Questions to Consider:
+- Why use --ai copilot flag?
+- What's the difference between prompts/ and templates/ folders?
+- What are the slash commands used for?
+
+---
+
+TASK 3: UNDERSTAND THE USER STORY
+
+Goal: Familiarize yourself with the feature we'll build using SDD.
+
+User Story:
+
+"As a user of the Real World App, I want to receive weekly summary emails 
+of my transaction activity so that I can stay informed about my spending 
+without logging into the app daily.
+
+The weekly summary should include:
+- Total transactions count and amount for the week
+- Top 3 transaction categories by spending
+- Comparison with previous week (up/down percentage)
+- Quick link to view full transaction history
+
+Users should be able to:
+- Enable/disable weekly summaries in their profile settings
+- Choose the day of the week to receive summaries (default: Monday)
+- Select summary format (detailed or brief)"
+
+Technical Context:
+- Backend: Express.js with TypeScript
+- Database: JSON-based (lowdb)
+- Frontend: React with Material-UI
+- Existing patterns: See backend/transaction-routes.ts, src/components/
+
+Action:
+1. Read the user story carefully
+2. Identify key requirements
+3. Note any unclear aspects
+
+Questions to Answer:
+- What new backend endpoints are needed?
+- What new database fields are required?
+- What new UI components are necessary?
+- What's unclear and needs clarification?
+
+---
+
+TASK 4: ESTABLISH PROJECT CONSTITUTION
+
+Goal: Create project principles that guide all AI-generated code.
+
+Context: The constitution defines coding standards, architectural decisions, and quality requirements that Copilot must follow.
+
+Action:
+1. Open GitHub Copilot Chat (Ctrl+Shift+I or Cmd+Shift+I)
+2. Use the constitution command:
+
+Prompt:
+```
+/speckit.constitution Create principles focused on:
+- TypeScript strict mode with explicit types
+- Express.js patterns matching existing routes (see backend/transaction-routes.ts)
+- React functional components with hooks
+- Material-UI styling following existing patterns
+- JSON database using lowdb patterns
+- Comprehensive error handling with proper HTTP codes
+- Test-first development approach
+- JSDoc comments for all public functions
+```
+
+Expected Output:
+- File created: memory/constitution.md
+- Contains coding standards, testing requirements, architectural decisions
+- Specific to this project's stack
+
+Questions:
+- Why is the constitution important for AI-generated code?
+- How does this prevent "vibe coding"?
+- Can you modify the constitution later?
+
+---
+
+TASK 5: CREATE FEATURE SPECIFICATION (/speckit.specify)
+
+Goal: Transform the user story into a structured feature specification.
+
+Action:
+1. Open GitHub Copilot Chat
+2. Create the specification:
+
+Prompt:
+```
+/speckit.specify Build a weekly transaction summary email feature for users. 
+Users can enable/disable weekly summaries in profile settings, choose which 
+day to receive them (default Monday), and select between detailed or brief 
+format. Summary includes: total transactions count and amount, top 3 spending 
+categories, comparison with previous week, and link to full history. 
+This integrates with the existing Express backend, React frontend, and 
+lowdb database.
+```
+
+Expected Output:
+- New branch created (e.g., 001-weekly-summary)
+- File: specs/001-weekly-summary/spec.md containing:
+  - User Scenarios & Testing section
+  - Requirements section
+  - Success Criteria section
+  - Possibly [NEEDS CLARIFICATION] markers
+
+Review the Generated Spec:
+1. Open specs/001-weekly-summary/spec.md
+2. Check user scenarios are realistic
+3. Verify requirements are complete
+4. Note any [NEEDS CLARIFICATION] items
+
+Questions:
+- Does the spec match your understanding of the user story?
+- What did Copilot add that you hadn't considered?
+- Are there gaps in the specification?
+
+---
+
+TASK 6: CLARIFY SPECIFICATION REQUIREMENTS (/speckit.clarify)
+
+Goal: Resolve any unclear aspects in the specification before planning.
+
+Context: Good specifications minimize ambiguity before implementation.
+
+Action:
+1. Review spec.md for [NEEDS CLARIFICATION] markers
+2. Use clarify command:
+
+Prompt:
+```
+/speckit.clarify Address the following:
+1. Email delivery: Use a mock email service (console.log) for development
+2. Scheduling: Use node-cron for weekly job scheduling
+3. Time zone: Store user preference, default to UTC
+4. Email template: Simple HTML with inline CSS
+5. Retry logic: 3 attempts with exponential backoff for failed sends
+```
+
+Expected Output:
+- Updated spec.md with clarifications resolved
+- Clearer requirements ready for planning
+
+Alternative Clarifications to Try:
+- What happens if user has no transactions that week?
+- How to handle users who signed up mid-week?
+- Maximum email size limits?
+
+---
+
+TASK 7: CREATE IMPLEMENTATION PLAN (/speckit.plan)
+
+Goal: Generate a technical implementation plan with architecture decisions.
+
+Action:
+1. Open GitHub Copilot Chat
+2. Create the plan with tech stack details:
+
+Prompt:
+```
+/speckit.plan The implementation uses:
+- Express.js backend with TypeScript (match existing patterns in backend/)
+- lowdb JSON database (see backend/database.ts for patterns)
+- React frontend with Material-UI (see src/components/)
+- node-cron for scheduling
+- Mock email service (console.log for now)
+- Integration with existing user-routes.ts for preferences
+- New email-service.ts for summary generation
+- New scheduled-jobs.ts for cron scheduling
+```
+
+Expected Output:
+Files created in specs/001-weekly-summary/:
+- plan.md - Implementation plan with phases
+- research.md - Technology research and decisions
+- data-model.md - Database schema changes
+- quickstart.md - Key validation scenarios
+- contracts/ - API endpoint specifications
+
+Review Generated Artifacts:
+1. plan.md: Check implementation phases make sense
+2. data-model.md: Verify User model extensions
+3. contracts/: Review new API endpoints
+
+Questions:
+- Does the plan follow existing project patterns?
+- Are the phases in logical order?
+- Is the data model compatible with existing schema?
+
+---
+
+TASK 8: GENERATE TASK BREAKDOWN (/speckit.tasks)
+
+Goal: Break down the implementation plan into actionable tasks.
+
+Action:
+1. Open GitHub Copilot Chat
+2. Generate tasks:
+
+Prompt:
+```
+/speckit.tasks
+```
+
+Expected Output:
+- File: specs/001-weekly-summary/tasks.md containing:
+  - Phase-organized task list
+  - Task IDs and descriptions
+  - File paths for each task
+  - Dependencies between tasks
+  - [P] markers for parallelizable tasks
+
+Review Task Structure:
+1. Open tasks.md
+2. Verify phases: Setup → Tests → Core → Integration → Polish
+3. Check task granularity (not too big, not too small)
+4. Identify parallel work opportunities
+
+Sample Expected Tasks:
+- Setup: Configure node-cron dependency
+- Tests: Write tests for summary generation
+- Core: Implement email-service.ts
+- Core: Add user preference fields
+- Integration: Create preferences API endpoint
+- Integration: Build PreferencesPanel component
+- Polish: Add loading states and error handling
+
+---
+
+TASK 9: VALIDATE WITH CHECKLIST (/speckit.checklist)
+
+Goal: Create and validate a pre-implementation checklist.
+
+Action:
+1. Open GitHub Copilot Chat
+2. Generate checklist:
+
+Prompt:
+```
+/speckit.checklist
+```
+
+Expected Output:
+- Validation checklist covering:
+  - Specification completeness
+  - Plan feasibility
+  - Task coverage
+  - Missing considerations
+
+Use Checklist to Verify:
+- [ ] All user scenarios have corresponding tasks
+- [ ] Database changes are backwards compatible
+- [ ] API endpoints follow existing patterns
+- [ ] UI components match project styling
+- [ ] Error cases are handled
+- [ ] Tests are planned for critical paths
+
+---
+
+TASK 10: ANALYZE AND REVIEW (/speckit.analyze)
+
+Goal: Have AI audit the specification and plan for issues.
+
+Action:
+1. Open GitHub Copilot Chat
+2. Run analysis:
+
+Prompt:
+```
+/speckit.analyze
+```
+
+Expected Output:
+- Analysis report covering:
+  - Specification gaps
+  - Plan inconsistencies
+  - Task coverage issues
+  - Risk areas
+
+Review Analysis:
+- Address any critical issues before implementation
+- Note areas that need extra attention
+- Consider adjustments to plan
+
+---
+
+TASK 11: BEGIN IMPLEMENTATION (/speckit.implement)
+
+Goal: Execute the implementation plan systematically.
+
+⚠️ IMPORTANT: This task modifies your codebase. Consider:
+- Working on a feature branch (already created by /speckit.specify)
+- Having tests ready to verify changes
+- Reviewing changes incrementally
+
+Action:
+1. Open GitHub Copilot Chat
+2. Start implementation:
+
+Prompt:
+```
+/speckit.implement
+```
+
+What Happens:
+1. Validates prerequisites (constitution, spec, plan, tasks)
+2. Parses task breakdown from tasks.md
+3. Executes tasks in order, respecting dependencies
+4. Follows TDD approach from task plan
+5. Provides progress updates
+
+Monitor Implementation:
+- Watch for error messages
+- Verify each file is created correctly
+- Check that existing patterns are followed
+
+After Implementation:
+1. Run existing tests to verify no regressions
+2. Test new functionality manually
+3. Review generated code for quality
+
+---
+
+TASK 12: REVIEW AND ITERATE
+
+Goal: Review implementation and make adjustments.
+
+Actions:
+
+1. Run Tests:
+   ```bash
+   yarn test
+   ```
+
+2. Check for TypeScript Errors:
+   ```bash
+   yarn tsc --noEmit
+   ```
+
+3. Start Application:
+   ```bash
+   yarn dev
+   ```
+
+4. Test New Features:
+   - Navigate to user settings
+   - Find email preferences section
+   - Toggle weekly summary
+   - Select preferred day
+   - Check console for mock email output
+
+Common Issues to Check:
+- Missing imports in new files
+- TypeScript type errors
+- Database schema not updated
+- UI component styling mismatches
+
+Iterate if Needed:
+- Use /speckit.analyze to identify issues
+- Modify spec/plan as needed
+- Re-run /speckit.tasks for updated breakdown
+
+---
+
+WORKFLOW SUMMARY
+
+Complete SDD Workflow:
+
+1. /speckit.constitution → Project principles
+2. /speckit.specify → Feature specification from user story
+3. /speckit.clarify → Resolve ambiguities
+4. /speckit.plan → Technical implementation plan
+5. /speckit.tasks → Actionable task breakdown
+6. /speckit.checklist → Pre-implementation validation
+7. /speckit.analyze → AI audit of artifacts
+8. /speckit.implement → Execute implementation
+
+Time Comparison:
+Traditional Approach: ~12 hours documentation + implementation
+SDD Approach: ~30 minutes specification + systematic implementation
+
+---
+
+KEY LEARNINGS
+
+1. Specification First
+   - Define WHAT before HOW
+   - Clear specs lead to better code
+
+2. Structured Process
+   - Each step builds on previous
+   - Reduces ambiguity and rework
+
+3. AI-Assisted, Human-Guided
+   - AI generates artifacts
+   - Human reviews and refines
+   - Best of both worlds
+
+4. Consistency Through Constitution
+   - Project principles prevent drift
+   - AI follows established patterns
+
+5. Iterative Refinement
+   - Review → Analyze → Adjust → Continue
+   - Not one-shot generation
+
+---
+
+ADDITIONAL COMMANDS REFERENCE
+
+Core Commands:
+- /speckit.constitution - Create/update project principles
+- /speckit.specify - Create feature specification
+- /speckit.plan - Generate implementation plan
+- /speckit.tasks - Create task breakdown
+- /speckit.implement - Execute implementation
+
+Optional Commands:
+- /speckit.clarify - Resolve specification ambiguities
+- /speckit.checklist - Create validation checklist
+- /speckit.analyze - AI audit of artifacts
+
+---
+
+TROUBLESHOOTING
+
+"Slash commands not recognized"
+→ Verify .github/prompts/ folder exists
+→ Re-run: specify init --here --force --ai copilot
+
+"Branch not detected"
+→ Ensure you're on feature branch (001-weekly-summary)
+→ Or set: export SPECIFY_FEATURE="001-weekly-summary"
+
+"Templates not found"
+→ Check templates/ folder exists
+→ Re-run initialization
+
+"Script permission denied"
+→ Run: chmod +x scripts/bash/*.sh
+
+---
+
+NEXT STEPS
+
+After completing this module:
+1. Try SDD on a real feature in your project
+2. Customize constitution for your team's standards
+3. Build library of reusable specifications
+4. Share workflow with team members
+5. Measure time savings and code quality improvements
+
+Resources:
+- Spec Kit GitHub: https://github.com/github/spec-kit
+- SDD Methodology: https://github.com/github/spec-kit/blob/main/spec-driven.md
+- Documentation: https://github.github.io/spec-kit/
+
+```
