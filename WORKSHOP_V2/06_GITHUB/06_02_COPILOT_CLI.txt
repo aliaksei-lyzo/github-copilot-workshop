@@ -1,0 +1,543 @@
+```plaintext
+GITHUB COPILOT CLI
+==================
+
+WHAT IS GITHUB COPILOT CLI?
+
+GitHub Copilot CLI (Public Preview) brings AI-powered coding assistance directly to your
+terminal. Powered by the same agentic harness as GitHub's Copilot coding agent, it provides
+intelligent assistance while staying deeply integrated with your GitHub workflow.
+
+Key capabilities:
+- Terminal-native development: Work with Copilot coding agent directly in your command line
+- GitHub integration: Access repositories, issues, and PRs using natural language
+- Agentic capabilities: Build, edit, debug, and refactor code with AI planning
+- MCP-powered: Ships with GitHub's MCP server and supports custom MCP servers
+- Full control: Preview every action before execution
+
+This module covers:
+- Installing GitHub Copilot CLI
+- Authenticating and launching the CLI
+- Working with the agentic coding assistant
+- Practical tasks with this project
+
+---
+
+TASK 1: INSTALL GITHUB COPILOT CLI
+
+Goal: Install GitHub Copilot CLI globally using npm.
+
+Prerequisites:
+- Node.js v22 or higher
+- npm v10 or higher
+- An active Copilot subscription (Individual, Business, or Enterprise)
+
+Note: If you have Copilot via your organization/enterprise, check that your admin
+has enabled Copilot CLI in the organization settings.
+
+Steps:
+
+1. **Verify Node.js version:**
+   ```bash
+   node --version
+   ```
+   
+   Required: v22 or higher
+   
+   If not installed or outdated, install via Homebrew (macOS):
+   ```bash
+   brew install node@22
+   ```
+   
+   Or download from: https://nodejs.org/
+
+2. **Verify npm version:**
+   ```bash
+   npm --version
+   ```
+   
+   Required: v10 or higher
+
+3. **Install GitHub Copilot CLI globally:**
+   ```bash
+   npm install -g @github/copilot
+   ```
+
+4. **Verify installation:**
+   ```bash
+   copilot --version
+   ```
+
+Expected Output:
+```
+@github/copilot@0.0.xxx
+```
+
+5. **Launch Copilot CLI for the first time:**
+   ```bash
+   copilot
+   ```
+   
+   You'll see an animated welcome banner on first launch!
+   (Use `copilot --banner` to see it again later)
+
+Questions:
+- Why does Copilot CLI require Node.js v22+?
+- What's the difference between this and the old `gh copilot` extension?
+
+---
+
+TASK 2: AUTHENTICATE WITH GITHUB
+
+Goal: Log in to GitHub to enable Copilot CLI functionality.
+
+Context: Copilot CLI needs GitHub authentication to access your Copilot subscription
+and integrate with your repositories.
+
+Steps:
+
+1. **Launch Copilot CLI:**
+   ```bash
+   copilot
+   ```
+
+2. **If not logged in, use the login command:**
+   ```
+   /login
+   ```
+   
+   Follow the on-screen instructions to authenticate via browser.
+
+3. **Alternative: Authenticate with Personal Access Token (PAT):**
+   
+   a. Visit: https://github.com/settings/personal-access-tokens/new
+   
+   b. Under "Permissions," click "add permissions" and select "Copilot Requests"
+   
+   c. Generate your token
+   
+   d. Add to your environment (add to ~/.zshrc or ~/.bashrc):
+   ```bash
+   export GH_TOKEN="your-token-here"
+   # or
+   export GITHUB_TOKEN="your-token-here"
+   ```
+   
+   Note: GH_TOKEN takes precedence over GITHUB_TOKEN
+
+4. **Verify authentication:**
+   
+   Once logged in, you should see the Copilot CLI prompt ready for input.
+
+Questions:
+- When would you use PAT authentication vs browser login?
+- What scopes/permissions does the PAT need?
+
+---
+
+TASK 3: BASIC CLI USAGE
+
+Goal: Learn the fundamental commands and navigation in Copilot CLI.
+
+Context: Copilot CLI uses slash commands for special actions and natural language
+for coding tasks.
+
+Steps:
+
+1. **Launch Copilot CLI in your project folder:**
+   ```bash
+   cd /path/to/github-copilot-workshop
+   copilot
+   ```
+
+2. **Select your preferred model:**
+   ```
+   /model
+   ```
+   
+   Available models include:
+   - Claude Sonnet 4.5 (default)
+   - Claude Sonnet 4
+   - GPT-5
+   
+   Choose based on your preference and task complexity.
+
+3. **Get help on available commands:**
+   ```
+   /help
+   ```
+
+4. **Submit feedback directly from CLI:**
+   ```
+   /feedback
+   ```
+
+5. **Exit the CLI:**
+   ```
+   /exit
+   ```
+   Or press Ctrl+C
+
+Key Slash Commands:
+- `/login` - Authenticate with GitHub
+- `/model` - Change the AI model
+- `/help` - Show available commands
+- `/feedback` - Submit feedback survey
+- `/exit` - Exit the CLI
+
+Questions:
+- Which model would you choose for complex refactoring tasks?
+- How does the CLI maintain context between prompts?
+
+---
+
+TASK 4: ASK QUESTIONS ABOUT YOUR CODEBASE
+
+Goal: Use natural language to explore and understand this project.
+
+Context: Copilot CLI can read and analyze your local codebase to answer questions.
+
+Steps:
+
+1. **Launch Copilot CLI in the project:**
+   ```bash
+   cd /path/to/github-copilot-workshop
+   copilot
+   ```
+
+2. **Ask about the project structure:**
+   ```
+   What is the architecture of this project? Describe the main folders and their purpose.
+   ```
+   
+   Expected: Overview of backend/, src/, cypress/, data/ structure
+
+3. **Understand a specific file:**
+   ```
+   Explain what backend/transaction-routes.ts does and list all the API endpoints it defines.
+   ```
+
+4. **Find patterns in the codebase:**
+   ```
+   How is authentication implemented in this project? Which files are involved?
+   ```
+
+5. **Ask about dependencies:**
+   ```
+   What testing frameworks are used in this project based on package.json?
+   ```
+   
+   Expected: Mentions Cypress, Vitest, Playwright
+
+6. **Understand database structure:**
+   ```
+   What entities are stored in data/database.json? Describe the data model.
+   ```
+
+Questions:
+- How detailed were Copilot's explanations?
+- Did it correctly identify the project patterns?
+- What questions would help you onboard faster to a new codebase?
+
+---
+
+TASK 5: PERFORM CODING TASKS
+
+Goal: Use Copilot CLI's agentic capabilities to make code changes.
+
+Context: Copilot CLI can plan and execute multi-step coding tasks. It will show you
+each action before executing - nothing happens without your approval.
+
+Steps:
+
+1. **Simple code generation:**
+   ```
+   Create a new file backend/health-check.ts that exports a function 
+   to check if the database file exists and is readable.
+   ```
+   
+   Review the proposed changes before approving.
+
+2. **Add a new API endpoint:**
+   ```
+   Add a GET /health endpoint to backend/app.ts that returns 
+   { status: "ok", timestamp: Date.now() }
+   ```
+   
+   Copilot will:
+   - Show you the planned changes
+   - Wait for your approval
+   - Apply the changes
+
+3. **Refactor existing code:**
+   ```
+   In backend/contact-routes.ts, add input validation to prevent 
+   users from adding themselves as contacts. Return 400 error if 
+   contactUserId equals the authenticated user's ID.
+   ```
+
+4. **Add documentation:**
+   ```
+   Add JSDoc comments to all exported functions in backend/helpers.ts
+   ```
+
+5. **Fix a bug (simulated):**
+   ```
+   In backend/bankaccount-routes.ts, add proper error handling 
+   with try-catch blocks and appropriate HTTP status codes (404, 500).
+   ```
+
+Important: Always review proposed changes before approving!
+
+Questions:
+- How does Copilot break down complex tasks?
+- What level of detail works best in your prompts?
+- When would you reject a proposed change?
+
+---
+
+TASK 6: WORK WITH GITHUB INTEGRATION
+
+Goal: Use Copilot CLI's built-in GitHub integration for repository operations.
+
+Context: Copilot CLI ships with GitHub's MCP server, allowing natural language
+interaction with issues, PRs, and repository data.
+
+Steps:
+
+1. **List open issues:**
+   ```
+   List the open issues in this repository
+   ```
+
+2. **Create a new issue:**
+   ```
+   Create an issue titled "Add input validation to transfer endpoint" 
+   with body describing the need for amount validation and error handling
+   ```
+
+3. **Check recent commits:**
+   ```
+   Show me the last 5 commits on the main branch
+   ```
+
+4. **Analyze a pull request:**
+   ```
+   Summarize the changes in pull request #42
+   ```
+   (Use an actual PR number if available)
+
+5. **Create a branch and PR workflow:**
+   ```
+   Create a new branch called feature/health-check, commit the 
+   health-check.ts file we created earlier, and open a pull request
+   ```
+
+6. **Review repository structure:**
+   ```
+   What workflows are defined in this repository's .github folder?
+   ```
+
+Questions:
+- How does the GitHub integration compare to using `gh` CLI directly?
+- What GitHub operations would you use this for most?
+- How does this integrate with your existing workflow?
+
+---
+
+TASK 7: EXTEND WITH CUSTOM MCP SERVERS
+
+Goal: Understand how Copilot CLI can be extended with additional MCP servers.
+
+Context: Copilot CLI supports the Model Context Protocol (MCP), allowing you to
+add custom capabilities beyond the built-in GitHub integration.
+
+Information:
+
+1. **Built-in MCP Server:**
+   - Copilot CLI ships with GitHub's MCP server by default
+   - Provides access to repositories, issues, PRs, and more
+   - No additional configuration needed
+
+2. **Adding Custom MCP Servers:**
+   - You can add MCP servers for additional capabilities
+   - Examples: Playwright for browser automation, database access, custom APIs
+   - Configuration similar to VS Code MCP setup
+
+3. **Use Cases for Custom MCP:**
+   - Database queries and analysis
+   - API testing and documentation
+   - Browser automation and testing
+   - Integration with internal tools
+
+Note: For detailed MCP configuration, see 04_01_GITHUB_MCP.txt and 04_04_PLAYWRIGHT.txt
+
+Questions:
+- What MCP servers would benefit your workflow?
+- How does MCP extensibility compare to VS Code Copilot?
+
+---
+
+BEST PRACTICES
+
+For Effective Prompts:
+- Be specific about what you want to achieve
+- Include file paths and context when relevant
+- Start with questions to understand before making changes
+- Break complex tasks into smaller steps
+
+When to Use Copilot CLI:
+- Working on remote servers via SSH
+- Quick explorations without opening VS Code
+- Terminal-native workflows
+- Batch operations across files
+- GitHub operations without browser
+
+When to Use VS Code Copilot Instead:
+- Complex multi-file refactoring (better UI for reviewing changes)
+- Debugging with breakpoints
+- When you need side-by-side code comparison
+- Long coding sessions with frequent edits
+
+Safety Tips:
+- Always review proposed changes before approving
+- Understand what changes will be made to your files
+- Keep your code under version control
+- Test changes before committing
+
+Keeping Updated:
+- Copilot CLI is in active development with frequent updates
+- Run `npm update -g @github/copilot` regularly
+- Check https://github.com/github/copilot-cli for release notes
+
+---
+
+COMMAND REFERENCE
+
+```bash
+# Installation
+npm install -g @github/copilot
+
+# Update to latest version
+npm update -g @github/copilot
+
+# Launch the CLI
+copilot
+
+# Launch with welcome banner
+copilot --banner
+
+# Check version
+copilot --version
+```
+
+Slash Commands (inside the CLI):
+```
+/login     - Authenticate with GitHub
+/model     - Select AI model (Claude Sonnet 4.5, Claude Sonnet 4, GPT-5)
+/help      - Show available commands
+/feedback  - Submit feedback survey
+/exit      - Exit the CLI
+```
+
+Environment Variables:
+```bash
+# Authentication via PAT
+export GH_TOKEN="your-token"      # Takes precedence
+export GITHUB_TOKEN="your-token"  # Alternative
+```
+
+---
+
+TROUBLESHOOTING
+
+"command not found: copilot":
+- Ensure npm global bin is in your PATH
+- Check: `npm bin -g` to see the global bin directory
+- Add to PATH: `export PATH="$PATH:$(npm bin -g)"`
+
+"Error: Node.js version too old":
+- Install Node.js v22 or higher
+- macOS: `brew install node@22`
+- Check version: `node --version`
+
+"Authentication failed":
+- Run `/login` inside the CLI
+- Or set GH_TOKEN environment variable
+- Verify your Copilot subscription is active
+
+"Organization disabled Copilot CLI":
+- Contact your GitHub organization admin
+- See: Managing policies for Copilot in your organization
+
+"Changes not being applied":
+- Ensure you approved the proposed changes
+- Check file permissions
+- Verify you're in the correct directory
+
+"Slow responses":
+- Check internet connection
+- Consider selecting a faster model with `/model`
+- GitHub services may be experiencing delays
+
+---
+
+KEY LEARNINGS
+
+1. Agentic Capabilities
+   - Copilot CLI can plan and execute multi-step tasks
+   - Always previews actions before execution
+   - You maintain full control over changes
+
+2. Terminal-Native Development
+   - No context switching to browser or IDE
+   - Works well on remote servers
+   - Integrates with existing terminal workflows
+
+3. GitHub Integration Built-In
+   - Issues, PRs, and repository access via natural language
+   - Authenticated with your GitHub account
+   - Streamlines GitHub operations
+
+4. MCP Extensibility
+   - Add custom capabilities via MCP servers
+   - Same protocol as VS Code Copilot
+   - Extend for your specific needs
+
+5. Model Selection Matters
+   - Different models for different tasks
+   - Use `/model` to switch as needed
+   - Premium requests quota applies
+
+---
+
+COMPARISON: COPILOT CLI VS VS CODE COPILOT
+
+| Aspect              | Copilot CLI              | VS Code Copilot           |
+|---------------------|--------------------------|---------------------------|
+| Interface           | Terminal                 | IDE                       |
+| Best For            | Quick tasks, SSH, scripts| Long sessions, debugging  |
+| Code Review         | Text-based               | Visual diff               |
+| File Navigation     | Path-based               | Explorer, search          |
+| GitHub Integration  | Built-in MCP             | Via GitHub MCP extension  |
+| Multi-file Edits    | Sequential approval      | Sidebar preview           |
+| Learning Curve      | Lower for terminal users | Lower for GUI users       |
+
+Recommendation: Use both! CLI for quick terminal work, VS Code for deep coding sessions.
+
+---
+
+NEXT STEPS
+
+After mastering Copilot CLI:
+1. Explore custom MCP server integration
+2. Create shell aliases for common workflows
+3. Use for code review on remote servers
+4. Integrate into your CI/CD scripts
+5. Share effective prompts with your team
+
+Remember: Copilot CLI is in Public Preview - expect frequent updates and improvements!
+
+For more information: https://docs.github.com/copilot/concepts/agents/about-copilot-cli
+
+```
