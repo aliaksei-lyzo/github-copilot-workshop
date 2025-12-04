@@ -1,0 +1,868 @@
+GITHUB COPILOT CODING AGENT (AUTOCODE)
+=======================================
+
+WHAT IS COPILOT CODING AGENT?
+
+GitHub Copilot Coding Agent is an AI-powered feature that can autonomously work on GitHub issues.
+When you assign an issue to Copilot, it:
+- Analyzes the issue description and codebase
+- Creates a new branch automatically
+- Implements the required changes
+- Opens a Pull Request with the solution
+- Responds to review feedback
+
+This module covers:
+- Understanding when to use Coding Agent
+- Preparing well-structured issues for Copilot
+- Assigning issues to Copilot
+- Reviewing and iterating on Copilot's PRs
+- Best practices for Coding Agent workflow
+
+---
+
+PREREQUISITES
+
+Before starting:
+1. Repository must have GitHub Copilot enabled
+2. Copilot Coding Agent must be enabled for the repository
+3. You need write access to the repository
+4. GitHub MCP server configured (see 04_01_GITHUB_MCP.txt)
+
+To enable Coding Agent:
+1. Go to Repository Settings → Copilot → Coding Agent
+2. Enable "Allow Copilot to open pull requests"
+3. Configure branch protection rules if needed
+
+---
+
+WHEN TO USE CODING AGENT
+
+Good candidates for Coding Agent:
+✅ Well-defined, scoped tasks
+✅ Bug fixes with clear reproduction steps
+✅ Adding validation or error handling
+✅ Creating new utility functions
+✅ Adding missing tests
+✅ Documentation updates
+✅ Simple refactoring tasks
+
+Not ideal for Coding Agent:
+❌ Vague or exploratory tasks
+❌ Major architectural changes
+❌ Tasks requiring external API access
+❌ Complex multi-system integrations
+❌ Tasks needing human judgment or design decisions
+
+---
+
+EXERCISE 1: SIMPLE VALIDATION TASK
+
+TASK 1.1: ANALYZE THE CODEBASE
+
+Goal: Understand the current contact creation logic before creating an issue.
+
+Steps:
+1. Open Copilot Chat panel (Cmd+Shift+I / Ctrl+Shift+I)
+
+2. Ask Copilot to analyze the contact creation endpoint:
+
+Prompt:
+```
+Analyze the POST /contacts endpoint in backend/contact-routes.ts. 
+What validations are currently in place? 
+What edge cases are not handled?
+```
+
+Expected Analysis:
+- Current validation: only `shortIdValidation` for contactUserId
+- Missing: check if user is adding themselves as contact
+- Missing: check if contact already exists
+- Missing: check if contactUserId is a valid user
+
+Questions:
+1. What potential bugs could occur without these validations?
+2. Which validation would be most important to add first?
+
+---
+
+TASK 1.2: CREATE A WELL-STRUCTURED ISSUE
+
+Goal: Write an issue that Copilot can work on autonomously.
+
+Issue Title:
+```
+Prevent users from adding themselves as contacts
+```
+
+Issue Description:
+```markdown
+## Description
+Users can currently add themselves as contacts, which doesn't make sense 
+and could cause issues in the UI when displaying contact lists.
+
+## Current Behavior
+- POST /contacts accepts any valid `contactUserId`
+- No validation to check if `contactUserId` equals the current user's ID
+- Self-contact gets created and appears in the contact list
+
+## Expected Behavior
+- API should return 400 Bad Request if user tries to add themselves
+- Error message: "Cannot add yourself as a contact"
+
+## Acceptance Criteria
+- [ ] Add validation in POST /contacts endpoint
+- [ ] Return 400 status with error message for self-contact attempt
+- [ ] Existing tests should still pass
+- [ ] Add new test case for this validation
+
+## Technical Notes
+- File to modify: `backend/contact-routes.ts`
+- Current user ID available via `req.user?.id`
+- Follow existing validation patterns in the codebase
+```
+
+Steps to create the issue:
+
+Option A - Using GitHub MCP:
+1. Open Copilot Chat
+2. Use the following prompt:
+
+Prompt:
+```
+Create a GitHub issue in this repository with:
+Title: "Prevent users from adding themselves as contacts"
+
+Body:
+## Description
+Users can currently add themselves as contacts, which doesn't make sense 
+and could cause issues in the UI when displaying contact lists.
+
+## Current Behavior
+- POST /contacts accepts any valid `contactUserId`
+- No validation to check if `contactUserId` equals the current user's ID
+- Self-contact gets created and appears in the contact list
+
+## Expected Behavior
+- API should return 400 Bad Request if user tries to add themselves
+- Error message: "Cannot add yourself as a contact"
+
+## Acceptance Criteria
+- [ ] Add validation in POST /contacts endpoint
+- [ ] Return 400 status with error message for self-contact attempt
+- [ ] Existing tests should still pass
+- [ ] Add new test case for this validation
+
+## Technical Notes
+- File to modify: `backend/contact-routes.ts`
+- Current user ID available via `req.user?.id`
+- Follow existing validation patterns in the codebase
+
+Labels: enhancement, good first issue
+```
+
+Option B - Using GitHub Web:
+1. Go to your repository on GitHub.com
+2. Click "Issues" → "New issue"
+3. Paste the title and description above
+4. Add labels: `enhancement`, `good first issue`
+5. Click "Submit new issue"
+
+Note the issue number for the next step (e.g., #42).
+
+---
+
+TASK 1.3: ASSIGN ISSUE TO COPILOT
+
+Goal: Let Copilot Coding Agent work on the issue autonomously.
+
+Steps:
+
+Option A - Using GitHub MCP:
+1. Open Copilot Chat
+2. Use the following prompt:
+
+Prompt:
+```
+Assign Copilot to issue #<ISSUE_NUMBER> in this repository
+```
+
+Replace <ISSUE_NUMBER> with the actual issue number from Task 1.2.
+
+Option B - Using GitHub Web:
+1. Open the issue on GitHub.com
+2. In the right sidebar, find "Assignees"
+3. Click the gear icon
+4. Search for and select "Copilot"
+5. Alternatively, type `/assign-copilot` in a comment
+
+Expected:
+- Copilot acknowledges the assignment
+- Status shows "Copilot is working on this issue"
+- After some time, a PR will be created
+
+---
+
+TASK 1.4: MONITOR COPILOT'S PROGRESS
+
+Goal: Track Copilot's work on the issue.
+
+Steps:
+1. Watch the issue for updates:
+   - Copilot posts status updates as comments
+   - Progress indicators show current step
+
+2. Check for the Pull Request:
+   - Copilot creates a branch (e.g., `copilot/fix-42`)
+   - Opens a PR linked to the issue
+
+3. Using Copilot Chat to check status:
+
+Prompt:
+```
+What's the status of issue #<ISSUE_NUMBER>? 
+Has Copilot created a PR for it?
+```
+
+Alternative prompt:
+```
+Search for pull requests related to issue #<ISSUE_NUMBER>
+```
+
+Expected Timeline:
+- Simple issues: 2-5 minutes
+- Complex issues: 5-15 minutes
+- Very complex: May require multiple iterations
+
+---
+
+TASK 1.5: REVIEW COPILOT'S PULL REQUEST
+
+Goal: Review and provide feedback on Copilot's implementation.
+
+Steps:
+1. Open the PR created by Copilot
+
+2. Review the changes:
+   - Check if validation logic is correct
+   - Verify error message matches requirements
+   - Ensure existing tests weren't broken
+   - Check if new tests were added
+
+3. Expected implementation (reference):
+```typescript
+// In backend/contact-routes.ts POST route
+router.post(
+  "/",
+  ensureAuthenticated,
+  validateMiddleware([shortIdValidation("contactUserId")]),
+  (req, res) => {
+    const { contactUserId } = req.body;
+    
+    // Prevent self-contact
+    if (contactUserId === req.user?.id) {
+      return res.status(400).json({ 
+        error: "Cannot add yourself as a contact" 
+      });
+    }
+    
+    const contact = createContactForUser(req.user?.id!, contactUserId);
+    res.status(200).json({ contact });
+  }
+);
+```
+
+Questions to evaluate:
+1. Did Copilot add the validation in the right place?
+2. Is the error response format consistent with other endpoints?
+3. Were any edge cases missed?
+4. Did it add appropriate tests?
+
+---
+
+TASK 1.6: PROVIDE FEEDBACK TO COPILOT
+
+Goal: Iterate on Copilot's PR through comments.
+
+Steps:
+1. If changes are needed, leave a review comment
+
+2. @mention Copilot to request changes:
+
+Example feedback comments:
+
+For missing tests:
+```
+@copilot Please add a test case that verifies a 400 response 
+when a user tries to add themselves as a contact.
+```
+
+For style consistency:
+```
+@copilot The error response format should match other endpoints. 
+Please use { error: { message: "..." } } format instead.
+```
+
+For additional validation:
+```
+@copilot Also add a check to prevent duplicate contacts. 
+Return 409 Conflict if contact already exists.
+```
+
+3. Wait for Copilot to update the PR
+
+4. Re-review the changes
+
+Expected:
+- Copilot acknowledges the feedback
+- Makes requested changes
+- Pushes new commits to the PR
+
+---
+
+TASK 1.7: MERGE THE PR
+
+Goal: Complete the workflow by merging Copilot's changes.
+
+Steps:
+1. Ensure all checks pass:
+   - CI/CD pipeline (if configured)
+   - Code review approval
+   - No merge conflicts
+
+2. Merge the PR:
+
+Option A - Using GitHub MCP:
+```
+Merge pull request #<PR_NUMBER> using squash merge
+```
+
+Option B - Using GitHub Web:
+1. Click "Squash and merge" button
+2. Edit commit message if needed
+3. Confirm merge
+
+3. Verify the issue is closed:
+   - Issue should auto-close if PR description has "Closes #<issue>"
+   - Or manually close the issue
+
+---
+
+EXERCISE 1 SUMMARY
+
+Completed Workflow:
+1. ✅ Analyzed codebase to understand current state
+2. ✅ Created well-structured issue with clear acceptance criteria
+3. ✅ Assigned issue to Copilot
+4. ✅ Monitored Copilot's progress
+5. ✅ Reviewed the generated PR
+6. ✅ Provided feedback through @mentions
+7. ✅ Merged the final implementation
+
+---
+
+EXERCISE 2: BUG FIX TASK
+
+TASK 2.1: IDENTIFY A BUG TO FIX
+
+Goal: Create an issue for a bug that Copilot can fix.
+
+Context: The GET /contacts/:username endpoint returns contacts for any username
+without authentication - this could expose user relationship data.
+
+Issue Title:
+```
+Add authentication to GET /contacts/:username endpoint
+```
+
+Issue Description:
+```markdown
+## Bug Description
+The GET /contacts/:username endpoint is publicly accessible without authentication.
+This exposes user contact relationships to unauthenticated requests.
+
+## Steps to Reproduce
+1. Make GET request to /contacts/johndoe without auth token
+2. Observe that contacts are returned
+
+## Current Behavior
+- Endpoint returns contact list for any username
+- No authentication required
+- No authorization check
+
+## Expected Behavior
+- Endpoint should require authentication
+- Only the authenticated user should access their own contacts
+- Return 401 for unauthenticated requests
+- Return 403 if trying to access another user's contacts
+
+## Technical Details
+- File: `backend/contact-routes.ts`
+- Add `ensureAuthenticated` middleware
+- Add authorization check comparing username to req.user
+- Follow patterns from other protected endpoints (see user-routes.ts)
+
+## Acceptance Criteria
+- [ ] Add authentication middleware to GET /contacts/:username
+- [ ] Add authorization check - users can only view their own contacts
+- [ ] Return 401 for unauthenticated requests
+- [ ] Return 403 for unauthorized access to other users' contacts
+- [ ] Update or add tests for the new behavior
+```
+
+---
+
+TASK 2.2: CREATE AND ASSIGN THE BUG ISSUE
+
+Goal: Create the issue and assign to Copilot in one flow.
+
+Using Copilot Chat:
+
+Prompt:
+```
+Create a GitHub issue for a security bug and assign it to Copilot:
+
+Title: "Add authentication to GET /contacts/:username endpoint"
+
+Body:
+## Bug Description
+The GET /contacts/:username endpoint is publicly accessible without authentication.
+This exposes user contact relationships to unauthenticated requests.
+
+## Steps to Reproduce
+1. Make GET request to /contacts/johndoe without auth token
+2. Observe that contacts are returned
+
+## Current Behavior
+- Endpoint returns contact list for any username
+- No authentication required
+- No authorization check
+
+## Expected Behavior
+- Endpoint should require authentication
+- Only the authenticated user should access their own contacts
+- Return 401 for unauthenticated requests
+- Return 403 if trying to access another user's contacts
+
+## Technical Details
+- File: `backend/contact-routes.ts`
+- Add `ensureAuthenticated` middleware
+- Add authorization check comparing username to req.user
+- Follow patterns from other protected endpoints (see user-routes.ts)
+
+## Acceptance Criteria
+- [ ] Add authentication middleware to GET /contacts/:username
+- [ ] Add authorization check - users can only view their own contacts
+- [ ] Return 401 for unauthenticated requests
+- [ ] Return 403 for unauthorized access to other users' contacts
+- [ ] Update or add tests for the new behavior
+
+Labels: bug, security
+
+After creating the issue, assign Copilot to work on it.
+```
+
+Expected:
+- Issue created with proper labels
+- Copilot assigned and working on the fix
+
+---
+
+TASK 2.3: REVIEW THE SECURITY FIX
+
+Goal: Carefully review security-related changes from Copilot.
+
+Security Review Checklist:
+- [ ] Authentication middleware is applied correctly
+- [ ] Authorization logic prevents access to other users' data
+- [ ] Error responses don't leak sensitive information
+- [ ] No security regressions introduced
+- [ ] Edge cases are handled (null user, missing username)
+
+Expected Implementation Pattern:
+```typescript
+router.get(
+  "/:username",
+  ensureAuthenticated, // Added authentication
+  (req, res) => {
+    const { username } = req.params;
+    
+    // Authorization check
+    if (req.user?.username !== username) {
+      return res.status(403).json({ 
+        error: "Forbidden" 
+      });
+    }
+
+    const contacts = getContactsByUsername(username);
+    res.status(200).json({ contacts });
+  }
+);
+```
+
+Questions:
+1. Did Copilot correctly implement both authentication AND authorization?
+2. Are the error responses appropriate (not leaking info)?
+3. Did Copilot add tests for the security scenarios?
+
+---
+
+EXERCISE 2 SUMMARY
+
+Security Bug Fix Workflow:
+1. ✅ Identified security vulnerability
+2. ✅ Created detailed issue with security context
+3. ✅ Assigned to Copilot
+4. ✅ Performed security-focused review
+5. ✅ Verified both authn and authz implemented
+
+---
+
+EXERCISE 3: FEATURE IMPLEMENTATION
+
+TASK 3.1: PLAN A NEW FEATURE
+
+Goal: Create an issue for adding a new feature to the codebase.
+
+Feature: Add endpoint to get transaction statistics for a user
+
+Issue Title:
+```
+Add GET /transactions/stats endpoint for user statistics
+```
+
+Issue Description:
+```markdown
+## Feature Description
+Add a new endpoint that returns transaction statistics for the authenticated user,
+including total sent, received, and pending amounts.
+
+## API Specification
+
+**Endpoint:** GET /transactions/stats
+**Authentication:** Required
+
+**Response Format:**
+```json
+{
+  "stats": {
+    "totalSent": 15000,
+    "totalReceived": 22000,
+    "pendingRequests": 3,
+    "pendingAmount": 500,
+    "transactionCount": 45
+  }
+}
+```
+
+## Implementation Details
+
+1. Create route handler in `backend/transaction-routes.ts`
+2. Add helper function in `backend/database.ts`:
+   - `getTransactionStatsForUser(userId: string)`
+3. Calculate stats from existing transaction data:
+   - Sum amounts where user is sender (totalSent)
+   - Sum amounts where user is receiver (totalReceived)
+   - Count pending request transactions
+   - Sum amounts of pending transactions
+
+## Acceptance Criteria
+- [ ] New GET /transactions/stats endpoint
+- [ ] Returns accurate statistics for authenticated user
+- [ ] Uses existing transaction data structures
+- [ ] Add input validation
+- [ ] Add tests for the new endpoint
+- [ ] Follow existing code patterns and style
+
+## Technical Reference
+- See existing routes in `backend/transaction-routes.ts`
+- Transaction model in `src/models/transaction.ts`
+- Database functions pattern in `backend/database.ts`
+```
+
+---
+
+TASK 3.2: CREATE AND MONITOR THE FEATURE ISSUE
+
+Goal: Create the feature issue and track Copilot's implementation.
+
+Using Copilot Chat:
+
+Prompt:
+```
+Create a GitHub issue for a new feature:
+
+Title: "Add GET /transactions/stats endpoint for user statistics"
+
+Body:
+## Feature Description
+Add a new endpoint that returns transaction statistics for the authenticated user,
+including total sent, received, and pending amounts.
+
+## API Specification
+
+**Endpoint:** GET /transactions/stats
+**Authentication:** Required
+
+**Response Format:**
+{
+  "stats": {
+    "totalSent": 15000,
+    "totalReceived": 22000,
+    "pendingRequests": 3,
+    "pendingAmount": 500,
+    "transactionCount": 45
+  }
+}
+
+## Implementation Details
+
+1. Create route handler in backend/transaction-routes.ts
+2. Add helper function in backend/database.ts:
+   - getTransactionStatsForUser(userId: string)
+3. Calculate stats from existing transaction data:
+   - Sum amounts where user is sender (totalSent)
+   - Sum amounts where user is receiver (totalReceived)
+   - Count pending request transactions
+   - Sum amounts of pending transactions
+
+## Acceptance Criteria
+- [ ] New GET /transactions/stats endpoint
+- [ ] Returns accurate statistics for authenticated user
+- [ ] Uses existing transaction data structures
+- [ ] Add input validation
+- [ ] Add tests for the new endpoint
+- [ ] Follow existing code patterns and style
+
+## Technical Reference
+- See existing routes in backend/transaction-routes.ts
+- Transaction model in src/models/transaction.ts
+- Database functions pattern in backend/database.ts
+
+Labels: enhancement, feature
+```
+
+Then assign to Copilot:
+```
+Assign Copilot to the issue you just created
+```
+
+---
+
+TASK 3.3: REVIEW MULTI-FILE CHANGES
+
+Goal: Review Copilot's implementation spanning multiple files.
+
+Review Checklist:
+1. **Route file (transaction-routes.ts)**
+   - [ ] New route follows existing patterns
+   - [ ] Authentication middleware applied
+   - [ ] Response format matches specification
+
+2. **Database file (database.ts)**
+   - [ ] Helper function is efficient
+   - [ ] Correctly filters by user ID
+   - [ ] Handles edge cases (no transactions)
+
+3. **Types (if modified)**
+   - [ ] New types are properly defined
+   - [ ] Exported correctly
+
+4. **Tests**
+   - [ ] Test coverage for new endpoint
+   - [ ] Tests for edge cases
+
+Questions to ask in review:
+1. Is the aggregation logic correct?
+2. Are amounts in cents or dollars (consistency)?
+3. What happens if user has no transactions?
+4. Is the endpoint performant with large datasets?
+
+---
+
+EXERCISE 3 SUMMARY
+
+Feature Implementation Workflow:
+1. ✅ Planned feature with detailed specification
+2. ✅ Created comprehensive issue with API spec
+3. ✅ Assigned to Copilot
+4. ✅ Reviewed multi-file implementation
+5. ✅ Verified feature meets all acceptance criteria
+
+---
+
+BEST PRACTICES FOR COPILOT CODING AGENT
+
+Writing Effective Issues:
+
+DO:
+- Provide clear, specific descriptions
+- Include acceptance criteria as checkboxes
+- Reference specific files and functions
+- Show expected input/output formats
+- Mention related code patterns to follow
+- Add technical constraints and requirements
+
+DON'T:
+- Write vague "improve this" issues
+- Assume Copilot knows project conventions
+- Skip error handling requirements
+- Forget to mention test expectations
+- Leave out edge cases
+
+Issue Template for Copilot:
+```markdown
+## Description
+[What needs to be done and why]
+
+## Current Behavior
+[How it works now, or N/A for new features]
+
+## Expected Behavior
+[Detailed expected outcome]
+
+## Technical Details
+- Files to modify: [list files]
+- Functions to create/update: [list functions]
+- Patterns to follow: [reference existing code]
+
+## Acceptance Criteria
+- [ ] [Specific, measurable requirement 1]
+- [ ] [Specific, measurable requirement 2]
+- [ ] [Tests requirement]
+
+## Additional Context
+[Any other relevant information]
+```
+
+---
+
+REVIEWING COPILOT'S CODE
+
+Review Focus Areas:
+1. **Correctness** - Does it solve the problem?
+2. **Consistency** - Does it match project style?
+3. **Security** - No vulnerabilities introduced?
+4. **Tests** - Adequate test coverage?
+5. **Edge Cases** - Handles errors gracefully?
+
+Effective Feedback Patterns:
+
+Be specific:
+```
+@copilot The error response on line 45 should use the format 
+{ error: { message: "..." } } to match other endpoints.
+```
+
+Request additions:
+```
+@copilot Please also add a test case for when the 
+transaction amount is zero or negative.
+```
+
+Ask for explanation:
+```
+@copilot Can you explain why you chose to use 
+reduce() instead of a for loop here?
+```
+
+---
+
+TROUBLESHOOTING
+
+Copilot not starting on issue:
+- Verify Copilot Coding Agent is enabled in repo settings
+- Check issue is properly assigned to Copilot
+- Ensure issue has enough detail to act on
+- Try adding more context or acceptance criteria
+
+Copilot produces incorrect implementation:
+- Review issue description for clarity
+- Add more specific technical details
+- Reference existing code patterns explicitly
+- Break into smaller, simpler issues
+
+Copilot gets stuck or times out:
+- Issue may be too complex - break it down
+- Check for circular dependencies in requirements
+- Simplify acceptance criteria
+- Create sub-issues for complex features
+
+PR has conflicts:
+- Copilot's branch may be outdated
+- Comment asking Copilot to rebase
+- Or manually resolve conflicts
+
+---
+
+COMPARISON: MANUAL VS COPILOT CODING AGENT
+
+| Aspect              | Manual Implementation    | Copilot Coding Agent      |
+|---------------------|--------------------------|---------------------------|
+| Speed               | Varies by complexity     | Consistent 5-15 minutes   |
+| Code Quality        | Developer dependent      | Consistent, reviewable    |
+| Context Understanding| High                    | Based on issue quality    |
+| Iteration           | Interactive              | PR comment based          |
+| Complex Logic       | Developer judgment       | May need guidance         |
+| Best For            | Complex, novel problems  | Well-defined, scoped tasks|
+
+---
+
+WORKFLOW INTEGRATION
+
+Daily Development with Coding Agent:
+1. Morning: Create issues for planned work
+2. Assign straightforward tasks to Copilot
+3. Work on complex tasks manually
+4. Review Copilot PRs between focus sessions
+5. Merge approved PRs
+6. Create follow-up issues if needed
+
+Team Workflow:
+1. Backlog grooming: Identify "Copilot-friendly" issues
+2. Label issues with `copilot-candidate` 
+3. Assign to Copilot during sprint
+4. Human review all Copilot PRs
+5. Track Copilot completion rate for estimation
+
+---
+
+KEY LEARNINGS
+
+1. Issue Quality Determines Output
+   - Detailed issues get better implementations
+   - Acceptance criteria guide Copilot's work
+   - File references help scope the changes
+
+2. Copilot is a Team Member
+   - Assign issues like you would to a junior dev
+   - Review code with same rigor as human PRs
+   - Provide constructive feedback via @mentions
+
+3. Know When to Use It
+   - Great for well-defined, scoped tasks
+   - Not ideal for exploratory or complex work
+   - Perfect for bugs with clear reproduction steps
+
+4. Iterate Through Comments
+   - First attempt may not be perfect
+   - Use @copilot mentions for refinement
+   - Multiple rounds of feedback are normal
+
+5. Trust but Verify
+   - Always review generated code
+   - Run tests before merging
+   - Security-critical changes need extra scrutiny
+
+---
+
+NEXT STEPS
+
+After mastering Coding Agent:
+1. Create issue templates optimized for Copilot
+2. Build a backlog of "Copilot-ready" issues
+3. Experiment with different issue formats
+4. Track which types of issues work best
+5. Combine with Code Review (06_01) for full workflow
+
+Remember: Copilot Coding Agent is most effective when treated as an 
+autonomous collaborator, not a magic solution. Quality in = Quality out!
