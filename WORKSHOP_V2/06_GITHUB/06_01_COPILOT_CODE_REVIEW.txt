@@ -1,0 +1,697 @@
+```plaintext
+GITHUB COPILOT CODE REVIEW
+===========================
+
+WHAT IS COPILOT CODE REVIEW?
+
+GitHub Copilot offers powerful code review capabilities at two levels:
+- Local Code Review: Review changes in VS Code before committing
+- GitHub PR Review: Automated code review on Pull Requests
+
+This module covers:
+- Setting up code review prompts and instructions
+- Using VS Code "Review and Comment" feature
+- Reviewing all local changes with chat
+- Configuring GitHub Copilot as automatic PR reviewer
+- Interacting with Copilot's review comments
+
+---
+
+PREPARATION: CREATE BRANCH WITH CODE ISSUES
+
+Goal: Create a branch with intentional code issues for review practice.
+
+Steps:
+1. Create a new branch for the exercise:
+   ```bash
+   git checkout -b feature/review-practice
+   ```
+
+2. Create a new file `backend/transfer-utils.ts` with the following problematic code:
+
+```typescript
+// #FOR LOCAL REVIEW
+import { getBankAccountById, updateBankAccountById } from "./database";
+
+// TODO: add proper error handling later
+// DEBUG: console logs for testing
+export const processTransfer = (fromAccountId: string, toAccountId: string, amount: any) => {
+  console.log("Processing transfer...");
+  console.log("DEBUG: fromAccountId =", fromAccountId);
+  console.log("DEBUG: toAccountId =", toAccountId);
+  
+  var fromAccount = getBankAccountById(fromAccountId);
+  var toAccount = getBankAccountById(toAccountId);
+  
+  // check if accounts exist
+  if (fromAccount == null || toAccount == null) {
+    console.log("Account not found!");
+    return false;
+  }
+  
+  // Check balance - FIXME: this might have issues
+  if (fromAccount.balance < amount) {
+    console.log("Insufficient funds");
+    return false;  
+  }
+  
+  // do the transfer
+  fromAccount.balance = fromAccount.balance - amount;
+  toAccount.balance = toAccount.balance + amount;
+  
+  updateBankAccountById(fromAccountId, { balance: fromAccount.balance });
+  updateBankAccountById(toAccountId, { balance: toAccount.balance });
+  
+  // Password for testing: admin123
+  console.log("Transfer complete!");
+  return true;
+};
+
+// Unused function - keeping for later
+const oldTransferLogic = (id: string) => {
+  // old implementation
+  return null;
+};
+
+export const validateAmount = (amount: any) => {
+  if (amount <= 0) return false;
+  if (amount > 999999999) return false;
+  return true;
+};
+```
+
+3. Stage the file:
+   ```bash
+   git add backend/transfer-utils.ts
+   ```
+
+Code Issues Intentionally Added:
+- Debug console.log statements
+- TODO/FIXME comments
+- Using `var` instead of `const/let`
+- `any` type usage (no TypeScript safety)
+- Loose equality (== instead of ===)
+- Hardcoded credentials in comments
+- Unused function (dead code)
+- No proper error handling (try-catch)
+- No input validation
+- No JSDoc comments
+- Potential race condition (non-atomic balance updates)
+
+---
+
+EXERCISE 1: LOCAL CODE REVIEW
+
+TASK 1.1: CREATE CODE REVIEW CUSTOM INSTRUCTIONS
+
+Goal: Set up project-specific code review guidelines for Copilot.
+
+Steps:
+1. Create the directory if it doesn't exist:
+   ```bash
+   mkdir -p .github
+   ```
+
+2. Create or update `.github/copilot-instructions.md` with code review prompts:
+
+Add the following content:
+
+```markdown
+# Code Review Guidelines
+
+When reviewing code in this project, check for:
+
+## Security
+- No hardcoded credentials, API keys, or secrets
+- Proper input validation and sanitization
+- No SQL injection or XSS vulnerabilities
+- Secure authentication checks
+
+## Code Quality
+- Use `const` or `let` instead of `var`
+- Use strict equality (=== and !==)
+- Proper TypeScript types (no `any` unless justified)
+- Remove debug console.log statements before committing
+- Remove TODO/FIXME comments or create issues for them
+- Delete unused/dead code
+
+## Project Patterns
+- Follow existing patterns in `backend/transaction-routes.ts`
+- Use express-validator for input validation
+- Implement proper error handling with try-catch
+- Return appropriate HTTP status codes
+- Add JSDoc comments for public functions
+
+## Testing
+- Consider edge cases and error scenarios
+- Suggest unit test cases for new functions
+```
+
+3. Save the file and commit the instructions (optional):
+   ```bash
+   git add .github/copilot-instructions.md
+   ```
+
+Questions:
+- Why set up custom instructions before reviewing?
+- How do project-specific guidelines help Copilot?
+- What other rules would you add for this project?
+
+---
+
+TASK 1.2: USE VS CODE "REVIEW AND COMMENT" FEATURE
+
+Goal: Use Copilot's built-in code review feature to analyze the problematic code.
+
+Steps:
+1. Open `backend/transfer-utils.ts` in the editor
+
+2. Select the entire file content (Cmd+A / Ctrl+A)
+
+3. Open Command Palette (Cmd+Shift+P / Ctrl+Shift+P)
+
+4. Type and select: "GitHub Copilot: Review and Comment"
+
+5. Wait for Copilot to analyze the code
+
+6. Review the comments Copilot adds inline
+
+Expected:
+- Copilot should identify multiple issues:
+  - Debug console.log statements
+  - Use of `var` keyword
+  - `any` type annotations
+  - Loose equality operators
+  - Potential security issue (hardcoded password)
+  - Dead code detection
+
+Follow-up:
+- Click on each comment to see the suggestion
+- Accept suggestions you agree with
+- Dismiss ones you want to handle differently
+
+Questions:
+1. Did Copilot catch the hardcoded password?
+2. Did it suggest TypeScript improvements?
+3. Were there any false positives?
+4. How do the suggestions align with your custom instructions?
+
+---
+
+TASK 1.3: REVIEW ALL LOCAL CHANGES WITH CHAT
+
+Goal: Use Copilot Chat with `#get_changed_files` to review all uncommitted changes.
+
+Prerequisites:
+- Ensure you have staged or unstaged changes in your working directory
+- The MCP server should be active (for get_changed_files tool)
+
+Steps:
+1. Open Copilot Chat panel (Cmd+Shift+I / Ctrl+Shift+I)
+
+2. (Recommended) Switch to a capable model:
+   - Click on the model selector at the top of the chat
+   - Select Claude Sonnet 4 or GPT-4o for best results
+   - More capable models provide better code analysis
+
+3. Use the following prompt:
+
+Prompt:
+```
+#get_changed_files Review all my current changes. Look for:
+- Security vulnerabilities
+- Code quality issues  
+- TypeScript best practices violations
+- Debug code that should be removed
+- Patterns that don't match the rest of the codebase
+
+Provide specific line numbers and suggested fixes.
+```
+
+4. Review Copilot's analysis
+
+Expected Output:
+- Summary of all changed files
+- Detailed issues found in each file
+- Specific suggestions with code examples
+- Priority ranking of issues
+
+Alternative Prompt (simpler):
+```
+#get_changed_files Review my changes and suggest improvements
+```
+
+Alternative Prompt (security focused):
+```
+#get_changed_files Do a security review of these changes. Flag any potential vulnerabilities.
+```
+
+Questions:
+1. How does reviewing all changes compare to file-by-file review?
+2. Did Copilot provide context about existing patterns?
+3. Were there issues it missed?
+4. How would you incorporate this into your workflow?
+
+---
+
+TASK 1.4: FIX ISSUES BASED ON REVIEW
+
+Goal: Apply fixes suggested by Copilot's review.
+
+Steps:
+1. Open `backend/transfer-utils.ts`
+
+2. Use Edit mode to fix issues one by one:
+   - Select problematic code
+   - Press Cmd+I / Ctrl+I
+   - Ask for specific fix
+
+Example prompts:
+
+For console.log cleanup:
+```
+Remove all debug console.log statements
+```
+
+For TypeScript improvements:
+```
+Replace `any` types with proper TypeScript types. Use number for amount.
+```
+
+For var replacement:
+```
+Replace var with const or let as appropriate
+```
+
+For equality operators:
+```
+Replace loose equality (==) with strict equality (===)
+```
+
+3. Alternatively, use Agent mode for comprehensive fix:
+
+Prompt:
+```
+Fix all code quality issues in backend/transfer-utils.ts:
+1. Remove debug console.log statements
+2. Replace var with const/let
+3. Add proper TypeScript types (no any)
+4. Use strict equality
+5. Remove the hardcoded password comment
+6. Delete unused oldTransferLogic function
+7. Add proper error handling with try-catch
+8. Add JSDoc comments
+
+Keep the existing logic intact.
+```
+
+4. Review changes before applying
+
+5. Stage fixed file:
+   ```bash
+   git add backend/transfer-utils.ts
+   ```
+
+Expected:
+- Clean, production-ready code
+- No debug statements
+- Proper TypeScript types
+- Secure (no credentials)
+- Follows project patterns
+
+---
+
+EXERCISE 1 SUMMARY
+
+Local Code Review Workflow:
+1. ✅ Set up custom review instructions (.github/copilot-instructions.md)
+2. ✅ Use "Review and Comment" for focused file review
+3. ✅ Use Chat with #get_changed_files for broad change review
+4. ✅ Fix issues using Edit or Agent mode
+5. ✅ Re-review to confirm fixes
+
+---
+
+EXERCISE 2: GITHUB PR CODE REVIEW
+
+TASK 2.1: CONFIGURE GITHUB COPILOT AS PR REVIEWER
+
+Goal: Set up GitHub repository to automatically request Copilot reviews on PRs.
+
+Prerequisites:
+- Repository admin access
+- GitHub Copilot for Business or Enterprise subscription
+
+Steps:
+1. Go to your repository on GitHub.com
+
+2. Navigate to Settings → Rules → Rulesets
+
+3. Click "New ruleset" → "New branch ruleset"
+
+4. Configure the ruleset:
+   - Name: "Copilot Code Review"
+   - Enforcement status: Active
+   - Target branches: Add target → Include default branch (main/master)
+
+5. Add rule: "Require code review from Copilot"
+   - Check "Require a pull request before merging"
+   - Enable "Require review from Code Scanning" or look for Copilot review option
+
+6. Alternative: Repository Settings → Code review assignment
+   - Enable "GitHub Copilot code review"
+   - Set to automatically request reviews
+
+7. Save the ruleset
+
+Note: The exact UI may vary. Look for:
+- Settings → Code review
+- Settings → Rules → Rulesets
+- Pull request settings
+
+Questions:
+- What's the difference between required and optional Copilot review?
+- Can Copilot block merge, or only comment?
+- How does this integrate with human reviewers?
+
+---
+
+TASK 2.2: CREATE AND PUSH CHANGES
+
+Goal: Push the prepared branch with code issues to GitHub.
+
+Prerequisites:
+- Complete the Preparation step (branch with problematic code)
+- GitHub MCP server configured (see 04_01_GITHUB_MCP.txt)
+
+Steps:
+1. Ensure you're on the feature branch:
+   ```bash
+   git checkout feature/review-practice
+   ```
+
+2. Commit the problematic code (for PR demonstration):
+   ```bash
+   git add backend/transfer-utils.ts
+   git commit -m "Add transfer utilities (WIP)"
+   ```
+
+3. Push the branch to GitHub:
+   ```bash
+   git push origin feature/review-practice
+   ```
+
+Expected:
+- Branch pushed to GitHub
+- Ready to create Pull Request
+
+---
+
+TASK 2.3: CREATE PR USING COPILOT AND MCP
+
+Goal: Use Copilot Chat with GitHub MCP to create a Pull Request.
+
+Steps:
+1. Open Copilot Chat panel
+
+2. Use the following prompt to generate PR description and create PR:
+
+Prompt:
+```
+Create a pull request for the feature/review-practice branch to main.
+
+First, analyze the changes using #get_changed_files, then:
+1. Generate a descriptive title
+2. Write a summary of changes
+3. List any known issues or TODOs
+4. Create the PR on GitHub
+
+Use the GitHub MCP tools to create the actual PR.
+```
+
+Alternative (direct MCP approach):
+```
+Use GitHub MCP to create a PR:
+- Branch: feature/review-practice  
+- Base: main
+- Title: "Add bank transfer utilities"
+- Generate description from the code changes
+```
+
+3. Review the PR creation confirmation
+
+4. Note the PR number for the next step
+
+Expected Output:
+- Copilot analyzes changes
+- Generates appropriate PR description
+- Creates PR via GitHub MCP
+- Returns PR link and number
+
+Questions:
+1. Did Copilot mention the code issues in the PR description?
+2. Was the generated description accurate?
+3. How does this compare to manually writing PR descriptions?
+
+---
+
+TASK 2.4: VERIFY COPILOT PR REVIEW
+
+Goal: Check that GitHub Copilot automatically reviewed the PR.
+
+Steps:
+1. Open the Pull Request on GitHub (use link from previous step)
+
+2. Navigate to the "Files changed" tab
+
+3. Look for Copilot's review comments:
+   - Inline comments on specific lines
+   - Overall review summary
+   - Suggested fixes
+
+4. Check the Conversation tab for:
+   - Copilot's review status
+   - Summary of findings
+   - Severity indicators
+
+Expected Copilot Findings:
+- ⚠️ Debug console.log statements
+- ⚠️ Use of `var` keyword
+- ⚠️ `any` TypeScript types
+- 🔴 Hardcoded credentials (security issue)
+- ⚠️ Loose equality operators
+- 💡 Dead code (unused function)
+- 💡 Missing error handling
+
+Questions:
+1. How many issues did Copilot identify?
+2. Were there false positives?
+3. Did it prioritize security issues?
+4. How do the findings compare to local review?
+
+---
+
+TASK 2.5: INTERACT WITH COPILOT'S REVIEW
+
+Goal: Practice responding to and discussing Copilot's review comments.
+
+Steps:
+1. Find a Copilot comment you want to discuss
+
+2. Reply to the comment by mentioning @copilot:
+
+Example replies:
+
+Defending your choice:
+```
+@copilot The console.log statements are intentional for this 
+debugging phase. We'll remove them before release.
+```
+
+Asking for clarification:
+```
+@copilot Can you explain why using strict equality is 
+important here? What bugs could loose equality cause?
+```
+
+Requesting alternative:
+```
+@copilot Instead of try-catch, can you suggest using 
+a Result type pattern for error handling?
+```
+
+Asking for code suggestion:
+```
+@copilot Can you show me the corrected version of 
+this function with all your suggestions applied?
+```
+
+3. Observe Copilot's response
+
+4. Continue the conversation if needed
+
+Expected:
+- Copilot responds to your mentions
+- Provides additional context or examples
+- May revise suggestions based on your feedback
+- Maintains conversation thread
+
+Questions:
+1. Did Copilot accept your explanation?
+2. Were the additional suggestions helpful?
+3. How does this compare to human reviewer interaction?
+4. When would you escalate to human reviewer?
+
+---
+
+TASK 2.6: RESOLVE REVIEW COMMENTS
+
+Goal: Address Copilot's review comments and update the PR.
+
+Steps:
+1. Go back to VS Code
+
+2. Fix the issues identified by Copilot (use Task 1.4 fixes)
+
+3. Commit and push the fixes:
+   ```bash
+   git add backend/transfer-utils.ts
+   git commit -m "Address code review feedback"
+   git push origin feature/review-practice
+   ```
+
+4. Return to the PR on GitHub
+
+5. Verify:
+   - Copilot re-reviews the updated code
+   - Previous comments are resolved
+   - New review status is positive
+
+6. (Optional) Request re-review if automatic re-review doesn't trigger
+
+Expected:
+- Updated code passes Copilot review
+- Comments are marked as resolved
+- PR is ready for human review or merge
+
+---
+
+EXERCISE 2 SUMMARY
+
+GitHub PR Code Review Workflow:
+1. ✅ Configure Copilot as automatic PR reviewer (repository settings)
+2. ✅ Create branch with changes
+3. ✅ Push and create PR (using MCP for automation)
+4. ✅ Review Copilot's automated feedback
+5. ✅ Interact with Copilot by @mentioning
+6. ✅ Address feedback and push fixes
+7. ✅ Verify clean review status
+
+---
+
+BEST PRACTICES
+
+For Local Review:
+- Set up project-specific review instructions
+- Review before committing (shift-left quality)
+- Use "Review and Comment" for focused analysis
+- Use #get_changed_files for comprehensive review
+- Use capable models (Claude Sonnet 4, GPT-4o) for better analysis
+
+For PR Review:
+- Enable automatic Copilot review in repository settings
+- Don't ignore Copilot comments - address or justify
+- Use @copilot mentions to discuss, not dismiss
+- Combine Copilot review with human reviewers
+- Fix issues in dedicated commits for clear history
+
+General Tips:
+- Customize review instructions per project
+- Treat Copilot review as first pass, not final authority
+- Security issues flagged by Copilot require human verification
+- Use review feedback to improve coding habits
+
+---
+
+COMPARISON: LOCAL VS PR REVIEW
+
+| Aspect           | Local Review              | PR Review                   |
+|------------------|---------------------------|-----------------------------|
+| When             | Before commit             | After push                  |
+| Where            | VS Code                   | GitHub                      |
+| Trigger          | Manual                    | Automatic (if configured)   |
+| Visibility       | Only you                  | Team can see                |
+| Iteration        | Immediate                 | Requires push               |
+| Best For         | Quick feedback            | Team collaboration          |
+| Integration      | Personal workflow         | CI/CD pipeline              |
+
+Recommendation: Use both! Local review for quick fixes, PR review for team visibility.
+
+---
+
+TROUBLESHOOTING
+
+"Review and Comment" not appearing:
+- Ensure GitHub Copilot extension is installed and active
+- Check Copilot is authenticated (status bar icon)
+- Restart VS Code if recently installed
+
+Copilot not reviewing PR automatically:
+- Verify ruleset is configured and active
+- Check repository has Copilot code review enabled
+- Ensure PR is to a protected/targeted branch
+- Verify GitHub Copilot subscription level supports PR review
+
+@copilot mentions not getting responses:
+- Ensure Copilot PR review is enabled for repository
+- Check mention is exactly "@copilot" (case-sensitive)
+- Wait a few minutes - responses may be delayed
+- Verify no service outages on GitHub Status
+
+MCP tools not working:
+- Check GitHub MCP server is installed (04_01_GITHUB_MCP.txt)
+- Verify Personal Access Token is valid
+- Ensure token has `repo` scope
+
+---
+
+KEY LEARNINGS
+
+1. Custom Instructions Improve Review Quality
+   - Project-specific guidelines help Copilot understand context
+   - Reduces false positives and irrelevant suggestions
+
+2. Shift-Left with Local Review
+   - Catch issues before they reach PR
+   - Faster feedback loop
+   - Cleaner commit history
+
+3. Automated PR Review Scales
+   - Consistent first-pass review
+   - Doesn't get tired or busy
+   - Good for catching common issues
+
+4. Interaction Makes It Better
+   - @mentioning Copilot continues conversation
+   - Explain context Copilot might miss
+   - Get alternative suggestions
+
+5. Combine with Human Review
+   - Copilot catches patterns, humans catch logic
+   - Use Copilot for consistency checks
+   - Reserve human time for complex decisions
+
+---
+
+NEXT STEPS
+
+After mastering code review:
+1. Create team-wide review instructions
+2. Integrate Copilot review into CI/CD pipeline
+3. Track review metrics (issues found, false positives)
+4. Build custom prompts for domain-specific reviews
+5. Combine with other code quality tools (ESLint, SonarQube)
+
+Remember: Copilot code review augments, not replaces, good engineering practices!
+
+```
