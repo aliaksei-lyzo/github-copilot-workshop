@@ -34,9 +34,19 @@ This workshop demonstrates how GitHub Copilot can assist developers in:
 6. Start the application: `yarn start`
 7. Run tests: `yarn test`
 
-### WORKSHOP
-Check the documents in WORKSHOP folder and follow them.
-Set up copilot to exclude files from this folder.
+### Workshop Instructions
+
+**Open the workshop website to get started:**
+
+1. Navigate to `WORKSHOP_V2/workshop-site/` folder
+2. Open `index.html` in your browser (or use Live Server extension in VS Code)
+3. Follow the modules in order, starting with "Project Setup"
+
+The workshop website features:
+- 📝 Step-by-step interactive tasks
+- ✅ Progress tracking with checkboxes (your progress is saved!)
+- 💡 Hidden hints and prompts (try solving tasks yourself first!)
+- 📖 Best practices and tips for each topic
 
 ## Resources
 
