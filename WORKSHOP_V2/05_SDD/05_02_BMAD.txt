@@ -1,0 +1,697 @@
+```plaintext
+BMAD METHOD: AI-DRIVEN AGILE DEVELOPMENT
+=========================================
+
+WHAT IS BMAD METHOD?
+
+BMAD (Build More, Architect Dreams) is an AI-driven agile development framework
+that uses specialized AI agents and guided workflows. Unlike generic AI coding
+assistants, BMAD provides:
+
+- 19 specialized agents (PM, Architect, Developer, UX Designer, etc.)
+- 50+ guided workflows across 4 development phases
+- Scale-adaptive intelligence (bug fixes to enterprise platforms)
+- Complete development lifecycle support
+
+Key Philosophy:
+- Structured agile workflows with AI amplification
+- Specialized expertise through domain-specific agents
+- Phase-based methodology: Analysis → Planning → Solutioning → Implementation
+- Fresh chats for each workflow to avoid hallucinations
+
+---
+
+PREREQUISITES
+
+Before starting:
+1. Node.js 18+ installed
+2. VS Code with GitHub Copilot extension
+3. Git installed
+4. This workshop project cloned
+
+---
+
+TASK 1: INSTALL BMAD METHOD
+
+Goal: Install the BMAD Method CLI and set up your project.
+
+Steps:
+
+1. Open terminal in VS Code (Ctrl+` or Cmd+`)
+
+2. Navigate to project root:
+   ```bash
+   cd /path/to/github-copilot-workshop
+   ```
+
+3. Install BMAD Method (v6 Alpha - current recommended version):
+   ```bash
+   npx bmad-method@alpha install
+   ```
+
+4. During installation, you'll be prompted for:
+   - Installation directory (default: current directory)
+   - Modules to install (select BMad Method - BMM)
+   - IDE selection (select GitHub Copilot)
+   - VS Code settings configuration (use recommended defaults)
+
+5. Verify installation - check for new folders:
+   - .bmad/ folder with configuration
+   - .github/agents/ folder with BMAD agents
+   - .vscode/settings.json updates
+
+Expected Output:
+- Multiple agents installed in .github/agents/
+- VS Code settings configured for GitHub Copilot
+- Confirmation message: "✓ GitHub Copilot configured"
+
+Troubleshooting:
+- If npm errors: Ensure Node.js 18+ is installed
+- If permission errors: Try with sudo (macOS/Linux)
+
+---
+
+TASK 2: UNDERSTAND BMAD AGENTS
+
+Goal: Learn about the specialized AI agents available in BMAD.
+
+Core Agents:
+
+| Agent       | Role                                  | When to Use                    |
+|-------------|---------------------------------------|--------------------------------|
+| Analyst     | Initializes workflows, tracks status  | Starting new projects          |
+| PM          | Creates requirements & specifications | PRD, tech specs, epics         |
+| Architect   | Designs system architecture           | Technical planning             |
+| UX-Designer | Creates UX specifications             | UI/UX design                   |
+| SM          | Scrum Master - manages sprints        | Story creation, sprint planning|
+| DEV         | Implements code, reviews work         | Actual implementation          |
+
+Action:
+1. Open Copilot Chat in VS Code (Ctrl+Shift+I or Cmd+Shift+I)
+2. Click on the agent selector (top of chat panel)
+3. Look for BMAD agents (prefixed with "bmd-")
+4. Select "bmd-custom-bmm-analyst" to activate the Analyst
+
+Expected:
+- Agent menu appears with available workflows
+- Agent greets you and shows options
+
+Questions to Consider:
+- Why use specialized agents instead of generic AI?
+- How do agents handoff work to each other?
+- When would you switch between agents?
+
+---
+
+TASK 3: UNDERSTAND THE USER STORY
+
+Goal: Familiarize yourself with the feature we'll build using BMAD.
+
+User Story:
+
+"As a user of the Real World App, I want to see a transaction insights 
+dashboard that shows spending patterns over time, so that I can understand 
+my financial habits better.
+
+The dashboard should include:
+- Monthly spending breakdown by category
+- Week-over-week spending comparison chart
+- Average transaction amount trends
+- Most frequent transaction contacts
+- Interactive date range filter
+
+The dashboard should:
+- Load quickly with cached data
+- Update in real-time when new transactions occur
+- Be accessible from the main navigation
+- Work on both desktop and mobile views"
+
+Technical Context:
+- Backend: Express.js with TypeScript
+- Database: JSON-based (lowdb)
+- Frontend: React with Material-UI
+- Existing patterns: See backend/transaction-routes.ts, src/components/
+
+Action:
+1. Read the user story carefully
+2. Identify complexity level (Quick Flow vs BMad Method track)
+3. List the main components needed
+
+---
+
+TASK 4: INITIALIZE BMAD WORKFLOW
+
+Goal: Set up BMAD tracking for your project and determine the right workflow track.
+
+Context: BMAD adapts to project complexity with three tracks:
+- Quick Flow: Bug fixes, small features (< 15 stories typically)
+- BMad Method: Products, platforms, complex features (10-50+ stories)
+- Enterprise Method: Compliance, scale, governance (30+ stories)
+
+Action:
+1. Activate the Analyst agent in Copilot Chat
+2. Run workflow initialization:
+
+Prompt (select agent, then type):
+```
+*workflow-init
+```
+
+Or say naturally:
+```
+Run workflow-init - I want to build a transaction insights dashboard 
+for an existing React/Express application. This is a new feature that 
+adds spending analytics with charts, filters, and real-time updates.
+```
+
+3. Answer the agent's questions about:
+   - Project goals and scope
+   - Whether this is new code or existing codebase
+   - Estimated complexity
+
+Expected Output:
+- Agent recommends a track (likely BMad Method for this feature)
+- File created: docs/bmm-workflow-status.yaml
+- Clear next steps provided
+
+Questions:
+- Why did the agent recommend this track?
+- What happens if you want to change tracks later?
+- How does workflow-status.yaml help track progress?
+
+---
+
+TASK 5: CHECK WORKFLOW STATUS
+
+Goal: Learn how to check your progress and determine next steps.
+
+Action:
+1. Start a fresh chat with any BMAD agent
+2. Ask for workflow status:
+
+Prompt:
+```
+workflow-status
+```
+
+Expected Output:
+```
+Phase 1 (Analysis) is entirely optional. All workflows are optional or recommended:
+  - brainstorm-project - optional
+  - research - optional  
+  - product-brief - RECOMMENDED (but not required)
+
+The next TRULY REQUIRED step is:
+  - PRD (Product Requirements Document) in Phase 2 - Planning
+  - Agent: pm
+  - Command: prd
+```
+
+Key Insight:
+- Phase 1 (Analysis) is optional but helpful
+- Phase 2 (Planning) is required - you need a PRD or tech-spec
+- Always check status when unsure what to do next
+
+---
+
+TASK 6: CREATE PRODUCT BRIEF (OPTIONAL - PHASE 1)
+
+Goal: Create a product brief to clarify requirements before detailed planning.
+
+Context: Product briefs help clarify vision before creating detailed PRDs.
+This is optional but recommended for complex features.
+
+Action:
+1. Start a FRESH chat (important!)
+2. Activate the Analyst agent
+3. Run the product brief workflow:
+
+Prompt:
+```
+*product-brief
+
+Create a product brief for a Transaction Insights Dashboard feature.
+The dashboard should help users understand their spending patterns through
+visualizations, trends, and filters. Target users are existing app users
+who want to track their finances better.
+```
+
+4. Answer the agent's questions about:
+   - Target users and their needs
+   - Success metrics
+   - Constraints and considerations
+
+Expected Output:
+- File created: docs/product-brief.md
+- Clear product vision documented
+- Ready for detailed planning
+
+---
+
+TASK 7: CREATE PRD (REQUIRED - PHASE 2)
+
+Goal: Create a Product Requirements Document with detailed specifications.
+
+⚠️ IMPORTANT: Always start a FRESH chat for each workflow!
+
+Action:
+1. Start a NEW chat session
+2. Activate the PM agent (select bmd-custom-bmm-pm)
+3. Run the PRD workflow:
+
+Prompt:
+```
+*prd
+
+Create a PRD for the Transaction Insights Dashboard. This is a new feature
+for an existing React/Express/TypeScript application that uses lowdb for 
+data storage. 
+
+Key requirements:
+- Monthly spending breakdown with charts
+- Week-over-week comparison
+- Average transaction trends
+- Frequent contacts display
+- Date range filtering
+- Real-time updates when new transactions occur
+- Mobile-responsive design
+- Fast loading with data caching
+
+Reference existing patterns in backend/transaction-routes.ts and 
+src/components/ for consistency.
+```
+
+4. Work with the agent through the PRD creation process
+
+Expected Output:
+- File created: docs/PRD.md containing:
+  - Functional Requirements (FRs)
+  - Non-Functional Requirements (NFRs)
+  - User stories with acceptance criteria
+  - Constraints and assumptions
+
+Review the PRD:
+1. Check that all dashboard features are covered
+2. Verify technical constraints match the project
+3. Note any gaps or unclear requirements
+
+---
+
+TASK 8: CREATE UX DESIGN (OPTIONAL - PHASE 2)
+
+Goal: Create UX specifications for the dashboard interface.
+
+Context: Since our feature has significant UI components, UX design helps
+ensure a good user experience.
+
+Action:
+1. Start a FRESH chat
+2. Activate the UX-Designer agent (bmd-custom-bmm-ux-designer)
+3. Run the UX workflow:
+
+Prompt:
+```
+*ux
+
+Design the UX for the Transaction Insights Dashboard based on the PRD.
+The app uses Material-UI components. Design should include:
+- Dashboard layout with chart placements
+- Filter controls and interactions
+- Mobile-responsive considerations
+- Loading states and error handling
+- Data visualization approach
+
+Reference existing components in src/components/ for styling consistency.
+```
+
+Expected Output:
+- UX specification document with:
+  - Wireframes or layout descriptions
+  - Component hierarchy
+  - Interaction patterns
+  - Accessibility considerations
+
+---
+
+TASK 9: CREATE ARCHITECTURE (PHASE 3)
+
+Goal: Design the technical architecture for the feature.
+
+⚠️ For BMad Method track, architecture is REQUIRED before implementation.
+
+Action:
+1. Start a FRESH chat
+2. Activate the Architect agent (bmd-custom-bmm-architect)
+3. Run the architecture workflow:
+
+Prompt:
+```
+*create-architecture
+
+Design the architecture for the Transaction Insights Dashboard.
+
+Tech Stack Context:
+- Backend: Express.js with TypeScript (see backend/app.ts)
+- Database: lowdb JSON database (see backend/database.ts)
+- Frontend: React with Material-UI
+- Existing patterns: backend/transaction-routes.ts, src/components/
+
+Architecture should address:
+- New API endpoints for analytics data
+- Data aggregation and caching strategy
+- Chart library selection (consider recharts or chart.js)
+- Real-time update mechanism
+- State management approach
+- Component structure
+```
+
+Expected Output:
+- Architecture document with:
+  - System design decisions
+  - API endpoint specifications
+  - Data flow diagrams
+  - Technology choices with rationale
+  - Implementation patterns
+
+Review Architecture:
+1. Verify compatibility with existing codebase
+2. Check that patterns match project conventions
+3. Note any dependencies to install
+
+---
+
+TASK 10: CREATE EPICS AND STORIES (PHASE 3)
+
+Goal: Break down the PRD into implementable epics and stories.
+
+Context: V6 creates epics AFTER architecture for technically-informed stories.
+
+Action:
+1. Start a FRESH chat
+2. Activate the PM agent
+3. Run the epics workflow:
+
+Prompt:
+```
+*create-epics-and-stories
+```
+
+The agent will:
+- Read your PRD and Architecture documents
+- Create epics grouping related functionality
+- Generate user stories with acceptance criteria
+- Sequence stories based on dependencies
+
+Expected Output:
+- Epic breakdown (example):
+  - Epic 1: Analytics API Layer
+  - Epic 2: Data Aggregation Service
+  - Epic 3: Dashboard UI Components
+  - Epic 4: Real-time Updates
+  - Epic 5: Testing and Polish
+
+- Each epic contains:
+  - Multiple user stories
+  - Acceptance criteria
+  - Priority and dependencies
+
+---
+
+TASK 11: IMPLEMENTATION READINESS CHECK (PHASE 3)
+
+Goal: Validate all planning documents are coherent and complete.
+
+Action:
+1. Start a FRESH chat
+2. Activate the Architect agent
+3. Run the readiness check:
+
+Prompt:
+```
+*implementation-readiness
+```
+
+Expected Output:
+- Validation report checking:
+  - PRD ↔ Architecture alignment
+  - Architecture ↔ Epics coverage
+  - Story completeness
+  - Missing dependencies
+  - Risk areas
+
+Address Issues:
+- If gaps found, update relevant documents
+- Re-run check after fixes
+
+---
+
+TASK 12: INITIALIZE SPRINT PLANNING (PHASE 4)
+
+Goal: Set up sprint tracking for implementation.
+
+Action:
+1. Start a FRESH chat
+2. Activate the SM (Scrum Master) agent (bmd-custom-bmm-sm)
+3. Run sprint planning:
+
+Prompt:
+```
+*sprint-planning
+```
+
+Expected Output:
+- File created: sprint-status.yaml
+- All epics and stories tracked
+- Ready to start implementation
+
+---
+
+TASK 13: CREATE AND IMPLEMENT FIRST STORY
+
+Goal: Draft and implement the first user story.
+
+Step 1 - Create Story (SM Agent):
+1. Start a FRESH chat
+2. Activate the SM agent
+3. Run create-story workflow:
+
+Prompt:
+```
+*create-story
+```
+
+The agent will:
+- Select the next story from the backlog
+- Create a detailed story file with:
+  - Acceptance criteria
+  - Technical approach
+  - Test scenarios
+
+Step 2 - Implement Story (DEV Agent):
+1. Start a FRESH chat
+2. Activate the DEV agent (bmd-custom-bmm-dev)
+3. Run dev-story workflow:
+
+Prompt:
+```
+*dev-story
+```
+
+The DEV agent will:
+- Read the story file
+- Implement the code following architecture
+- Update sprint status
+- Report completion
+
+Step 3 - Code Review (Optional but Recommended):
+1. Start a FRESH chat
+2. Activate the DEV agent
+3. Run code-review workflow:
+
+Prompt:
+```
+*code-review
+```
+
+---
+
+TASK 14: CONTINUE IMPLEMENTATION
+
+Goal: Implement remaining stories following the same pattern.
+
+For Each Story, Repeat:
+1. NEW chat → SM agent → "*create-story"
+2. NEW chat → DEV agent → "*dev-story"
+3. NEW chat → DEV agent → "*code-review" (optional)
+
+After Completing an Epic:
+1. Start a FRESH chat with SM agent
+2. Run retrospective:
+
+Prompt:
+```
+*retrospective
+```
+
+Monitor Progress:
+- Check sprint-status.yaml for tracking
+- Use workflow-status anytime to see next steps
+
+---
+
+QUICK FLOW ALTERNATIVE
+
+For smaller tasks (bug fixes, simple features), use Quick Flow:
+
+1. Start with Analyst agent
+2. Run workflow-init and select Quick Flow track
+3. Create tech-spec instead of full PRD:
+
+Prompt:
+```
+*tech-spec
+
+Fix a bug where transaction list doesn't update after creating new transaction.
+The issue is in the React state not refreshing after POST to /transactions.
+Solution should trigger re-fetch or use optimistic updates.
+```
+
+4. Implement directly with DEV agent
+
+Quick Flow is 3 steps: tech-spec → dev → optional review
+
+---
+
+WORKFLOW SUMMARY
+
+Complete BMAD Method Workflow:
+
+Phase 1 - Analysis (Optional):
+- workflow-init → Set up tracking
+- brainstorm-project → Explore ideas
+- product-brief → Clarify vision
+
+Phase 2 - Planning (Required):
+- prd → Create requirements (or tech-spec for Quick Flow)
+- ux → Design user experience (if UI involved)
+
+Phase 3 - Solutioning (Required for BMad Method/Enterprise):
+- create-architecture → Design system
+- create-epics-and-stories → Break down work
+- implementation-readiness → Validate plans
+
+Phase 4 - Implementation (Required):
+- sprint-planning → Set up tracking
+- create-story → Draft next story
+- dev-story → Implement code
+- code-review → Quality check
+- retrospective → Epic completion review
+
+---
+
+KEY LEARNINGS
+
+1. Fresh Chats for Each Workflow
+   - Prevents context pollution and hallucinations
+   - Maximum context capacity for complex work
+
+2. Specialized Agents = Better Results
+   - Each agent has deep domain expertise
+   - Let PM do requirements, Architect do design, etc.
+
+3. Track Matters
+   - Quick Flow for small tasks
+   - BMad Method for features/products
+   - Enterprise for compliance/scale
+
+4. Tracking is Automatic
+   - workflow-status.yaml and sprint-status.yaml
+   - Agents update these as you work
+
+5. Flexible Command Input
+   - Use shorthand: *prd
+   - Use menu numbers
+   - Use natural language: "Let's create a PRD"
+
+---
+
+COMMON COMMANDS REFERENCE
+
+Workflow Commands:
+- *workflow-init → Initialize project tracking
+- *workflow-status → Check current progress
+- *prd → Create Product Requirements Document
+- *tech-spec → Create technical specification (Quick Flow)
+- *create-architecture → Design system architecture
+- *create-epics-and-stories → Generate implementation breakdown
+- *implementation-readiness → Validate planning documents
+
+Implementation Commands:
+- *sprint-planning → Initialize sprint tracking
+- *create-story → Draft next user story
+- *dev-story → Implement current story
+- *code-review → Review implemented code
+- *retrospective → Complete epic review
+
+Utility Commands:
+- *correct-course → Handle scope changes
+- *brainstorm-project → Explore ideas
+- *research → Research technologies
+
+---
+
+TROUBLESHOOTING
+
+"Agent not showing workflows"
+→ Ensure you selected the right BMAD agent
+→ Wait for agent menu to appear after selection
+→ Re-install with: npx bmad-method@alpha install
+
+"Hallucinations in responses"
+→ Always use FRESH chats for each workflow
+→ Don't chain multiple workflows in one chat
+
+"Workflow-status shows wrong phase"
+→ Check bmm-workflow-status.yaml exists
+→ Re-run workflow-init if corrupted
+
+"Stories not tracking properly"
+→ Verify sprint-status.yaml exists
+→ Run sprint-planning to reinitialize
+
+---
+
+ADDITIONAL RESOURCES
+
+- BMAD GitHub: https://github.com/bmad-code-org/BMAD-METHOD
+- Quick Start Guide: https://github.com/bmad-code-org/BMAD-METHOD/blob/main/src/modules/bmm/docs/quick-start.md
+- Documentation Hub: https://github.com/bmad-code-org/BMAD-METHOD/blob/main/src/modules/bmm/docs/README.md
+- Discord Community: https://discord.gg/gk8jAdXWmj
+- YouTube Channel: https://www.youtube.com/@BMadCode
+
+---
+
+COMPARISON: BMAD vs SPEC KIT
+
+| Aspect           | BMAD Method               | Spec Kit                    |
+|------------------|---------------------------|-----------------------------|
+| Approach         | Agile with AI agents      | Specification-first         |
+| Agents           | 19 specialized personas   | Single AI assistant         |
+| Workflow         | Phase-based (4 phases)    | Command-based (/speckit.*)  |
+| Best For         | Team-style development    | Solo/focused development    |
+| Tracking         | YAML status files         | Git branches + spec folders |
+| Installation     | npx bmad-method@alpha     | uvx specify                 |
+
+Choose BMAD when:
+- You want AI "team members" with specific roles
+- Following agile/scrum methodology
+- Complex projects with multiple concerns
+
+Choose Spec Kit when:
+- You prefer specification-first approach
+- Simpler workflow with clear phases
+- Focused single-feature development
+
+Both can be effective - choose based on your preferred working style!
+
+```
