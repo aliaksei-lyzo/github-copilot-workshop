@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GitHub Copilot Workshop</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="layout">
+    <!-- Sidebar Navigation -->
+    <nav class="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo">
+          <svg viewBox="0 0 16 16" fill="currentColor">
+            <path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"/>
+          </svg>
+          Copilot Workshop
+        </div>
+      </div>
+      
+      <div class="nav-section">
+        <div class="nav-section-title">Getting Started</div>
+        <ul class="nav-list">
+          <li class="nav-item active"><a href="index.html">Welcome</a></li>
+          <li class="nav-item"><a href="00-setup.html">0.1 Project Setup</a></li>
+        </ul>
+      </div>
+      
+      <div class="nav-section">
+        <div class="nav-section-title">01 - Basic Usage</div>
+        <ul class="nav-list">
+          <li class="nav-item"><a href="01-01-basic-usage.html">1.1 Basic Usage</a></li>
+          <li class="nav-item"><a href="01-02-chat-participants.html">1.2 Chat Participants</a></li>
+        </ul>
+      </div>
+      
+      <div class="nav-section">
+        <div class="nav-section-title">02 - Context Engineering</div>
+        <ul class="nav-list">
+          <li class="nav-item"><a href="02-01-custom-instructions.html">2.1 Custom Instructions</a></li>
+          <li class="nav-item"><a href="02-02-mcp.html">2.2 MCP (Context7)</a></li>
+        </ul>
+      </div>
+      
+      <div class="nav-section">
+        <div class="nav-section-title">03 - Daily Development</div>
+        <ul class="nav-list">
+          <li class="nav-item"><a href="03-01-chat-modes.html">3.1 Chat Modes</a></li>
+          <li class="nav-item"><a href="03-02-tasks.html">3.2 Mode Selection</a></li>
+          <li class="nav-item"><a href="03-03-bug-fixing.html">3.3 Bug Fixing</a></li>
+          <li class="nav-item"><a href="03-04-unit-tests.html">3.4 Unit Tests</a></li>
+          <li class="nav-item"><a href="03-05-custom-prompts.html">3.5 Prompt Files</a></li>
+          <li class="nav-item"><a href="03-06-awesome-copilot.html">3.6 Awesome Copilot</a></li>
+        </ul>
+      </div>
+      
+      <div class="nav-section">
+        <div class="nav-section-title">04 - MCP Servers</div>
+        <ul class="nav-list">
+          <li class="nav-item"><a href="04-01-github-mcp.html">4.1 GitHub MCP</a></li>
+          <li class="nav-item"><a href="04-02-docs.html">4.2 Documentation</a></li>
+          <li class="nav-item"><a href="04-04-playwright.html">4.3 Playwright</a></li>
+          <li class="nav-item"><a href="04-05-chrome-devtools.html">4.4 Chrome DevTools</a></li>
+          <li class="nav-item"><a href="04-06-exploratory.html">4.5 Exploratory Testing</a></li>
+        </ul>
+      </div>
+      
+      <div class="nav-section">
+        <div class="nav-section-title">05 - SDD Methods</div>
+        <ul class="nav-list">
+          <li class="nav-item"><a href="05-01-spec-kit.html">5.1 Spec Kit</a></li>
+          <li class="nav-item"><a href="05-02-bmad.html">5.2 BMAD Method</a></li>
+        </ul>
+      </div>
+      
+      <div class="nav-section">
+        <div class="nav-section-title">06 - GitHub Features</div>
+        <ul class="nav-list">
+          <li class="nav-item"><a href="06-01-code-review.html">6.1 Code Review</a></li>
+          <li class="nav-item"><a href="06-02-autocode.html">6.2 Coding Agent</a></li>
+          <li class="nav-item"><a href="06-03-copilot-cli.html">6.3 Copilot CLI</a></li>
+        </ul>
+      </div>
+    </nav>
+    
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="hero">
+        <div class="hero-icon">🚀</div>
+        <h1>GitHub Copilot Workshop</h1>
+        <p>Master AI-powered development with hands-on exercises covering everything from basic usage to advanced specification-driven development.</p>
+      </div>
+      
+      <h2 class="section-header">Workshop Modules</h2>
+      
+      <div class="module-grid">
+        <div class="module-card">
+          <div class="module-card-header">
+            <div class="module-icon basic">📝</div>
+            <h3>01 - Basic Usage</h3>
+          </div>
+          <p>Learn code suggestions, inline chat, Ask/Edit/Agent modes, and chat participants like @workspace and @terminal.</p>
+          <a href="01-01-basic-usage.html">Start learning →</a>
+        </div>
+        
+        <div class="module-card">
+          <div class="module-card-header">
+            <div class="module-icon context">⚙️</div>
+            <h3>02 - Context Engineering</h3>
+          </div>
+          <p>Configure custom instructions and MCP servers to enhance Copilot's understanding of your project.</p>
+          <a href="02-01-custom-instructions.html">Start learning →</a>
+        </div>
+        
+        <div class="module-card">
+          <div class="module-card-header">
+            <div class="module-icon daily">💼</div>
+            <h3>03 - Daily Development</h3>
+          </div>
+          <p>Apply Copilot to real tasks: mode selection, bug fixing, unit tests, and reusable prompt files.</p>
+          <a href="03-01-chat-modes.html">Start learning →</a>
+        </div>
+        
+        <div class="module-card">
+          <div class="module-card-header">
+            <div class="module-icon mcp">🔌</div>
+            <h3>04 - MCP Servers</h3>
+          </div>
+          <p>Extend Copilot with GitHub, Playwright, Chrome DevTools, and documentation MCP servers.</p>
+          <a href="04-01-github-mcp.html">Start learning →</a>
+        </div>
+        
+        <div class="module-card">
+          <div class="module-card-header">
+            <div class="module-icon sdd">📐</div>
+            <h3>05 - SDD Methods</h3>
+          </div>
+          <p>Learn specification-driven development with Spec Kit and BMAD Method for structured AI workflows.</p>
+          <a href="05-01-spec-kit.html">Start learning →</a>
+        </div>
+        
+        <div class="module-card">
+          <div class="module-card-header">
+            <div class="module-icon github">🐙</div>
+            <h3>06 - GitHub Features</h3>
+          </div>
+          <p>Master Copilot Code Review, Coding Agent for issues, and the new Copilot CLI.</p>
+          <a href="06-01-code-review.html">Start learning →</a>
+        </div>
+      </div>
+      
+      <div class="key-points">
+        <h2>💡 How to Use This Workshop</h2>
+        <ul>
+          <li><strong>Try prompts yourself first!</strong> Each task has hidden hints and suggested prompts - try to solve it on your own before revealing them.</li>
+          <li><strong>Work through exercises in order</strong> - each module builds on concepts from previous ones.</li>
+          <li><strong>Experiment and iterate</strong> - AI responses vary, so don't expect identical results. Learn from the differences!</li>
+          <li><strong>Check your understanding</strong> - answer the reflection questions at the end of each task.</li>
+          <li><strong>Use the project codebase</strong> - exercises reference files in the Real World App project.</li>
+        </ul>
+      </div>
+      
+      <div class="info-box tip">
+        <span class="info-box-icon">💡</span>
+        <div>
+          <strong>Pro Tip:</strong> Keep VS Code open alongside this workshop. You'll be switching between reading tasks and trying them in your editor.
+        </div>
+      </div>
+      
+      <div class="page-nav">
+        <div></div>
+        <a href="01-01-basic-usage.html" class="page-nav-link next">
+          <span class="page-nav-label">Next Module</span>
+          <span class="page-nav-title">Basic Usage</span>
+        </a>
+      </div>
+    </main>
+  </div>
+  
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Playwright MCP - GitHub Copilot Workshop</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="layout">
+    <!-- Sidebar Navigation -->
+    <nav class="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo">
+          <svg viewBox="0 0 16 16" fill="currentColor">
+            <path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"/>
+          </svg>
+          Copilot Workshop
+        </div>
+      </div>
+      
+      <div class="nav-section">
+        <div class="nav-section-title">Getting Started</div>
+        <ul class="nav-list">
+          <li class="nav-item"><a href="index.html">Welcome</a></li>
+          <li class="nav-item"><a href="00-setup.html">0.1 Project Setup</a></li>
+        </ul>
+      </div>
+      
+      <div class="nav-section">
+        <div class="nav-section-title">01 - Basic Usage</div>
+        <ul class="nav-list">
+          <li class="nav-item"><a href="01-01-basic-usage.html">1.1 Basic Usage</a></li>
+          <li class="nav-item"><a href="01-02-chat-participants.html">1.2 Chat Participants</a></li>
+        </ul>
+      </div>
+      
+      <div class="nav-section">
+        <div class="nav-section-title">02 - Context Engineering</div>
+        <ul class="nav-list">
+          <li class="nav-item"><a href="02-01-custom-instructions.html">2.1 Custom Instructions</a></li>
+          <li class="nav-item"><a href="02-02-mcp.html">2.2 MCP (Context7)</a></li>
+        </ul>
+      </div>
+      
+      <div class="nav-section">
+        <div class="nav-section-title">03 - Daily Development</div>
+        <ul class="nav-list">
+          <li class="nav-item"><a href="03-01-chat-modes.html">3.1 Chat Modes</a></li>
+          <li class="nav-item"><a href="03-02-tasks.html">3.2 Mode Selection</a></li>
+          <li class="nav-item"><a href="03-03-bug-fixing.html">3.3 Bug Fixing</a></li>
+          <li class="nav-item"><a href="03-04-unit-tests.html">3.4 Unit Tests</a></li>
+          <li class="nav-item"><a href="03-05-custom-prompts.html">3.5 Prompt Files</a></li>
+          <li class="nav-item"><a href="03-06-awesome-copilot.html">3.6 Awesome Copilot</a></li>
+        </ul>
+      </div>
+      
+      <div class="nav-section">
+        <div class="nav-section-title">04 - MCP Servers</div>
+        <ul class="nav-list">
+          <li class="nav-item"><a href="04-01-github-mcp.html">4.1 GitHub MCP</a></li>
+          <li class="nav-item"><a href="04-02-docs.html">4.2 Documentation</a></li>
+          <li class="nav-item active"><a href="04-04-playwright.html">4.3 Playwright</a></li>
+          <li class="nav-item"><a href="04-05-chrome-devtools.html">4.4 Chrome DevTools</a></li>
+          <li class="nav-item"><a href="04-06-exploratory.html">4.5 Exploratory Testing</a></li>
+        </ul>
+      </div>
+      
+      <div class="nav-section">
+        <div class="nav-section-title">05 - SDD Methods</div>
+        <ul class="nav-list">
+          <li class="nav-item"><a href="05-01-spec-kit.html">5.1 Spec Kit</a></li>
+          <li class="nav-item"><a href="05-02-bmad.html">5.2 BMAD Method</a></li>
+        </ul>
+      </div>
+      
+      <div class="nav-section">
+        <div class="nav-section-title">06 - GitHub Features</div>
+        <ul class="nav-list">
+          <li class="nav-item"><a href="06-01-code-review.html">6.1 Code Review</a></li>
+          <li class="nav-item"><a href="06-02-autocode.html">6.2 Coding Agent</a></li>
+          <li class="nav-item"><a href="06-03-copilot-cli.html">6.3 Copilot CLI</a></li>
+        </ul>
+      </div>
+    </nav>
+    
+    <!-- Main Content -->
+    <main class="main-content">
+      <header class="page-header">
+        <h1 class="page-title">Playwright MCP Server</h1>
+        <p class="page-subtitle">Generate, run, and debug Playwright tests with AI assistance.</p>
+      </header>
+      
+      <div class="learning-objectives">
+        <h2>🎯 Learning Objectives</h2>
+        <ul>
+          <li>Install and configure Playwright MCP server</li>
+          <li>Create structured prompts for test generation</li>
+          <li>Generate tests from user scenarios</li>
+          <li>Run and debug tests using MCP tools</li>
+        </ul>
+      </div>
+      
+      <!-- What is Playwright MCP -->
+      <div class="info-box info">
+        <span class="info-box-icon">🎭</span>
+        <div>
+          <strong>What is Playwright MCP?</strong>
+          <p style="margin-top: 8px;">The Playwright MCP server allows Copilot to interact with Playwright to:</p>
+          <ul style="margin-top: 8px;">
+            <li>Generate tests from user scenarios</li>
+            <li>Run tests and report results</li>
+            <li>Debug failing tests</li>
+            <li>Manage Playwright browsers</li>
+          </ul>
+        </div>
+      </div>
+      
+      <!-- Task 1: Installation -->
+      <div class="task">
+        <div class="task-header">
+          <span class="task-number">1</span>
+          <h2 class="task-title">Installation and Setup</h2>
+        </div>
+        <div class="task-content">
+          <p class="task-goal"><strong>Goal:</strong> Install Playwright and the Playwright MCP server.</p>
+          
+          <h3>Step 1: Install Playwright</h3>
+          <div class="steps">
+            <div class="step">
+              <div class="step-content">Run the following command in your terminal:</div>
+            </div>
+          </div>
+          
+<pre><code>yarn create playwright</code></pre>
+          
+          <div class="info-box tip">
+            <span class="info-box-icon">💡</span>
+            <div>
+              <strong>Installation Options:</strong>
+              <ul style="margin-top: 8px;">
+                <li>Select <code>tests</code> as the tests directory (or <code>e2e</code> if you prefer)</li>
+                <li>Install browsers when prompted</li>
+              </ul>
+            </div>
+          </div>
+          
+          <h3>Step 2: Install Playwright MCP Server</h3>
+          <div class="steps">
+            <div class="step">
+              <div class="step-content">Open Command Palette (<code>Cmd+Shift+P</code>)</div>
+            </div>
+            <div class="step">
+              <div class="step-content">Type "MCP: Add Server"</div>
+            </div>
+            <div class="step">
+              <div class="step-content">Search for "Playwright" (or "mcp-playwright")</div>
+            </div>
+            <div class="step">
+              <div class="step-content">Install it</div>
+            </div>
+          </div>
+          
+          <h3>Step 3: Verify Installation</h3>
+          <div class="expandable">
+            <div class="expandable-header">
+              <span class="expandable-icon">▶</span>
+              <span class="expandable-title prompt">💬 Verification Prompt</span>
+            </div>
+            <div class="expandable-content">
+<pre><code>Can you list the available Playwright tools?</code></pre>
+            </div>
+          </div>
+          
+          <div class="expected">
+            <div class="expected-title">Expected Result</div>
+            <div class="expected-content">Copilot lists available Playwright MCP tools like running tests, creating tests, etc.</div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Task 2: Generate Test Plan -->
+      <div class="task">
+        <div class="task-header">
+          <span class="task-number">2</span>
+          <h2 class="task-title">Generate Test Plan (Prompt Engineering)</h2>
+        </div>
+        <div class="task-content">
+          <p class="task-goal"><strong>Goal:</strong> Create a reusable prompt for generating high-quality Playwright tests.</p>
+          
+          <div class="info-box note">
+            <span class="info-box-icon">📝</span>
+            <div><strong>Why?</strong> We want to ensure Copilot follows a strict process when generating tests: analyze → plan → generate → verify.</div>
+          </div>
+          
+          <div class="steps">
+            <div class="step">
+              <div class="step-content">Create a file <code>prompts/generate_test.prompt.md</code> (create folder if needed)</div>
+            </div>
+            <div class="step">
+              <div class="step-content">Paste the following content:</div>
+            </div>
+          </div>
+          
+          <div class="expandable">
+            <div class="expandable-header">
+              <span class="expandable-icon">▶</span>
+              <span class="expandable-title prompt">📄 Prompt File Content</span>
+            </div>
+            <div class="expandable-content">
+<pre><code>- You are a playwright test generator.
+- You are given a scenario and you need to generate a playwright test
+- DO NOT generate test code based on the scenario alone.
+- DO run steps one by one using the tools provided by the Playwright MCP
+- Only after all steps are completed, emit a Playwright TypeScript test
+- Save generated test file in the tests directory
+- Execute the test file and iterate until the test passes</code></pre>
+            </div>
+          </div>
+          
+          <div class="info-box tip">
+            <span class="info-box-icon">💡</span>
+            <div><strong>Usage:</strong> When you want to generate a test, you can reference this prompt or paste it into the chat context.</div>
+          </div>
+          
+          <div class="expected">
+            <div class="expected-title">Expected Result</div>
+            <div class="expected-content">A reusable prompt file that ensures systematic test generation</div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Task 3: Generate Login Test -->
+      <div class="task">
+        <div class="task-header">
+          <span class="task-number">3</span>
+          <h2 class="task-title">Generate Specific Test (Login)</h2>
+        </div>
+        <div class="task-content">
+          <p class="task-goal"><strong>Goal:</strong> Generate a test for the login functionality of this application.</p>
+          
+          <div class="info-box note">
+            <span class="info-box-icon">📄</span>
+            <div>
+              <strong>Context:</strong> 
+              <ul style="margin-top: 8px;">
+                <li>The app has a login page at <code>/signin</code></li>
+                <li>Default user: <code>Katharina_Bernier</code> (check <code>data/database.json</code> for valid usernames)</li>
+                <li>Password: <code>s3cret</code></li>
+              </ul>
+            </div>
+          </div>
+          
+          <div class="steps">
+            <div class="step">
+              <div class="step-content">Ask Copilot using the prompt from Task 2:</div>
+            </div>
+          </div>
+          
+          <div class="expandable">
+            <div class="expandable-header">
+              <span class="expandable-icon">▶</span>
+              <span class="expandable-title prompt">💬 Prompt</span>
+            </div>
+            <div class="expandable-content">
+<pre><code>Using the instructions in `prompts/generate_test.prompt.md`, generate a Playwright test for the login flow.
+
+Scenario:
+1. Navigate to the sign-in page.
+2. Enter valid credentials (username: 'Katharina_Bernier', password: 's3cret').
+3. Click the sign-in button.
+4. Verify that the user is redirected to the home page.</code></pre>
+            </div>
+          </div>
+          
+          <div class="expected">
+            <div class="expected-title">Expected Result</div>
+            <div class="expected-content">
+              <ul>
+                <li>Copilot uses MCP tools to create the file <code>tests/login.spec.ts</code></li>
+                <li>It runs the test</li>
+                <li>If it fails, it attempts to fix it</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Task 4: Run and Debug -->
+      <div class="task">
+        <div class="task-header">
+          <span class="task-number">4</span>
+          <h2 class="task-title">Run and Debug Tests</h2>
+        </div>
+        <div class="task-content">
+          <p class="task-goal"><strong>Goal:</strong> Use MCP to run tests and debug issues.</p>
+          
+          <h3>Run All Tests</h3>
+          <div class="expandable">
+            <div class="expandable-header">
+              <span class="expandable-icon">▶</span>
+              <span class="expandable-title prompt">💬 Run All Tests Prompt</span>
+            </div>
+            <div class="expandable-content">
+<pre><code>Run all Playwright tests.</code></pre>
+            </div>
+          </div>
+          
+          <h3>Debug a Specific Test</h3>
+          <p>If a test fails, ask Copilot to debug it:</p>
+          
+          <div class="expandable">
+            <div class="expandable-header">
+              <span class="expandable-icon">▶</span>
+              <span class="expandable-title prompt">💬 Debug Prompt</span>
+            </div>
+            <div class="expandable-content">
+<pre><code>Debug the test `tests/login.spec.ts` and explain why it failed.</code></pre>
+            </div>
+          </div>
+          
+          <div class="expected">
+            <div class="expected-title">Expected Result</div>
+            <div class="expected-content">
+              <ul>
+                <li>Copilot runs the tests using the MCP tool</li>
+                <li>It provides a summary of the results</li>
+                <li>For failures, it explains the issue and suggests fixes</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Key Learnings -->
+      <div class="key-points">
+        <h2>🔑 Key Learnings</h2>
+        <ul>
+          <li>MCP allows Copilot to <strong>execute</strong> tests, not just write them</li>
+          <li>Structured prompts (like Task 2) improve the reliability of agentic workflows</li>
+          <li>You can iterate on tests (Write → Run → Fix) entirely within the chat</li>
+        </ul>
+      </div>
+      
+      <!-- Completion Checklist -->
+      <div class="checklist">
+        <h2>✅ Completion Checklist</h2>
+        <ul>
+          <li>Installed Playwright and Playwright MCP server</li>
+          <li>Created reusable test generation prompt</li>
+          <li>Generated login test using MCP tools</li>
+          <li>Ran and debugged tests using MCP</li>
+        </ul>
+      </div>
+      
+      <div class="page-nav">
+        <a href="04-02-docs.html" class="page-nav-link prev">
+          <span class="page-nav-label">Previous</span>
+          <span class="page-nav-title">Documentation</span>
+        </a>
+        <a href="04-05-chrome-devtools.html" class="page-nav-link next">
+          <span class="page-nav-label">Next</span>
+          <span class="page-nav-title">Chrome DevTools</span>
+        </a>
+      </div>
+    </main>
+  </div>
+  
+  <script src="script.js"></script>
+</body>
+</html>

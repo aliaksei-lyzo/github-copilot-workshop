@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Custom Instructions - GitHub Copilot Workshop</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="layout">
+    <!-- Sidebar Navigation -->
+    <nav class="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo">
+          <svg viewBox="0 0 16 16" fill="currentColor">
+            <path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"/>
+          </svg>
+          Copilot Workshop
+        </div>
+      </div>
+      
+      <div class="nav-section">
+        <div class="nav-section-title">Getting Started</div>
+        <ul class="nav-list">
+          <li class="nav-item"><a href="index.html">Welcome</a></li>
+          <li class="nav-item"><a href="00-setup.html">0.1 Project Setup</a></li>
+        </ul>
+      </div>
+      
+      <div class="nav-section">
+        <div class="nav-section-title">01 - Basic Usage</div>
+        <ul class="nav-list">
+          <li class="nav-item"><a href="01-01-basic-usage.html">1.1 Basic Usage</a></li>
+          <li class="nav-item"><a href="01-02-chat-participants.html">1.2 Chat Participants</a></li>
+        </ul>
+      </div>
+      
+      <div class="nav-section">
+        <div class="nav-section-title">02 - Context Engineering</div>
+        <ul class="nav-list">
+          <li class="nav-item active"><a href="02-01-custom-instructions.html">2.1 Custom Instructions</a></li>
+          <li class="nav-item"><a href="02-02-mcp.html">2.2 MCP (Context7)</a></li>
+        </ul>
+      </div>
+      
+      <div class="nav-section">
+        <div class="nav-section-title">03 - Daily Development</div>
+        <ul class="nav-list">
+          <li class="nav-item"><a href="03-01-chat-modes.html">3.1 Chat Modes</a></li>
+          <li class="nav-item"><a href="03-02-tasks.html">3.2 Mode Selection</a></li>
+          <li class="nav-item"><a href="03-03-bug-fixing.html">3.3 Bug Fixing</a></li>
+          <li class="nav-item"><a href="03-04-unit-tests.html">3.4 Unit Tests</a></li>
+          <li class="nav-item"><a href="03-05-custom-prompts.html">3.5 Prompt Files</a></li>
+          <li class="nav-item"><a href="03-06-awesome-copilot.html">3.6 Awesome Copilot</a></li>
+        </ul>
+      </div>
+      
+      <div class="nav-section">
+        <div class="nav-section-title">04 - MCP Servers</div>
+        <ul class="nav-list">
+          <li class="nav-item"><a href="04-01-github-mcp.html">4.1 GitHub MCP</a></li>
+          <li class="nav-item"><a href="04-02-docs.html">4.2 Documentation</a></li>
+          <li class="nav-item"><a href="04-04-playwright.html">4.3 Playwright</a></li>
+          <li class="nav-item"><a href="04-05-chrome-devtools.html">4.4 Chrome DevTools</a></li>
+          <li class="nav-item"><a href="04-06-exploratory.html">4.5 Exploratory Testing</a></li>
+        </ul>
+      </div>
+      
+      <div class="nav-section">
+        <div class="nav-section-title">05 - SDD Methods</div>
+        <ul class="nav-list">
+          <li class="nav-item"><a href="05-01-spec-kit.html">5.1 Spec Kit</a></li>
+          <li class="nav-item"><a href="05-02-bmad.html">5.2 BMAD Method</a></li>
+        </ul>
+      </div>
+      
+      <div class="nav-section">
+        <div class="nav-section-title">06 - GitHub Features</div>
+        <ul class="nav-list">
+          <li class="nav-item"><a href="06-01-code-review.html">6.1 Code Review</a></li>
+          <li class="nav-item"><a href="06-02-autocode.html">6.2 Coding Agent</a></li>
+          <li class="nav-item"><a href="06-03-copilot-cli.html">6.3 Copilot CLI</a></li>
+        </ul>
+      </div>
+    </nav>
+    
+    <!-- Main Content -->
+    <main class="main-content">
+      <header class="page-header">
+        <h1 class="page-title">Custom Copilot Instructions</h1>
+        <p class="page-subtitle">Configure project-specific and global instructions to improve Copilot's output quality and consistency.</p>
+      </header>
+      
+      <div class="learning-objectives">
+        <h2>🎯 Learning Objectives</h2>
+        <ul>
+          <li>Understand three types of Copilot instructions and their priority</li>
+          <li>Create and test custom instructions</li>
+          <li>Observe how instructions change AI output</li>
+          <li>Learn what makes instructions effective vs ineffective</li>
+        </ul>
+      </div>
+      
+      <!-- Instruction Types Info Box -->
+      <div class="info-box info">
+        <span class="info-box-icon">📚</span>
+        <div>
+          <strong>Instruction Types & Priority (highest to lowest):</strong>
+          <ol style="margin-top: 8px; padding-left: 20px;">
+            <li><strong>Chat Instructions</strong> (inline in prompt) - overrides everything</li>
+            <li><strong>Repository Instructions</strong> (.github/copilot-instructions.md) - overrides global</li>
+            <li><strong>Global Instructions</strong> (VS Code Settings) - overrides default</li>
+            <li><strong>Default Copilot Behavior</strong></li>
+          </ol>
+        </div>
+      </div>
+      
+      <!-- Exercise 1 -->
+      <div class="task">
+        <div class="task-header">
+          <span class="task-number">1</span>
+          <h2 class="task-title">Baseline - No Instructions</h2>
+        </div>
+        <div class="task-content">
+          <p class="task-goal"><strong>Task:</strong> Establish baseline by testing Copilot without any custom instructions.</p>
+          
+          <div class="steps">
+            <div class="step">
+              <div class="step-content">Ensure no <code>.github/copilot-instructions.md</code> exists in this project</div>
+            </div>
+            <div class="step">
+              <div class="step-content">Clear any Global instructions (VS Code Settings → GitHub Copilot › Chat: Instructions)</div>
+            </div>
+            <div class="step">
+              <div class="step-content">Test these 3 prompts in Copilot Chat and save the output</div>
+            </div>
+          </div>
+          
+          <div class="expandable">
+            <div class="expandable-header">
+              <span class="expandable-icon">▶</span>
+              <span class="expandable-title prompt">💬 Test Prompts</span>
+            </div>
+            <div class="expandable-content">
+              <p><strong>Prompt 1:</strong></p>
+              <pre><code>Create a function to calculate transaction fees</code></pre>
+              <p><strong>Prompt 2:</strong></p>
+              <pre><code>Create a React component for displaying user profile</code></pre>
+              <p><strong>Prompt 3:</strong></p>
+              <pre><code>Create an API endpoint to fetch transactions</code></pre>
+            </div>
+          </div>
+          
+          <div class="expected">
+            <div class="expected-title">Expected Result</div>
+            <div class="expected-content">Baseline output showing default Copilot behavior (style, structure, what's included/missing)</div>
+          </div>
+          
+          <div class="expandable">
+            <div class="expandable-header">
+              <span class="expandable-icon">▶</span>
+              <span class="expandable-title hint">🔮 Hint</span>
+            </div>
+            <div class="expandable-content">
+              Save results in a file called <code>baseline-results.txt</code> for comparison later
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Exercise 2 -->
+      <div class="task">
+        <div class="task-header">
+          <span class="task-number">2</span>
+          <h2 class="task-title">Create Repository Instructions</h2>
+        </div>
+        <div class="task-content">
+          <p class="task-goal"><strong>Task:</strong> Create instructions file with mix of good and problematic rules to learn what works.</p>
+          
+          <div class="steps">
+            <div class="step">
+              <div class="step-content">Create <code>.github/copilot-instructions.md</code> in this project</div>
+            </div>
+            <div class="step">
+              <div class="step-content">Add rules (some intentionally vague to demonstrate what doesn't work)</div>
+            </div>
+          </div>
+          
+          <div class="expandable">
+            <div class="expandable-header">
+              <span class="expandable-icon">▶</span>
+              <span class="expandable-title prompt">📄 Instructions Content (with intentional issues)</span>
+            </div>
+            <div class="expandable-content">
+<pre><code>### Code Style
+- Always use TypeScript with strict mode enabled
+- Write good code and follow best practices
+
+### Documentation
+- Add JSDoc comments to all exported functions
+- Document everything properly
+
+### Testing
+- Use Vitest for all unit tests
+- Test file should be alongside source file with .test.ts extension</code></pre>
+              <div class="info-box warning" style="margin-top: 16px;">
+                <span class="info-box-icon">⚠️</span>
+                <div><strong>Note:</strong> Rules 2 and 4 are intentionally vague to show ineffective instructions.</div>
+              </div>
+            </div>
+          </div>
+          
+          <h3 style="margin-top: 24px; margin-bottom: 16px; font-size: 16px; color: var(--color-text);">Part 2: Test and Observe</h3>
+          
+          <div class="steps">
+            <div class="step">
+              <div class="step-content">Save <code>.github/copilot-instructions.md</code></div>
+            </div>
+            <div class="step">
+              <div class="step-content">Reload VS Code window (<kbd>Cmd</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd> → "Reload Window")</div>
+            </div>
+            <div class="step">
+              <div class="step-content">Run the SAME 3 prompts from Exercise 1</div>
+            </div>
+            <div class="step">
+              <div class="step-content">Compare with baseline results</div>
+            </div>
+          </div>
+          
+          <div class="questions">
+            <div class="questions-title">Questions to answer</div>
+            <ul>
+              <li>Which rules did Copilot follow? (Hint: specific ones like TypeScript, Vitest)</li>
+              <li>Which rules were ignored? (Hint: vague ones like "good code")</li>
+              <li>What's the difference between specific vs vague instructions?</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Exercise 3 -->
+      <div class="task">
+        <div class="task-header">
+          <span class="task-number">3</span>
+          <h2 class="task-title">Fix the Vague Instructions</h2>
+        </div>
+        <div class="task-content">
+          <p class="task-goal"><strong>Task:</strong> Rewrite the 2 vague rules to be specific and actionable.</p>
+          
+          <div class="steps">
+            <div class="step">
+              <div class="step-content">Identify which 2 rules from Exercise 2 didn't work (the vague ones)</div>
+            </div>
+            <div class="step">
+              <div class="step-content">Rewrite them to be specific</div>
+            </div>
+            <div class="step">
+              <div class="step-content">Save updated <code>.github/copilot-instructions.md</code></div>
+            </div>
+            <div class="step">
+              <div class="step-content">Reload VS Code</div>
+            </div>
+            <div class="step">
+              <div class="step-content">Test with new prompts</div>
+            </div>
+          </div>
+          
+          <div class="expandable">
+            <div class="expandable-header">
+              <span class="expandable-icon">▶</span>
+              <span class="expandable-title solution">✅ Improved Rules</span>
+            </div>
+            <div class="expandable-content">
+              <p><strong>Change from:</strong> "Write good code and follow best practices"</p>
+              <p><strong>Change to:</strong></p>
+              <pre><code>Use descriptive variable names, max 20 lines per function, avoid nested ternaries</code></pre>
+              
+              <p style="margin-top: 16px;"><strong>Change from:</strong> "Document everything properly"</p>
+              <p><strong>Change to:</strong></p>
+              <pre><code>Include @param and @returns tags in JSDoc, add example usage for functions with 3+ parameters</code></pre>
+            </div>
+          </div>
+          
+          <div class="expandable">
+            <div class="expandable-header">
+              <span class="expandable-icon">▶</span>
+              <span class="expandable-title prompt">💬 New Test Prompts</span>
+            </div>
+            <div class="expandable-content">
+              <p><strong>Prompt 4:</strong></p>
+              <pre><code>Create a function to validate email addresses</code></pre>
+              <p><strong>Prompt 5:</strong></p>
+              <pre><code>Create a utility function to format currency</code></pre>
+            </div>
+          </div>
+          
+          <div class="expected">
+            <div class="expected-title">Expected Result</div>
+            <div class="expected-content">Copilot now follows the rewritten specific rules</div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Exercise 4 -->
+      <div class="task">
+        <div class="task-header">
+          <span class="task-number">4</span>
+          <h2 class="task-title">Test Instruction Priority</h2>
+        </div>
+        <div class="task-content">
+          <p class="task-goal"><strong>Task:</strong> Understand how different instruction levels interact and override each other.</p>
+          
+          <h3 style="margin-top: 16px; margin-bottom: 16px; font-size: 16px; color: var(--color-text);">Part 1: Add Global Instructions</h3>
+          
+          <div class="steps">
+            <div class="step">
+              <div class="step-content">Open VS Code Settings (<kbd>Cmd</kbd>+<kbd>,</kbd>)</div>
+            </div>
+            <div class="step">
+              <div class="step-content">Search for "GitHub Copilot Instructions"</div>
+            </div>
+            <div class="step">
+              <div class="step-content">Find "GitHub Copilot › Chat: Instructions"</div>
+            </div>
+            <div class="step">
+              <div class="step-content">Add: <code>Always include console.log statements for debugging</code></div>
+            </div>
+          </div>
+          
+          <h3 style="margin-top: 24px; margin-bottom: 16px; font-size: 16px; color: var(--color-text);">Part 2: Test Non-Conflicting Rules</h3>
+          
+          <div class="info-box info">
+            <span class="info-box-icon">📋</span>
+            <div>
+              <p><strong>Your repository says:</strong> "Use TypeScript with strict mode"</p>
+              <p><strong>Your global says:</strong> "Always include console.log statements"</p>
+            </div>
+          </div>
+          
+          <div class="expandable">
+            <div class="expandable-header">
+              <span class="expandable-icon">▶</span>
+              <span class="expandable-title prompt">💬 Test Prompt</span>
+            </div>
+            <div class="expandable-content">
+              <pre><code>Create a utility function to format dates</code></pre>
+            </div>
+          </div>
+          
+          <div class="questions">
+            <div class="questions-title">Questions</div>
+            <ul>
+              <li>Does output use TypeScript? (Yes - repository rule)</li>
+              <li>Does output include console.log? (Yes - global rule)</li>
+              <li>Both rules are followed because they don't conflict</li>
+            </ul>
+          </div>
+          
+          <h3 style="margin-top: 24px; margin-bottom: 16px; font-size: 16px; color: var(--color-text);">Part 3: Create Actual Conflict</h3>
+          
+          <div class="steps">
+            <div class="step">
+              <div class="step-content">Add to Global instructions: <code>Never use TypeScript, always use JavaScript</code></div>
+            </div>
+            <div class="step">
+              <div class="step-content">Repository still says: "Always use TypeScript with strict mode"</div>
+            </div>
+            <div class="step">
+              <div class="step-content">Test prompt: <code>Create a function to parse JSON safely</code></div>
+            </div>
+          </div>
+          
+          <div class="expected">
+            <div class="expected-title">Expected Result</div>
+            <div class="expected-content">Repository wins! TypeScript is used because Repository > Global in priority</div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Exercise 5 -->
+      <div class="task">
+        <div class="task-header">
+          <span class="task-number">5</span>
+          <h2 class="task-title">Chat Instructions (Highest Priority)</h2>
+        </div>
+        <div class="task-content">
+          <p class="task-goal"><strong>Task:</strong> Override repository rules temporarily using chat instructions.</p>
+          
+          <h3 style="margin-top: 16px; margin-bottom: 16px; font-size: 16px; color: var(--color-text);">Part 1: Override Repository Rules</h3>
+          
+          <p>Your repository says: "Use TypeScript with strict mode"</p>
+          
+          <div class="expandable">
+            <div class="expandable-header">
+              <span class="expandable-icon">▶</span>
+              <span class="expandable-title prompt">💬 Override Prompt</span>
+            </div>
+            <div class="expandable-content">
+<pre><code>For this task only: ignore TypeScript rules, use plain JavaScript.
+
+Create a quick prototype function to shuffle an array</code></pre>
+            </div>
+          </div>
+          
+          <div class="expected">
+            <div class="expected-title">Expected Result</div>
+            <div class="expected-content">JavaScript output despite repository requiring TypeScript</div>
+          </div>
+          
+          <h3 style="margin-top: 24px; margin-bottom: 16px; font-size: 16px; color: var(--color-text);">Part 2: Add Domain-Specific Context</h3>
+          
+          <div class="expandable">
+            <div class="expandable-header">
+              <span class="expandable-icon">▶</span>
+              <span class="expandable-title prompt">💬 Context Prompt</span>
+            </div>
+            <div class="expandable-content">
+<pre><code>Context: Financial application handling money
+Rules:
+- Use Decimal.js for all currency calculations (never native numbers)
+- Round all amounts to 2 decimal places
+- Validate amounts are positive before processing
+
+Create a function to calculate transaction fees with 2.5% rate</code></pre>
+            </div>
+          </div>
+          
+          <div class="expected">
+            <div class="expected-title">Expected Result</div>
+            <div class="expected-content">Function using Decimal.js, proper rounding, validation</div>
+          </div>
+          
+          <div class="expandable">
+            <div class="expandable-header">
+              <span class="expandable-icon">▶</span>
+              <span class="expandable-title hint">🔮 Hint</span>
+            </div>
+            <div class="expandable-content">
+              "For this task only" makes Copilot temporarily ignore other instructions. Inline context adds specialized knowledge not in repository instructions.
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Exercise 6 -->
+      <div class="task">
+        <div class="task-header">
+          <span class="task-number">6</span>
+          <h2 class="task-title">File-Specific Custom Instructions</h2>
+        </div>
+        <div class="task-content">
+          <p class="task-goal"><strong>Task:</strong> Create instructions that apply only to specific file types.</p>
+          
+          <h3 style="margin-top: 16px; margin-bottom: 16px; font-size: 16px; color: var(--color-text);">Part 1: Create Frontend Instructions</h3>
+          
+          <div class="steps">
+            <div class="step">
+              <div class="step-content">Open Command Palette (<kbd>Cmd</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd>)</div>
+            </div>
+            <div class="step">
+              <div class="step-content">Run: "Chat: New Instructions File"</div>
+            </div>
+            <div class="step">
+              <div class="step-content">Select default folder (.github/instructions)</div>
+            </div>
+            <div class="step">
+              <div class="step-content">Name file: "frontend"</div>
+            </div>
+            <div class="step">
+              <div class="step-content">In applyTo field, specify frontend file patterns</div>
+            </div>
+          </div>
+          
+          <div class="expandable">
+            <div class="expandable-header">
+              <span class="expandable-icon">▶</span>
+              <span class="expandable-title prompt">📄 ApplyTo Patterns</span>
+            </div>
+            <div class="expandable-content">
+<pre><code>src/components/**/*.tsx
+src/containers/**/*.tsx
+src/hooks/**/*.ts</code></pre>
+            </div>
+          </div>
+          
+          <div class="expandable">
+            <div class="expandable-header">
+              <span class="expandable-icon">▶</span>
+              <span class="expandable-title prompt">📄 Frontend Rules</span>
+            </div>
+            <div class="expandable-content">
+<pre><code>- Use Material-UI components exclusively
+- Every interactive element must have data-test attribute
+- Use React functional components with hooks only
+- Implement loading states and error boundaries</code></pre>
+            </div>
+          </div>
+          
+          <h3 style="margin-top: 24px; margin-bottom: 16px; font-size: 16px; color: var(--color-text);">Part 2: Create Test Instructions</h3>
+          
+          <div class="expandable">
+            <div class="expandable-header">
+              <span class="expandable-icon">▶</span>
+              <span class="expandable-title prompt">📄 Test ApplyTo Patterns</span>
+            </div>
+            <div class="expandable-content">
+<pre><code>**/*.test.ts
+**/*.test.tsx
+src/__tests__/**/*.ts</code></pre>
+            </div>
+          </div>
+          
+          <div class="expandable">
+            <div class="expandable-header">
+              <span class="expandable-icon">▶</span>
+              <span class="expandable-title prompt">📄 Test Rules</span>
+            </div>
+            <div class="expandable-content">
+<pre><code>- Use Vitest framework with describe/it/expect syntax
+- Test happy path, edge cases, and error scenarios
+- Use Arrange-Act-Assert pattern
+- Mock external dependencies and API calls
+- Include descriptive test names</code></pre>
+            </div>
+          </div>
+          
+          <div class="expected">
+            <div class="expected-title">Expected Result</div>
+            <div class="expected-content">Different instructions applied based on file type/location. Frontend files get MUI + data-test. Test files get Vitest + AAA pattern.</div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Key Takeaways -->
+      <div class="key-points">
+        <h2>🔑 Key Takeaways</h2>
+        <ul>
+          <li><strong>Effective Instructions Are:</strong> Specific ("Use Vitest"), Actionable (clear what to do), Testable (you can verify if followed), Consistent (no contradictions)</li>
+          <li><strong>Ineffective Instructions Are:</strong> Vague ("Write good code"), Ambiguous ("Document properly"), Contradictory (conflicting rules)</li>
+          <li><strong>Priority:</strong> Chat > Repository > Global > Default</li>
+          <li><strong>When to Use Each:</strong> Chat for one-off tasks, Repository for team standards, Global for personal preferences</li>
+        </ul>
+      </div>
+      
+      <!-- Completion Checklist -->
+      <div class="checklist">
+        <h2>✅ Completion Checklist</h2>
+        <ul>
+          <li>Established baseline without instructions</li>
+          <li>Created repository instructions with mix of rules</li>
+          <li>Identified which rules work (specific) vs don't work (vague)</li>
+          <li>Rewrote vague rules to be specific</li>
+          <li>Tested instruction priority (Repository > Global)</li>
+          <li>Used chat instructions to override temporarily</li>
+          <li>Created file-specific instructions</li>
+          <li>Can explain why specific > vague</li>
+        </ul>
+      </div>
+      
+      <div class="page-nav">
+        <a href="01-02-chat-participants.html" class="page-nav-link prev">
+          <span class="page-nav-label">Previous</span>
+          <span class="page-nav-title">Chat Participants</span>
+        </a>
+        <a href="02-02-mcp.html" class="page-nav-link next">
+          <span class="page-nav-label">Next Module</span>
+          <span class="page-nav-title">MCP (Context7)</span>
+        </a>
+      </div>
+    </main>
+  </div>
+  
+  <script src="script.js"></script>
+</body>
+</html>

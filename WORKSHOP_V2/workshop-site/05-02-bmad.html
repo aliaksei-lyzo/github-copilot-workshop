@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BMAD Method - GitHub Copilot Workshop</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="layout">
+    <!-- Sidebar Navigation -->
+    <nav class="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo">
+          <svg viewBox="0 0 16 16" fill="currentColor">
+            <path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"/>
+          </svg>
+          Copilot Workshop
+        </div>
+      </div>
+      
+      <div class="nav-section">
+        <div class="nav-section-title">Getting Started</div>
+        <ul class="nav-list">
+          <li class="nav-item"><a href="index.html">Welcome</a></li>
+          <li class="nav-item"><a href="00-setup.html">0.1 Project Setup</a></li>
+        </ul>
+      </div>
+      
+      <div class="nav-section">
+        <div class="nav-section-title">01 - Basic Usage</div>
+        <ul class="nav-list">
+          <li class="nav-item"><a href="01-01-basic-usage.html">1.1 Basic Usage</a></li>
+          <li class="nav-item"><a href="01-02-chat-participants.html">1.2 Chat Participants</a></li>
+        </ul>
+      </div>
+      
+      <div class="nav-section">
+        <div class="nav-section-title">02 - Context Engineering</div>
+        <ul class="nav-list">
+          <li class="nav-item"><a href="02-01-custom-instructions.html">2.1 Custom Instructions</a></li>
+          <li class="nav-item"><a href="02-02-mcp.html">2.2 MCP (Context7)</a></li>
+        </ul>
+      </div>
+      
+      <div class="nav-section">
+        <div class="nav-section-title">03 - Daily Development</div>
+        <ul class="nav-list">
+          <li class="nav-item"><a href="03-01-chat-modes.html">3.1 Chat Modes</a></li>
+          <li class="nav-item"><a href="03-02-tasks.html">3.2 Mode Selection</a></li>
+          <li class="nav-item"><a href="03-03-bug-fixing.html">3.3 Bug Fixing</a></li>
+          <li class="nav-item"><a href="03-04-unit-tests.html">3.4 Unit Tests</a></li>
+          <li class="nav-item"><a href="03-05-custom-prompts.html">3.5 Prompt Files</a></li>
+          <li class="nav-item"><a href="03-06-awesome-copilot.html">3.6 Awesome Copilot</a></li>
+        </ul>
+      </div>
+      
+      <div class="nav-section">
+        <div class="nav-section-title">04 - MCP Servers</div>
+        <ul class="nav-list">
+          <li class="nav-item"><a href="04-01-github-mcp.html">4.1 GitHub MCP</a></li>
+          <li class="nav-item"><a href="04-02-docs.html">4.2 Documentation</a></li>
+          <li class="nav-item"><a href="04-04-playwright.html">4.3 Playwright</a></li>
+          <li class="nav-item"><a href="04-05-chrome-devtools.html">4.4 Chrome DevTools</a></li>
+          <li class="nav-item"><a href="04-06-exploratory.html">4.5 Exploratory Testing</a></li>
+        </ul>
+      </div>
+      
+      <div class="nav-section">
+        <div class="nav-section-title">05 - SDD Methods</div>
+        <ul class="nav-list">
+          <li class="nav-item"><a href="05-01-spec-kit.html">5.1 Spec Kit</a></li>
+          <li class="nav-item active"><a href="05-02-bmad.html">5.2 BMAD Method</a></li>
+        </ul>
+      </div>
+      
+      <div class="nav-section">
+        <div class="nav-section-title">06 - GitHub Features</div>
+        <ul class="nav-list">
+          <li class="nav-item"><a href="06-01-code-review.html">6.1 Code Review</a></li>
+          <li class="nav-item"><a href="06-02-autocode.html">6.2 Coding Agent</a></li>
+          <li class="nav-item"><a href="06-03-copilot-cli.html">6.3 Copilot CLI</a></li>
+        </ul>
+      </div>
+    </nav>
+    
+    <!-- Main Content -->
+    <main class="main-content">
+      <header class="page-header">
+        <h1 class="page-title">BMAD Method: AI-Driven Agile Development</h1>
+        <p class="page-subtitle">Build More, Architect Dreams - specialized AI agents for complete development lifecycle.</p>
+      </header>
+      
+      <div class="learning-objectives">
+        <h2>🎯 Learning Objectives</h2>
+        <ul>
+          <li>Install and configure BMAD Method</li>
+          <li>Understand specialized AI agents</li>
+          <li>Navigate the 4-phase development workflow</li>
+          <li>Create PRD, architecture, and implement features</li>
+        </ul>
+      </div>
+      
+      <!-- What is BMAD -->
+      <div class="info-box info">
+        <span class="info-box-icon">🤖</span>
+        <div>
+          <strong>What is BMAD Method?</strong>
+          <p style="margin-top: 8px;">BMAD (Build More, Architect Dreams) is an AI-driven agile development framework that uses specialized AI agents and guided workflows. Unlike generic AI coding assistants, BMAD provides:</p>
+          <ul style="margin-top: 8px;">
+            <li><strong>19 specialized agents</strong> (PM, Architect, Developer, UX Designer, etc.)</li>
+            <li><strong>50+ guided workflows</strong> across 4 development phases</li>
+            <li><strong>Scale-adaptive intelligence</strong> (bug fixes to enterprise platforms)</li>
+            <li><strong>Complete development lifecycle support</strong></li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="info-box note">
+        <span class="info-box-icon">💡</span>
+        <div>
+          <strong>Key Philosophy</strong>
+          <ul style="margin-top: 8px;">
+            <li>Structured agile workflows with AI amplification</li>
+            <li>Specialized expertise through domain-specific agents</li>
+            <li>Phase-based: Analysis → Planning → Solutioning → Implementation</li>
+            <li><strong>Fresh chats for each workflow</strong> to avoid hallucinations</li>
+          </ul>
+        </div>
+      </div>
+      
+      <!-- Prerequisites -->
+      <div class="info-box warning">
+        <span class="info-box-icon">⚠️</span>
+        <div>
+          <strong>Prerequisites</strong>
+          <ul style="margin-top: 8px;">
+            <li>Node.js 18+ installed</li>
+            <li>VS Code with GitHub Copilot extension</li>
+            <li>Git installed</li>
+          </ul>
+        </div>
+      </div>
+      
+      <!-- Task 1: Install -->
+      <div class="task">
+        <div class="task-header">
+          <span class="task-number">1</span>
+          <h2 class="task-title">Install BMAD Method</h2>
+        </div>
+        <div class="task-content">
+          <p class="task-goal"><strong>Goal:</strong> Install the BMAD Method CLI and set up your project.</p>
+          
+          <div class="steps">
+            <div class="step">
+              <div class="step-content">Navigate to project root and install:</div>
+            </div>
+          </div>
+          
+<pre><code>cd /path/to/github-copilot-workshop
+npx bmad-method@alpha install</code></pre>
+          
+          <div class="info-box tip">
+            <span class="info-box-icon">💡</span>
+            <div>
+              <strong>During installation, you'll be prompted for:</strong>
+              <ul style="margin-top: 8px;">
+                <li>Installation directory (default: current directory)</li>
+                <li>Modules to install (select BMad Method - BMM)</li>
+                <li>IDE selection (select GitHub Copilot)</li>
+                <li>VS Code settings configuration (use recommended defaults)</li>
+              </ul>
+            </div>
+          </div>
+          
+          <div class="expected">
+            <div class="expected-title">New Files Created</div>
+            <div class="expected-content">
+              <ul>
+                <li><code>.bmad/</code> - Configuration folder</li>
+                <li><code>.github/agents/</code> - BMAD agents</li>
+                <li><code>.vscode/settings.json</code> - Updated settings</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Task 2: Understand Agents -->
+      <div class="task">
+        <div class="task-header">
+          <span class="task-number">2</span>
+          <h2 class="task-title">Understand BMAD Agents</h2>
+        </div>
+        <div class="task-content">
+          <p class="task-goal"><strong>Goal:</strong> Learn about the specialized AI agents available in BMAD.</p>
+          
+          <table>
+            <thead>
+              <tr>
+                <th>Agent</th>
+                <th>Role</th>
+                <th>When to Use</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Analyst</td>
+                <td>Initializes workflows, tracks status</td>
+                <td>Starting new projects</td>
+              </tr>
+              <tr>
+                <td>PM</td>
+                <td>Creates requirements & specifications</td>
+                <td>PRD, tech specs, epics</td>
+              </tr>
+              <tr>
+                <td>Architect</td>
+                <td>Designs system architecture</td>
+                <td>Technical planning</td>
+              </tr>
+              <tr>
+                <td>UX-Designer</td>
+                <td>Creates UX specifications</td>
+                <td>UI/UX design</td>
+              </tr>
+              <tr>
+                <td>SM</td>
+                <td>Scrum Master - manages sprints</td>
+                <td>Story creation, sprint planning</td>
+              </tr>
+              <tr>
+                <td>DEV</td>
+                <td>Implements code, reviews work</td>
+                <td>Actual implementation</td>
+              </tr>
+            </tbody>
+          </table>
+          
+          <div class="steps" style="margin-top: 16px;">
+            <div class="step">
+              <div class="step-content">Open Copilot Chat (<code>Ctrl+Shift+I</code> or <code>Cmd+Shift+I</code>)</div>
+            </div>
+            <div class="step">
+              <div class="step-content">Click on the agent selector (top of chat panel)</div>
+            </div>
+            <div class="step">
+              <div class="step-content">Look for BMAD agents (prefixed with "bmd-")</div>
+            </div>
+            <div class="step">
+              <div class="step-content">Select "bmd-custom-bmm-analyst" to activate the Analyst</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Task 3: User Story -->
+      <div class="task">
+        <div class="task-header">
+          <span class="task-number">3</span>
+          <h2 class="task-title">Understand the User Story</h2>
+        </div>
+        <div class="task-content">
+          <p class="task-goal"><strong>Goal:</strong> Familiarize yourself with the feature we'll build using BMAD.</p>
+          
+          <div class="info-box note">
+            <span class="info-box-icon">📋</span>
+            <div>
+              <strong>User Story: Transaction Insights Dashboard</strong>
+              <p style="margin-top: 8px;"><em>"As a user of the Real World App, I want to see a transaction insights dashboard that shows spending patterns over time, so that I can understand my financial habits better."</em></p>
+              
+              <p style="margin-top: 12px;"><strong>The dashboard should include:</strong></p>
+              <ul style="margin-top: 8px;">
+                <li>Monthly spending breakdown by category</li>
+                <li>Week-over-week spending comparison chart</li>
+                <li>Average transaction amount trends</li>
+                <li>Most frequent transaction contacts</li>
+                <li>Interactive date range filter</li>
+              </ul>
+              
+              <p style="margin-top: 12px;"><strong>The dashboard should:</strong></p>
+              <ul style="margin-top: 8px;">
+                <li>Load quickly with cached data</li>
+                <li>Update in real-time when new transactions occur</li>
+                <li>Be accessible from the main navigation</li>
+                <li>Work on both desktop and mobile views</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Task 4: Initialize Workflow -->
+      <div class="task">
+        <div class="task-header">
+          <span class="task-number">4</span>
+          <h2 class="task-title">Initialize BMAD Workflow</h2>
+        </div>
+        <div class="task-content">
+          <p class="task-goal"><strong>Goal:</strong> Set up BMAD tracking and determine the right workflow track.</p>
+          
+          <div class="info-box info">
+            <span class="info-box-icon">📊</span>
+            <div>
+              <strong>BMAD Tracks:</strong>
+              <ul style="margin-top: 8px;">
+                <li><strong>Quick Flow:</strong> Bug fixes, small features (&lt; 15 stories typically)</li>
+                <li><strong>BMad Method:</strong> Products, platforms, complex features (10-50+ stories)</li>
+                <li><strong>Enterprise Method:</strong> Compliance, scale, governance (30+ stories)</li>
+              </ul>
+            </div>
+          </div>
+          
+          <div class="steps">
+            <div class="step">
+              <div class="step-content">Activate the Analyst agent in Copilot Chat</div>
+            </div>
+            <div class="step">
+              <div class="step-content">Run workflow initialization:</div>
+            </div>
+          </div>
+          
+          <div class="expandable">
+            <div class="expandable-header">
+              <span class="expandable-icon">▶</span>
+              <span class="expandable-title prompt">💬 Prompt</span>
+            </div>
+            <div class="expandable-content">
+<pre><code>*workflow-init
+
+I want to build a transaction insights dashboard for an existing React/Express application. 
+This is a new feature that adds spending analytics with charts, filters, and real-time updates.</code></pre>
+            </div>
+          </div>
+          
+          <div class="expected">
+            <div class="expected-title">Expected Output</div>
+            <div class="expected-content">
+              <ul>
+                <li>Agent recommends a track (likely BMad Method for this feature)</li>
+                <li>File created: <code>docs/bmm-workflow-status.yaml</code></li>
+                <li>Clear next steps provided</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Task 5: Check Status -->
+      <div class="task">
+        <div class="task-header">
+          <span class="task-number">5</span>
+          <h2 class="task-title">Check Workflow Status</h2>
+        </div>
+        <div class="task-content">
+          <p class="task-goal"><strong>Goal:</strong> Learn how to check your progress and determine next steps.</p>
+          
+          <div class="expandable">
+            <div class="expandable-header">
+              <span class="expandable-icon">▶</span>
+              <span class="expandable-title prompt">💬 Prompt</span>
+            </div>
+            <div class="expandable-content">
+<pre><code>workflow-status</code></pre>
+            </div>
+          </div>
+          
+          <div class="expected">
+            <div class="expected-title">Example Output</div>
+            <div class="expected-content">
+<pre style="background: var(--color-bg-tertiary); padding: 12px; border-radius: 6px; margin-top: 8px;"><code>Phase 1 (Analysis) is entirely optional. All workflows are optional or recommended:
+  - brainstorm-project - optional
+  - research - optional  
+  - product-brief - RECOMMENDED (but not required)
+
+The next TRULY REQUIRED step is:
+  - PRD (Product Requirements Document) in Phase 2 - Planning
+  - Agent: pm
+  - Command: prd</code></pre>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Task 6: Create PRD -->
+      <div class="task">
+        <div class="task-header">
+          <span class="task-number">6</span>
+          <h2 class="task-title">Create PRD (Phase 2 - Required)</h2>
+        </div>
+        <div class="task-content">
+          <p class="task-goal"><strong>Goal:</strong> Create a Product Requirements Document with detailed specifications.</p>
+          
+          <div class="info-box warning">
+            <span class="info-box-icon">⚠️</span>
+            <div><strong>Important:</strong> Always start a FRESH chat for each workflow!</div>
+          </div>
+          
+          <div class="steps">
+            <div class="step">
+              <div class="step-content">Start a NEW chat session</div>
+            </div>
+            <div class="step">
+              <div class="step-content">Activate the PM agent (select bmd-custom-bmm-pm)</div>
+            </div>
+            <div class="step">
+              <div class="step-content">Run the PRD workflow:</div>
+            </div>
+          </div>
+          
+          <div class="expandable">
+            <div class="expandable-header">
+              <span class="expandable-icon">▶</span>
+              <span class="expandable-title prompt">💬 Prompt</span>
+            </div>
+            <div class="expandable-content">
+<pre><code>*prd
+
+Create a PRD for the Transaction Insights Dashboard. This is a new feature
+for an existing React/Express/TypeScript application that uses lowdb for 
+data storage. 
+
+Key requirements:
+- Monthly spending breakdown with charts
+- Week-over-week comparison
+- Average transaction trends
+- Frequent contacts display
+- Date range filtering
+- Real-time updates when new transactions occur
+- Mobile-responsive design
+- Fast loading with data caching
+
+Reference existing patterns in backend/transaction-routes.ts and 
+src/components/ for consistency.</code></pre>
+            </div>
+          </div>
+          
+          <div class="expected">
+            <div class="expected-title">Expected Output</div>
+            <div class="expected-content">
+              File created: <code>docs/PRD.md</code> containing:
+              <ul>
+                <li>Functional Requirements (FRs)</li>
+                <li>Non-Functional Requirements (NFRs)</li>
+                <li>User stories with acceptance criteria</li>
+                <li>Constraints and assumptions</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Task 7: Create Architecture -->
+      <div class="task">
+        <div class="task-header">
+          <span class="task-number">7</span>
+          <h2 class="task-title">Create Architecture (Phase 3 - Required)</h2>
+        </div>
+        <div class="task-content">
+          <p class="task-goal"><strong>Goal:</strong> Design the technical architecture for the feature.</p>
+          
+          <div class="steps">
+            <div class="step">
+              <div class="step-content">Start a FRESH chat</div>
+            </div>
+            <div class="step">
+              <div class="step-content">Activate the Architect agent (bmd-custom-bmm-architect)</div>
+            </div>
+            <div class="step">
+              <div class="step-content">Run the architecture workflow:</div>
+            </div>
+          </div>
+          
+          <div class="expandable">
+            <div class="expandable-header">
+              <span class="expandable-icon">▶</span>
+              <span class="expandable-title prompt">💬 Prompt</span>
+            </div>
+            <div class="expandable-content">
+<pre><code>*create-architecture
+
+Design the architecture for the Transaction Insights Dashboard.
+
+Tech Stack Context:
+- Backend: Express.js with TypeScript (see backend/app.ts)
+- Database: lowdb JSON database (see backend/database.ts)
+- Frontend: React with Material-UI
+- Existing patterns: backend/transaction-routes.ts, src/components/
+
+Architecture should address:
+- New API endpoints for analytics data
+- Data aggregation and caching strategy
+- Chart library selection (consider recharts or chart.js)
+- Real-time update mechanism
+- State management approach
+- Component structure</code></pre>
+            </div>
+          </div>
+          
+          <div class="expected">
+            <div class="expected-title">Expected Output</div>
+            <div class="expected-content">
+              Architecture document with:
+              <ul>
+                <li>System design decisions</li>
+                <li>API endpoint specifications</li>
+                <li>Data flow diagrams</li>
+                <li>Technology choices with rationale</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Task 8: Create Epics and Stories -->
+      <div class="task">
+        <div class="task-header">
+          <span class="task-number">8</span>
+          <h2 class="task-title">Create Epics and Stories</h2>
+        </div>
+        <div class="task-content">
+          <p class="task-goal"><strong>Goal:</strong> Break down the PRD into implementable epics and stories.</p>
+          
+          <div class="steps">
+            <div class="step">
+              <div class="step-content">Start a FRESH chat</div>
+            </div>
+            <div class="step">
+              <div class="step-content">Activate the PM agent</div>
+            </div>
+            <div class="step">
+              <div class="step-content">Run the epics workflow:</div>
+            </div>
+          </div>
+          
+          <div class="expandable">
+            <div class="expandable-header">
+              <span class="expandable-icon">▶</span>
+              <span class="expandable-title prompt">💬 Prompt</span>
+            </div>
+            <div class="expandable-content">
+<pre><code>*create-epics-and-stories</code></pre>
+            </div>
+          </div>
+          
+          <div class="expected">
+            <div class="expected-title">Expected Epic Breakdown</div>
+            <div class="expected-content">
+              <ul>
+                <li>Epic 1: Analytics API Layer</li>
+                <li>Epic 2: Data Aggregation Service</li>
+                <li>Epic 3: Dashboard UI Components</li>
+                <li>Epic 4: Real-time Updates</li>
+                <li>Epic 5: Testing and Polish</li>
+              </ul>
+              <p style="margin-top: 8px;">Each epic contains multiple user stories with acceptance criteria.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Task 9: Implementation -->
+      <div class="task">
+        <div class="task-header">
+          <span class="task-number">9</span>
+          <h2 class="task-title">Sprint Planning and Implementation (Phase 4)</h2>
+        </div>
+        <div class="task-content">
+          <p class="task-goal"><strong>Goal:</strong> Set up sprint tracking and implement stories.</p>
+          
+          <h3>Step 1: Sprint Planning (SM Agent)</h3>
+          <div class="expandable">
+            <div class="expandable-header">
+              <span class="expandable-icon">▶</span>
+              <span class="expandable-title prompt">💬 Prompt</span>
+            </div>
+            <div class="expandable-content">
+<pre><code>*sprint-planning</code></pre>
+            </div>
+          </div>
+          
+          <h3>Step 2: Create Story (SM Agent - Fresh Chat)</h3>
+          <div class="expandable">
+            <div class="expandable-header">
+              <span class="expandable-icon">▶</span>
+              <span class="expandable-title prompt">💬 Prompt</span>
+            </div>
+            <div class="expandable-content">
+<pre><code>*create-story</code></pre>
+            </div>
+          </div>
+          
+          <h3>Step 3: Implement Story (DEV Agent - Fresh Chat)</h3>
+          <div class="expandable">
+            <div class="expandable-header">
+              <span class="expandable-icon">▶</span>
+              <span class="expandable-title prompt">💬 Prompt</span>
+            </div>
+            <div class="expandable-content">
+<pre><code>*dev-story</code></pre>
+            </div>
+          </div>
+          
+          <h3>Step 4: Code Review (DEV Agent - Fresh Chat)</h3>
+          <div class="expandable">
+            <div class="expandable-header">
+              <span class="expandable-icon">▶</span>
+              <span class="expandable-title prompt">💬 Prompt</span>
+            </div>
+            <div class="expandable-content">
+<pre><code>*code-review</code></pre>
+            </div>
+          </div>
+          
+          <div class="info-box tip">
+            <span class="info-box-icon">🔄</span>
+            <div>
+              <strong>For Each Story, Repeat:</strong>
+              <ol style="margin-top: 8px;">
+                <li>NEW chat → SM agent → "*create-story"</li>
+                <li>NEW chat → DEV agent → "*dev-story"</li>
+                <li>NEW chat → DEV agent → "*code-review" (optional)</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Quick Flow Alternative -->
+      <div class="info-box info">
+        <span class="info-box-icon">⚡</span>
+        <div>
+          <strong>Quick Flow Alternative</strong>
+          <p style="margin-top: 8px;">For smaller tasks (bug fixes, simple features), use Quick Flow:</p>
+          <ol style="margin-top: 8px;">
+            <li>Start with Analyst agent</li>
+            <li>Run workflow-init and select Quick Flow track</li>
+            <li>Create tech-spec instead of full PRD: <code>*tech-spec</code></li>
+            <li>Implement directly with DEV agent</li>
+          </ol>
+          <p style="margin-top: 8px;"><strong>Quick Flow is 3 steps:</strong> tech-spec → dev → optional review</p>
+        </div>
+      </div>
+      
+      <!-- Workflow Summary -->
+      <div class="info-box note">
+        <span class="info-box-icon">📊</span>
+        <div>
+          <strong>Complete BMAD Method Workflow</strong>
+          <div style="margin-top: 12px;">
+            <strong>Phase 1 - Analysis (Optional):</strong>
+            <ul style="margin-top: 4px;">
+              <li>workflow-init → Set up tracking</li>
+              <li>brainstorm-project → Explore ideas</li>
+              <li>product-brief → Clarify vision</li>
+            </ul>
+          </div>
+          <div style="margin-top: 12px;">
+            <strong>Phase 2 - Planning (Required):</strong>
+            <ul style="margin-top: 4px;">
+              <li>prd → Create requirements</li>
+              <li>ux → Design user experience (if UI involved)</li>
+            </ul>
+          </div>
+          <div style="margin-top: 12px;">
+            <strong>Phase 3 - Solutioning (Required):</strong>
+            <ul style="margin-top: 4px;">
+              <li>create-architecture → Design system</li>
+              <li>create-epics-and-stories → Break down work</li>
+              <li>implementation-readiness → Validate plans</li>
+            </ul>
+          </div>
+          <div style="margin-top: 12px;">
+            <strong>Phase 4 - Implementation (Required):</strong>
+            <ul style="margin-top: 4px;">
+              <li>sprint-planning → Set up tracking</li>
+              <li>create-story → Draft next story</li>
+              <li>dev-story → Implement code</li>
+              <li>code-review → Quality check</li>
+              <li>retrospective → Epic completion review</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Key Learnings -->
+      <div class="key-points">
+        <h2>🔑 Key Learnings</h2>
+        <ul>
+          <li><strong>Fresh Chats for Each Workflow:</strong> Prevents context pollution and hallucinations</li>
+          <li><strong>Specialized Agents = Better Results:</strong> Each agent has deep domain expertise</li>
+          <li><strong>Track Matters:</strong> Quick Flow for small tasks, BMad Method for features</li>
+          <li><strong>Tracking is Automatic:</strong> YAML files track status as you work</li>
+          <li><strong>Flexible Command Input:</strong> Use shorthand (*prd), menu numbers, or natural language</li>
+        </ul>
+      </div>
+      
+      <!-- Comparison -->
+      <div class="info-box tip">
+        <span class="info-box-icon">⚖️</span>
+        <div>
+          <strong>BMAD vs Spec Kit</strong>
+          <table style="margin-top: 12px; width: 100%;">
+            <thead>
+              <tr>
+                <th>Aspect</th>
+                <th>BMAD Method</th>
+                <th>Spec Kit</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Approach</td>
+                <td>Agile with AI agents</td>
+                <td>Specification-first</td>
+              </tr>
+              <tr>
+                <td>Agents</td>
+                <td>19 specialized personas</td>
+                <td>Single AI assistant</td>
+              </tr>
+              <tr>
+                <td>Best For</td>
+                <td>Team-style development</td>
+                <td>Solo/focused development</td>
+              </tr>
+            </tbody>
+          </table>
+          <p style="margin-top: 12px;">Choose based on your preferred working style!</p>
+        </div>
+      </div>
+      
+      <!-- Resources -->
+      <div class="info-box note">
+        <span class="info-box-icon">📚</span>
+        <div>
+          <strong>Resources</strong>
+          <ul style="margin-top: 8px;">
+            <li><a href="https://github.com/bmad-code-org/BMAD-METHOD" target="_blank">BMAD GitHub</a></li>
+            <li><a href="https://github.com/bmad-code-org/BMAD-METHOD/blob/main/src/modules/bmm/docs/quick-start.md" target="_blank">Quick Start Guide</a></li>
+            <li><a href="https://discord.gg/gk8jAdXWmj" target="_blank">Discord Community</a></li>
+            <li><a href="https://www.youtube.com/@BMadCode" target="_blank">YouTube Channel</a></li>
+          </ul>
+        </div>
+      </div>
+      
+      <!-- Completion Checklist -->
+      <div class="checklist">
+        <h2>✅ Completion Checklist</h2>
+        <ul>
+          <li>Installed BMAD Method</li>
+          <li>Understood specialized agents</li>
+          <li>Initialized workflow tracking</li>
+          <li>Created PRD with PM agent</li>
+          <li>Designed architecture with Architect agent</li>
+          <li>Created epics and stories</li>
+          <li>Set up sprint planning</li>
+          <li>Implemented first story with DEV agent</li>
+        </ul>
+      </div>
+      
+      <div class="page-nav">
+        <a href="05-01-spec-kit.html" class="page-nav-link prev">
+          <span class="page-nav-label">Previous</span>
+          <span class="page-nav-title">Spec Kit</span>
+        </a>
+        <a href="06-01-code-review.html" class="page-nav-link next">
+          <span class="page-nav-label">Next</span>
+          <span class="page-nav-title">Code Review</span>
+        </a>
+      </div>
+    </main>
+  </div>
+  
+  <script src="script.js"></script>
+</body>
+</html>

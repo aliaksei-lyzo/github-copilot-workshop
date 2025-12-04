@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Exploratory API Testing - GitHub Copilot Workshop</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="layout">
+    <!-- Sidebar Navigation -->
+    <nav class="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo">
+          <svg viewBox="0 0 16 16" fill="currentColor">
+            <path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"/>
+          </svg>
+          Copilot Workshop
+        </div>
+      </div>
+      
+      <div class="nav-section">
+        <div class="nav-section-title">Getting Started</div>
+        <ul class="nav-list">
+          <li class="nav-item"><a href="index.html">Welcome</a></li>
+          <li class="nav-item"><a href="00-setup.html">0.1 Project Setup</a></li>
+        </ul>
+      </div>
+      
+      <div class="nav-section">
+        <div class="nav-section-title">01 - Basic Usage</div>
+        <ul class="nav-list">
+          <li class="nav-item"><a href="01-01-basic-usage.html">1.1 Basic Usage</a></li>
+          <li class="nav-item"><a href="01-02-chat-participants.html">1.2 Chat Participants</a></li>
+        </ul>
+      </div>
+      
+      <div class="nav-section">
+        <div class="nav-section-title">02 - Context Engineering</div>
+        <ul class="nav-list">
+          <li class="nav-item"><a href="02-01-custom-instructions.html">2.1 Custom Instructions</a></li>
+          <li class="nav-item"><a href="02-02-mcp.html">2.2 MCP (Context7)</a></li>
+        </ul>
+      </div>
+      
+      <div class="nav-section">
+        <div class="nav-section-title">03 - Daily Development</div>
+        <ul class="nav-list">
+          <li class="nav-item"><a href="03-01-chat-modes.html">3.1 Chat Modes</a></li>
+          <li class="nav-item"><a href="03-02-tasks.html">3.2 Mode Selection</a></li>
+          <li class="nav-item"><a href="03-03-bug-fixing.html">3.3 Bug Fixing</a></li>
+          <li class="nav-item"><a href="03-04-unit-tests.html">3.4 Unit Tests</a></li>
+          <li class="nav-item"><a href="03-05-custom-prompts.html">3.5 Prompt Files</a></li>
+          <li class="nav-item"><a href="03-06-awesome-copilot.html">3.6 Awesome Copilot</a></li>
+        </ul>
+      </div>
+      
+      <div class="nav-section">
+        <div class="nav-section-title">04 - MCP Servers</div>
+        <ul class="nav-list">
+          <li class="nav-item"><a href="04-01-github-mcp.html">4.1 GitHub MCP</a></li>
+          <li class="nav-item"><a href="04-02-docs.html">4.2 Documentation</a></li>
+          <li class="nav-item"><a href="04-04-playwright.html">4.3 Playwright</a></li>
+          <li class="nav-item"><a href="04-05-chrome-devtools.html">4.4 Chrome DevTools</a></li>
+          <li class="nav-item active"><a href="04-06-exploratory.html">4.5 Exploratory Testing</a></li>
+        </ul>
+      </div>
+      
+      <div class="nav-section">
+        <div class="nav-section-title">05 - SDD Methods</div>
+        <ul class="nav-list">
+          <li class="nav-item"><a href="05-01-spec-kit.html">5.1 Spec Kit</a></li>
+          <li class="nav-item"><a href="05-02-bmad.html">5.2 BMAD Method</a></li>
+        </ul>
+      </div>
+      
+      <div class="nav-section">
+        <div class="nav-section-title">06 - GitHub Features</div>
+        <ul class="nav-list">
+          <li class="nav-item"><a href="06-01-code-review.html">6.1 Code Review</a></li>
+          <li class="nav-item"><a href="06-02-autocode.html">6.2 Coding Agent</a></li>
+          <li class="nav-item"><a href="06-03-copilot-cli.html">6.3 Copilot CLI</a></li>
+        </ul>
+      </div>
+    </nav>
+    
+    <!-- Main Content -->
+    <main class="main-content">
+      <header class="page-header">
+        <h1 class="page-title">Exploratory API Testing</h1>
+        <p class="page-subtitle">Generate comprehensive API test scripts using Copilot's code generation capabilities.</p>
+      </header>
+      
+      <div class="learning-objectives">
+        <h2>🎯 Learning Objectives</h2>
+        <ul>
+          <li>Discover all API endpoints in a codebase</li>
+          <li>Generate comprehensive API test scripts</li>
+          <li>Add negative test cases for error handling</li>
+          <li>Create structured test reports and collections</li>
+        </ul>
+      </div>
+      
+      <!-- Overview -->
+      <div class="info-box info">
+        <span class="info-box-icon">🔍</span>
+        <div>
+          <strong>Overview</strong>
+          <p style="margin-top: 8px;">Use GitHub Copilot to generate scripts for exploratory testing of all API endpoints. This task teaches you how to leverage Copilot's code generation capabilities combined with its understanding of your codebase to create comprehensive API tests.</p>
+        </div>
+      </div>
+      
+      <!-- Scenario Context -->
+      <div class="info-box note">
+        <span class="info-box-icon">📋</span>
+        <div>
+          <strong>Scenario: API Coverage Analysis</strong>
+          <p style="margin-top: 8px;"><strong>Report:</strong> The QA team needs to verify all API endpoints are working correctly after a deployment. Instead of manually testing each endpoint, we want to generate an automated script.</p>
+          <ul style="margin-top: 8px;">
+            <li>Backend runs on: <code>http://localhost:3001</code></li>
+            <li>Authentication: Session-based (login via POST /login)</li>
+            <li>Test user: username <code>Johan3</code>, password <code>s3cret</code></li>
+            <li>Route files are in: <code>backend/*.ts</code></li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="info-box warning">
+        <span class="info-box-icon">⚠️</span>
+        <div><strong>Prerequisite:</strong> Ensure the app is running (<code>npm run dev</code> in a separate terminal)</div>
+      </div>
+      
+      <!-- Task 1: Discover API Endpoints -->
+      <div class="task">
+        <div class="task-header">
+          <span class="task-number">1</span>
+          <h2 class="task-title">Discover API Endpoints</h2>
+        </div>
+        <div class="task-content">
+          <p class="task-goal"><strong>Goal:</strong> Have Copilot analyze the codebase and list all API endpoints.</p>
+          
+          <div class="expandable">
+            <div class="expandable-header">
+              <span class="expandable-icon">▶</span>
+              <span class="expandable-title prompt">💬 Prompt (Agent Mode)</span>
+            </div>
+            <div class="expandable-content">
+<pre><code>Analyze the backend folder and list all API endpoints in this project. Include HTTP method, path, authentication requirement, and expected request body format for each endpoint.</code></pre>
+            </div>
+          </div>
+          
+          <div class="expected">
+            <div class="expected-title">Expected Output</div>
+            <div class="expected-content">
+              Copilot should identify endpoints from these route files:
+              <ul>
+                <li><strong>auth.ts:</strong> POST /login, POST /logout, GET /checkAuth</li>
+                <li><strong>user-routes.ts:</strong> GET /users, GET /users/search, POST /users, etc.</li>
+                <li><strong>contact-routes.ts:</strong> GET /contacts/:username, POST /contacts, DELETE</li>
+                <li><strong>bankaccount-routes.ts:</strong> GET/POST/DELETE /bankAccounts</li>
+                <li><strong>transaction-routes.ts:</strong> GET/POST/PATCH /transactions</li>
+                <li><strong>notification-routes.ts:</strong> GET/POST/PATCH /notifications</li>
+                <li><strong>like-routes.ts:</strong> GET/POST /likes/:transactionId</li>
+                <li><strong>comment-routes.ts:</strong> GET/POST /comments/:transactionId</li>
+                <li><strong>banktransfer-routes.ts:</strong> GET /bankTransfers</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Task 2: Generate API Test Script -->
+      <div class="task">
+        <div class="task-header">
+          <span class="task-number">2</span>
+          <h2 class="task-title">Generate API Test Script</h2>
+        </div>
+        <div class="task-content">
+          <p class="task-goal"><strong>Goal:</strong> Create a comprehensive API test script using a REST client library.</p>
+          
+          <div class="expandable">
+            <div class="expandable-header">
+              <span class="expandable-icon">▶</span>
+              <span class="expandable-title prompt">💬 Prompt</span>
+            </div>
+            <div class="expandable-content">
+<pre><code>Create a Node.js script at scripts/api-test.ts that tests all backend API endpoints. The script should:
+1. Use axios for HTTP requests
+2. Login first with username 'Johan3' and password 's3cret'
+3. Store and reuse session cookies for authenticated requests
+4. Test each endpoint and log success/failure
+5. Use real IDs from the database (check data/database.json for valid user IDs and transaction IDs)
+6. Print a summary at the end with pass/fail counts
+
+Base URL: http://localhost:3001</code></pre>
+            </div>
+          </div>
+          
+          <div class="expected">
+            <div class="expected-title">Expected Output</div>
+            <div class="expected-content">
+              <ul>
+                <li>Copilot creates <code>scripts/api-test.ts</code> with comprehensive endpoint coverage</li>
+                <li>Script handles authentication and session management</li>
+                <li>Each endpoint test logs the result</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Task 3: Run the Test Script -->
+      <div class="task">
+        <div class="task-header">
+          <span class="task-number">3</span>
+          <h2 class="task-title">Run the Test Script</h2>
+        </div>
+        <div class="task-content">
+          <p class="task-goal"><strong>Goal:</strong> Execute the generated test script and verify results.</p>
+          
+          <div class="expandable">
+            <div class="expandable-header">
+              <span class="expandable-icon">▶</span>
+              <span class="expandable-title prompt">💬 Run Prompt</span>
+            </div>
+            <div class="expandable-content">
+<pre><code>Run the API test script at scripts/api-test.ts using ts-node.</code></pre>
+            </div>
+          </div>
+          
+          <div class="expandable">
+            <div class="expandable-header">
+              <span class="expandable-icon">▶</span>
+              <span class="expandable-title hint">💡 If Errors Occur</span>
+            </div>
+            <div class="expandable-content">
+<pre><code>Fix the errors in the API test script and run it again.</code></pre>
+            </div>
+          </div>
+          
+          <div class="expected">
+            <div class="expected-title">Expected Output</div>
+            <div class="expected-content">
+              <ul>
+                <li>Script executes successfully</li>
+                <li>All endpoints return expected status codes</li>
+                <li>Summary shows pass/fail count</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Task 4: Add Negative Test Cases -->
+      <div class="task">
+        <div class="task-header">
+          <span class="task-number">4</span>
+          <h2 class="task-title">Add Negative Test Cases</h2>
+        </div>
+        <div class="task-content">
+          <p class="task-goal"><strong>Goal:</strong> Extend the script to include negative test scenarios.</p>
+          
+          <div class="expandable">
+            <div class="expandable-header">
+              <span class="expandable-icon">▶</span>
+              <span class="expandable-title prompt">💬 Prompt</span>
+            </div>
+            <div class="expandable-content">
+<pre><code>Add negative test cases to scripts/api-test.ts for:
+1. Accessing protected endpoints without authentication (expect 401)
+2. Accessing non-existent resources (expect 404)
+3. Sending invalid data formats (expect 400)
+4. Accessing another user's private data (expect 401 or 403)
+
+Each negative test should verify the expected error status code.</code></pre>
+            </div>
+          </div>
+          
+          <div class="expected">
+            <div class="expected-title">Expected Output</div>
+            <div class="expected-content">
+              <ul>
+                <li>Script includes negative test cases</li>
+                <li>Tests validate proper error handling</li>
+                <li>Summary distinguishes between positive and negative tests</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Task 5: Generate Test Report -->
+      <div class="task">
+        <div class="task-header">
+          <span class="task-number">5</span>
+          <h2 class="task-title">Generate Test Report</h2>
+        </div>
+        <div class="task-content">
+          <p class="task-goal"><strong>Goal:</strong> Create a structured test report from the results.</p>
+          
+          <div class="expandable">
+            <div class="expandable-header">
+              <span class="expandable-icon">▶</span>
+              <span class="expandable-title prompt">💬 Prompt</span>
+            </div>
+            <div class="expandable-content">
+<pre><code>Modify the API test script to output results in JSON format to scripts/api-test-results.json with this structure:
+{
+  "timestamp": "ISO date string",
+  "summary": { "total": number, "passed": number, "failed": number },
+  "results": [
+    { "endpoint": string, "method": string, "status": "pass"|"fail", "statusCode": number, "duration": number }
+  ]
+}</code></pre>
+            </div>
+          </div>
+          
+          <div class="expected">
+            <div class="expected-title">Expected Output</div>
+            <div class="expected-content">
+              <ul>
+                <li>Script outputs structured JSON report</li>
+                <li>Report includes timing information</li>
+                <li>Can be used for CI/CD integration</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Task 6: Create Postman Collection -->
+      <div class="task">
+        <div class="task-header">
+          <span class="task-number">6</span>
+          <h2 class="task-title">Create Postman/Insomnia Collection</h2>
+        </div>
+        <div class="task-content">
+          <p class="task-goal"><strong>Goal:</strong> Generate an importable API collection for manual testing.</p>
+          
+          <div class="expandable">
+            <div class="expandable-header">
+              <span class="expandable-icon">▶</span>
+              <span class="expandable-title prompt">💬 Prompt</span>
+            </div>
+            <div class="expandable-content">
+<pre><code>Based on the API endpoints you discovered, generate a Postman collection JSON file at scripts/api-collection.postman.json that includes:
+1. All endpoints organized by resource (Users, Transactions, etc.)
+2. Environment variable for base URL
+3. Pre-configured authentication using {{username}} and {{password}} variables
+4. Example request bodies for POST/PATCH endpoints</code></pre>
+            </div>
+          </div>
+          
+          <div class="expected">
+            <div class="expected-title">Expected Output</div>
+            <div class="expected-content">
+              <ul>
+                <li>Valid Postman collection JSON file</li>
+                <li>Endpoints organized in folders</li>
+                <li>Can be imported into Postman or Insomnia</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Bonus Task -->
+      <div class="task">
+        <div class="task-header">
+          <span class="task-number">⭐</span>
+          <h2 class="task-title">Bonus: Interactive API Explorer</h2>
+        </div>
+        <div class="task-content">
+          <p class="task-goal"><strong>Goal:</strong> Create a simple CLI tool for exploring API endpoints.</p>
+          
+          <div class="expandable">
+            <div class="expandable-header">
+              <span class="expandable-icon">▶</span>
+              <span class="expandable-title prompt">💬 Prompt</span>
+            </div>
+            <div class="expandable-content">
+<pre><code>Create an interactive CLI script at scripts/api-explorer.ts that:
+1. Shows a menu of all available endpoints
+2. Allows selecting an endpoint to test
+3. Prompts for required parameters (IDs, request body)
+4. Executes the request and displays the response
+5. Uses inquirer or readline for user input
+
+Include login functionality at startup.</code></pre>
+            </div>
+          </div>
+          
+          <div class="expected">
+            <div class="expected-title">Expected Output</div>
+            <div class="expected-content">
+              <ul>
+                <li>Interactive CLI tool for API exploration</li>
+                <li>User-friendly interface for testing</li>
+                <li>Useful for debugging and exploration</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- API Endpoint Reference -->
+      <div class="info-box info">
+        <span class="info-box-icon">📚</span>
+        <div>
+          <strong>API Endpoint Reference</strong>
+          <details style="margin-top: 12px;">
+            <summary style="cursor: pointer; font-weight: 500;">Click to expand full endpoint list</summary>
+            <div style="margin-top: 12px;">
+              <strong>AUTHENTICATION:</strong>
+              <ul style="margin-top: 4px;">
+                <li>POST /login - Login with username/password</li>
+                <li>POST /logout - End session</li>
+                <li>GET /checkAuth - Verify authentication status</li>
+              </ul>
+              
+              <strong style="margin-top: 12px; display: block;">USERS (/users):</strong>
+              <ul style="margin-top: 4px;">
+                <li>GET /users - List all users (auth required)</li>
+                <li>GET /users/search?q= - Search users (auth required)</li>
+                <li>POST /users - Create new user</li>
+                <li>GET /users/:userId - Get user by ID (auth required)</li>
+                <li>GET /users/profile/:username - Get user profile (public)</li>
+                <li>PATCH /users/:userId - Update user (auth required)</li>
+              </ul>
+              
+              <strong style="margin-top: 12px; display: block;">CONTACTS (/contacts):</strong>
+              <ul style="margin-top: 4px;">
+                <li>GET /contacts/:username - Get contacts by username</li>
+                <li>POST /contacts - Create contact (auth required)</li>
+                <li>DELETE /contacts/:contactId - Delete contact (auth required)</li>
+              </ul>
+              
+              <strong style="margin-top: 12px; display: block;">BANK ACCOUNTS (/bankAccounts):</strong>
+              <ul style="margin-top: 4px;">
+                <li>GET /bankAccounts - List user's bank accounts (auth required)</li>
+                <li>GET /bankAccounts/:id - Get bank account by ID (auth required)</li>
+                <li>POST /bankAccounts - Create bank account (auth required)</li>
+                <li>DELETE /bankAccounts/:id - Delete bank account (auth required)</li>
+              </ul>
+              
+              <strong style="margin-top: 12px; display: block;">TRANSACTIONS (/transactions):</strong>
+              <ul style="margin-top: 4px;">
+                <li>GET /transactions - List user's transactions (auth required)</li>
+                <li>GET /transactions/contacts - List contacts' transactions (auth required)</li>
+                <li>GET /transactions/public - List public transactions (auth required)</li>
+                <li>POST /transactions - Create transaction (auth required)</li>
+                <li>GET /transactions/:id - Get transaction by ID (auth required)</li>
+                <li>PATCH /transactions/:id - Update transaction (auth required)</li>
+              </ul>
+              
+              <strong style="margin-top: 12px; display: block;">NOTIFICATIONS, LIKES, COMMENTS, TRANSFERS:</strong>
+              <ul style="margin-top: 4px;">
+                <li>GET/POST/PATCH /notifications - Notification management</li>
+                <li>GET/POST /likes/:transactionId - Like management</li>
+                <li>GET/POST /comments/:transactionId - Comment management</li>
+                <li>GET /bankTransfers - List bank transfers</li>
+              </ul>
+            </div>
+          </details>
+        </div>
+      </div>
+      
+      <!-- Debugging Tips -->
+      <div class="key-points">
+        <h2>🔑 Debugging Tips</h2>
+        <ul>
+          <li><strong>Cookie handling:</strong> Axios needs <code>withCredentials: true</code> and a cookie jar library to persist session cookies across requests</li>
+          <li><strong>Order matters:</strong> Some endpoints require existing data. Test creation endpoints before retrieval</li>
+          <li><strong>Real IDs:</strong> Use IDs from <code>data/database.json</code> for testing GET/PATCH/DELETE operations</li>
+          <li><strong>Validation errors:</strong> If you get 400 errors, check <code>validators.ts</code> for required fields</li>
+        </ul>
+      </div>
+      
+      <!-- Reflection -->
+      <div class="info-box note">
+        <span class="info-box-icon">🤔</span>
+        <div>
+          <strong>Reflection:</strong>
+          <ul style="margin-top: 8px;">
+            <li>How can automated API tests be integrated into your CI/CD pipeline?</li>
+            <li>What's the difference between exploratory testing and regression testing?</li>
+            <li>How would you handle API versioning in your test scripts?</li>
+            <li>What additional validations would you add (response schema, performance)?</li>
+          </ul>
+        </div>
+      </div>
+      
+      <!-- Completion Checklist -->
+      <div class="checklist">
+        <h2>✅ Completion Checklist</h2>
+        <ul>
+          <li>Discovered all API endpoints in the codebase</li>
+          <li>Generated comprehensive API test script</li>
+          <li>Ran tests and verified results</li>
+          <li>Added negative test cases</li>
+          <li>Generated structured JSON report</li>
+          <li>Created Postman collection</li>
+        </ul>
+      </div>
+      
+      <div class="page-nav">
+        <a href="04-05-chrome-devtools.html" class="page-nav-link prev">
+          <span class="page-nav-label">Previous</span>
+          <span class="page-nav-title">Chrome DevTools</span>
+        </a>
+        <a href="05-01-spec-kit.html" class="page-nav-link next">
+          <span class="page-nav-label">Next</span>
+          <span class="page-nav-title">Spec Kit</span>
+        </a>
+      </div>
+    </main>
+  </div>
+  
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Unit Tests - GitHub Copilot Workshop</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="layout">
+    <!-- Sidebar Navigation -->
+    <nav class="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo">
+          <svg viewBox="0 0 16 16" fill="currentColor">
+            <path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"/>
+          </svg>
+          Copilot Workshop
+        </div>
+      </div>
+      
+      <div class="nav-section">
+        <div class="nav-section-title">Getting Started</div>
+        <ul class="nav-list">
+          <li class="nav-item"><a href="index.html">Welcome</a></li>
+          <li class="nav-item"><a href="00-setup.html">0.1 Project Setup</a></li>
+        </ul>
+      </div>
+      
+      <div class="nav-section">
+        <div class="nav-section-title">01 - Basic Usage</div>
+        <ul class="nav-list">
+          <li class="nav-item"><a href="01-01-basic-usage.html">1.1 Basic Usage</a></li>
+          <li class="nav-item"><a href="01-02-chat-participants.html">1.2 Chat Participants</a></li>
+        </ul>
+      </div>
+      
+      <div class="nav-section">
+        <div class="nav-section-title">02 - Context Engineering</div>
+        <ul class="nav-list">
+          <li class="nav-item"><a href="02-01-custom-instructions.html">2.1 Custom Instructions</a></li>
+          <li class="nav-item"><a href="02-02-mcp.html">2.2 MCP (Context7)</a></li>
+        </ul>
+      </div>
+      
+      <div class="nav-section">
+        <div class="nav-section-title">03 - Daily Development</div>
+        <ul class="nav-list">
+          <li class="nav-item"><a href="03-01-chat-modes.html">3.1 Chat Modes</a></li>
+          <li class="nav-item"><a href="03-02-tasks.html">3.2 Mode Selection</a></li>
+          <li class="nav-item"><a href="03-03-bug-fixing.html">3.3 Bug Fixing</a></li>
+          <li class="nav-item active"><a href="03-04-unit-tests.html">3.4 Unit Tests</a></li>
+          <li class="nav-item"><a href="03-05-custom-prompts.html">3.5 Prompt Files</a></li>
+          <li class="nav-item"><a href="03-06-awesome-copilot.html">3.6 Awesome Copilot</a></li>
+        </ul>
+      </div>
+      
+      <div class="nav-section">
+        <div class="nav-section-title">04 - MCP Servers</div>
+        <ul class="nav-list">
+          <li class="nav-item"><a href="04-01-github-mcp.html">4.1 GitHub MCP</a></li>
+          <li class="nav-item"><a href="04-02-docs.html">4.2 Documentation</a></li>
+          <li class="nav-item"><a href="04-04-playwright.html">4.3 Playwright</a></li>
+          <li class="nav-item"><a href="04-05-chrome-devtools.html">4.4 Chrome DevTools</a></li>
+          <li class="nav-item"><a href="04-06-exploratory.html">4.5 Exploratory Testing</a></li>
+        </ul>
+      </div>
+      
+      <div class="nav-section">
+        <div class="nav-section-title">05 - SDD Methods</div>
+        <ul class="nav-list">
+          <li class="nav-item"><a href="05-01-spec-kit.html">5.1 Spec Kit</a></li>
+          <li class="nav-item"><a href="05-02-bmad.html">5.2 BMAD Method</a></li>
+        </ul>
+      </div>
+      
+      <div class="nav-section">
+        <div class="nav-section-title">06 - GitHub Features</div>
+        <ul class="nav-list">
+          <li class="nav-item"><a href="06-01-code-review.html">6.1 Code Review</a></li>
+          <li class="nav-item"><a href="06-02-autocode.html">6.2 Coding Agent</a></li>
+          <li class="nav-item"><a href="06-03-copilot-cli.html">6.3 Copilot CLI</a></li>
+        </ul>
+      </div>
+    </nav>
+    
+    <!-- Main Content -->
+    <main class="main-content">
+      <header class="page-header">
+        <h1 class="page-title">Unit Testing with GitHub Copilot</h1>
+        <p class="page-subtitle">Generate comprehensive test suites efficiently with different Copilot modes.</p>
+      </header>
+      
+      <div class="learning-objectives">
+        <h2>🎯 Learning Objectives</h2>
+        <ul>
+          <li>Use ASK mode to explore test scenarios and edge cases</li>
+          <li>Generate specific tests with EDIT mode</li>
+          <li>Create comprehensive test suites with AGENT mode</li>
+          <li>Match existing test patterns and style</li>
+        </ul>
+      </div>
+      
+      <!-- Testing Workflow -->
+      <div class="info-box info">
+        <span class="info-box-icon">🔄</span>
+        <div>
+          <strong>Unit Testing Workflow:</strong>
+          <ol style="margin-top: 8px; padding-left: 20px;">
+            <li><strong>ASK Mode</strong> - Understand what to test and explore edge cases</li>
+            <li><strong>EDIT Mode</strong> - Generate specific test cases for known scenarios</li>
+            <li><strong>AGENT Mode</strong> - Generate comprehensive test suites covering multiple scenarios</li>
+          </ol>
+        </div>
+      </div>
+      
+      <!-- Task #1 -->
+      <div class="task">
+        <div class="task-header">
+          <span class="task-number">1</span>
+          <h2 class="task-title">Write Tests for Transaction Utility Functions</h2>
+        </div>
+        <div class="task-content">
+          <p class="task-goal"><strong>Task:</strong> Create comprehensive unit tests for transaction utility functions.</p>
+          
+          <div class="info-box note">
+            <span class="info-box-icon">📄</span>
+            <div>
+              <strong>Source:</strong> src/utils/transactionUtils.ts<br>
+              <strong>Test File:</strong> src/__tests__/transactionUtils.test.ts (create new)
+            </div>
+          </div>
+          
+          <h3 style="margin-top: 16px; margin-bottom: 12px; font-size: 15px; color: var(--color-text);">Functions to test:</h3>
+          <ul style="margin-left: 20px; margin-bottom: 16px;">
+            <li><code>hasSufficientFunds(sender, transaction)</code> - checks balance</li>
+            <li><code>getChargeAmount(sender, transaction)</code> - calculates charge</li>
+            <li><code>formatFullName(user)</code> - formats name</li>
+            <li><code>hasDateQueryFields(query)</code> - checks date fields</li>
+            <li><code>getQueryWithoutFilterFields(query)</code> - removes filters</li>
+            <li><code>getPaginatedItems(page, limit, items)</code> - paginates array</li>
+          </ul>
+          
+          <div class="info-box tip">
+            <span class="info-box-icon">📚</span>
+            <div><strong>Context:</strong> Project uses Vitest, existing tests in src/__tests__/</div>
+          </div>
+          
+          <div class="questions">
+            <div class="questions-title">Think About It</div>
+            <ul>
+              <li>Use ASK to understand edge cases?</li>
+              <li>Is EDIT sufficient for individual tests?</li>
+              <li>Would AGENT be better for complete suite?</li>
+              <li>How ensure testing success and failure cases?</li>
+            </ul>
+          </div>
+          
+          <div class="expected">
+            <div class="expected-title">Expected Result</div>
+            <div class="expected-content">Complete test file with 3-4 utility functions tested, edge cases covered</div>
+          </div>
+          
+          <div class="expandable">
+            <div class="expandable-header">
+              <span class="expandable-icon">▶</span>
+              <span class="expandable-title hint">🔮 Hint</span>
+            </div>
+            <div class="expandable-content">
+              Multiple functions, need comprehensive coverage = consider full suite generation with AGENT
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Task #2 -->
+      <div class="task">
+        <div class="task-header">
+          <span class="task-number">2</span>
+          <h2 class="task-title">Add Missing Test Cases to Transaction Tests</h2>
+        </div>
+        <div class="task-content">
+          <p class="task-goal"><strong>Task:</strong> Add 4 missing edge case tests to existing transaction test suite.</p>
+          
+          <div class="info-box note">
+            <span class="info-box-icon">📄</span>
+            <div><strong>File:</strong> src/__tests__/transactions.test.ts (modify existing)</div>
+          </div>
+          
+          <h3 style="margin-top: 16px; margin-bottom: 12px; font-size: 15px; color: var(--color-text);">Missing test cases:</h3>
+          <ol style="margin-left: 20px; margin-bottom: 16px;">
+            <li>Creating transaction when sender has zero balance</li>
+            <li>Creating transaction with negative amount (should fail)</li>
+            <li>Getting transactions filtered by date range with no results</li>
+            <li>Updating transaction with invalid status value</li>
+          </ol>
+          
+          <div class="info-box tip">
+            <span class="info-box-icon">📚</span>
+            <div><strong>Context:</strong> File exists with passing tests, uses Vitest, seeds database with seedDatabase()</div>
+          </div>
+          
+          <div class="questions">
+            <div class="questions-title">Think About It</div>
+            <ul>
+              <li>Use ASK to understand existing test patterns?</li>
+              <li>Is EDIT better since adding to existing file?</li>
+              <li>Would AGENT help generate all 4 tests at once?</li>
+              <li>How match style of existing tests?</li>
+            </ul>
+          </div>
+          
+          <div class="expected">
+            <div class="expected-title">Expected Result</div>
+            <div class="expected-content">4 new test cases added matching existing style, all passing</div>
+          </div>
+          
+          <div class="expandable">
+            <div class="expandable-header">
+              <span class="expandable-icon">▶</span>
+              <span class="expandable-title hint">🔮 Hint</span>
+            </div>
+            <div class="expandable-content">
+              Existing file with patterns = need to understand style first, then add focused tests
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Testing Decision Framework -->
+      <h2 style="margin-top: 48px; margin-bottom: 24px; padding-bottom: 8px; border-bottom: 1px solid var(--color-border);">📚 Testing Decision Framework</h2>
+      
+      <div class="info-box tip">
+        <span class="info-box-icon">❓</span>
+        <div>
+          <strong>Use ASK when:</strong>
+          <ul style="margin-top: 8px;">
+            <li>Need to understand edge cases</li>
+            <li>Want to explore test coverage gaps</li>
+            <li>Unfamiliar with code being tested</li>
+            <li>Need to understand existing test patterns</li>
+            <li>Want suggestions for test scenarios</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="info-box tip">
+        <span class="info-box-icon">✏️</span>
+        <div>
+          <strong>Use EDIT when:</strong>
+          <ul style="margin-top: 8px;">
+            <li>Know exactly what test case to write</li>
+            <li>Adding single specific test</li>
+            <li>Modifying existing test</li>
+            <li>Test scenario straightforward</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="info-box tip">
+        <span class="info-box-icon">🤖</span>
+        <div>
+          <strong>Use AGENT when:</strong>
+          <ul style="margin-top: 8px;">
+            <li>Need complete test suite for module</li>
+            <li>Want comprehensive coverage (happy path + edge cases)</li>
+            <li>Testing multiple related functions</li>
+            <li>Need both unit and integration tests</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="info-box info">
+        <span class="info-box-icon">🔗</span>
+        <div>
+          <strong>Combine Modes:</strong>
+          <ul style="margin-top: 8px;">
+            <li>ASK for scenarios → EDIT/AGENT to generate</li>
+            <li>AGENT for initial suite → EDIT to refine</li>
+            <li>ASK for missing coverage → EDIT to add</li>
+          </ul>
+        </div>
+      </div>
+      
+      <!-- Pro Testing Tips -->
+      <h2 style="margin-top: 48px; margin-bottom: 24px; padding-bottom: 8px; border-bottom: 1px solid var(--color-border);">💡 Pro Testing Tips</h2>
+      
+      <div class="info-box note">
+        <span class="info-box-icon">📋</span>
+        <div>
+          <strong>Planning:</strong>
+          <ul style="margin-top: 8px;">
+            <li>Use ASK to explore what needs testing</li>
+            <li>Ask about edge cases you might miss</li>
+            <li>Understand test framework patterns first</li>
+            <li>Check existing tests for style consistency</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="info-box note">
+        <span class="info-box-icon">⚡</span>
+        <div>
+          <strong>Generation:</strong>
+          <ul style="margin-top: 8px;">
+            <li>EDIT for single tests - focused and quick</li>
+            <li>AGENT for suites - comprehensive coverage</li>
+            <li>Specify test framework (Vitest, Jest) in prompts</li>
+            <li>Request descriptive test names for clarity</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="info-box note">
+        <span class="info-box-icon">✅</span>
+        <div>
+          <strong>Validation:</strong>
+          <ul style="margin-top: 8px;">
+            <li>Run tests immediately: <code>yarn test:unit</code></li>
+            <li>Check coverage - ensure critical paths tested</li>
+            <li>Verify assertions - are they meaningful?</li>
+            <li>Test both success and failure paths</li>
+          </ul>
+        </div>
+      </div>
+      
+      <!-- Reflection -->
+      <div class="key-points">
+        <h2>🤔 Reflection Questions</h2>
+        <ul>
+          <li>Did you think about edge cases before writing tests?</li>
+          <li>Which mode generated better quality tests?</li>
+          <li>How did you ensure comprehensive coverage?</li>
+          <li>What test scenarios did you initially miss?</li>
+          <li>How did you match existing code style?</li>
+        </ul>
+      </div>
+      
+      <!-- Key Takeaways -->
+      <div class="key-points">
+        <h2>🔑 Key Takeaway</h2>
+        <p style="margin-top: 8px;">Strategic planning followed by efficient generation using the right mode for the task produces better test coverage faster.</p>
+      </div>
+      
+      <!-- Completion Checklist -->
+      <div class="checklist">
+        <h2>✅ Completion Checklist</h2>
+        <ul>
+          <li>Created test file for transaction utilities</li>
+          <li>Tested 3-4 utility functions</li>
+          <li>Covered edge cases and error scenarios</li>
+          <li>Added 4 missing test cases to transactions.test.ts</li>
+          <li>Matched existing test style</li>
+          <li>All tests passing</li>
+          <li>Understand when to use each mode for testing</li>
+        </ul>
+      </div>
+      
+      <div class="page-nav">
+        <a href="03-03-bug-fixing.html" class="page-nav-link prev">
+          <span class="page-nav-label">Previous</span>
+          <span class="page-nav-title">Bug Fixing</span>
+        </a>
+        <a href="03-05-custom-prompts.html" class="page-nav-link next">
+          <span class="page-nav-label">Next</span>
+          <span class="page-nav-title">Prompt Files</span>
+        </a>
+      </div>
+    </main>
+  </div>
+  
+  <script src="script.js"></script>
+</body>
+</html>

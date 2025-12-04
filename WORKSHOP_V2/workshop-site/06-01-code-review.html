@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Code Review - GitHub Copilot Workshop</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="layout">
+    <!-- Sidebar Navigation -->
+    <nav class="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo">
+          <svg viewBox="0 0 16 16" fill="currentColor">
+            <path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"/>
+          </svg>
+          Copilot Workshop
+        </div>
+      </div>
+      
+      <div class="nav-section">
+        <div class="nav-section-title">Getting Started</div>
+        <ul class="nav-list">
+          <li class="nav-item"><a href="index.html">Welcome</a></li>
+          <li class="nav-item"><a href="00-setup.html">0.1 Project Setup</a></li>
+        </ul>
+      </div>
+      
+      <div class="nav-section">
+        <div class="nav-section-title">01 - Basic Usage</div>
+        <ul class="nav-list">
+          <li class="nav-item"><a href="01-01-basic-usage.html">1.1 Basic Usage</a></li>
+          <li class="nav-item"><a href="01-02-chat-participants.html">1.2 Chat Participants</a></li>
+        </ul>
+      </div>
+      
+      <div class="nav-section">
+        <div class="nav-section-title">02 - Context Engineering</div>
+        <ul class="nav-list">
+          <li class="nav-item"><a href="02-01-custom-instructions.html">2.1 Custom Instructions</a></li>
+          <li class="nav-item"><a href="02-02-mcp.html">2.2 MCP (Context7)</a></li>
+        </ul>
+      </div>
+      
+      <div class="nav-section">
+        <div class="nav-section-title">03 - Daily Development</div>
+        <ul class="nav-list">
+          <li class="nav-item"><a href="03-01-chat-modes.html">3.1 Chat Modes</a></li>
+          <li class="nav-item"><a href="03-02-tasks.html">3.2 Mode Selection</a></li>
+          <li class="nav-item"><a href="03-03-bug-fixing.html">3.3 Bug Fixing</a></li>
+          <li class="nav-item"><a href="03-04-unit-tests.html">3.4 Unit Tests</a></li>
+          <li class="nav-item"><a href="03-05-custom-prompts.html">3.5 Prompt Files</a></li>
+          <li class="nav-item"><a href="03-06-awesome-copilot.html">3.6 Awesome Copilot</a></li>
+        </ul>
+      </div>
+      
+      <div class="nav-section">
+        <div class="nav-section-title">04 - MCP Servers</div>
+        <ul class="nav-list">
+          <li class="nav-item"><a href="04-01-github-mcp.html">4.1 GitHub MCP</a></li>
+          <li class="nav-item"><a href="04-02-docs.html">4.2 Documentation</a></li>
+          <li class="nav-item"><a href="04-04-playwright.html">4.3 Playwright</a></li>
+          <li class="nav-item"><a href="04-05-chrome-devtools.html">4.4 Chrome DevTools</a></li>
+          <li class="nav-item"><a href="04-06-exploratory.html">4.5 Exploratory Testing</a></li>
+        </ul>
+      </div>
+      
+      <div class="nav-section">
+        <div class="nav-section-title">05 - SDD Methods</div>
+        <ul class="nav-list">
+          <li class="nav-item"><a href="05-01-spec-kit.html">5.1 Spec Kit</a></li>
+          <li class="nav-item"><a href="05-02-bmad.html">5.2 BMAD Method</a></li>
+        </ul>
+      </div>
+      
+      <div class="nav-section">
+        <div class="nav-section-title">06 - GitHub Features</div>
+        <ul class="nav-list">
+          <li class="nav-item active"><a href="06-01-code-review.html">6.1 Code Review</a></li>
+          <li class="nav-item"><a href="06-02-autocode.html">6.2 Coding Agent</a></li>
+          <li class="nav-item"><a href="06-03-copilot-cli.html">6.3 Copilot CLI</a></li>
+        </ul>
+      </div>
+    </nav>
+    
+    <!-- Main Content -->
+    <main class="main-content">
+      <header class="page-header">
+        <h1 class="page-title">GitHub Copilot Code Review</h1>
+        <p class="page-subtitle">AI-powered code review locally in VS Code and on GitHub Pull Requests.</p>
+      </header>
+      
+      <div class="learning-objectives">
+        <h2>🎯 Learning Objectives</h2>
+        <ul>
+          <li>Set up project-specific code review guidelines</li>
+          <li>Use VS Code "Review and Comment" feature</li>
+          <li>Review all local changes with Copilot Chat</li>
+          <li>Configure automatic PR review on GitHub</li>
+          <li>Interact with Copilot's review comments</li>
+        </ul>
+      </div>
+      
+      <!-- What is Code Review -->
+      <div class="info-box info">
+        <span class="info-box-icon">👁️</span>
+        <div>
+          <strong>Code Review Capabilities</strong>
+          <p style="margin-top: 8px;">GitHub Copilot offers powerful code review at two levels:</p>
+          <ul style="margin-top: 8px;">
+            <li><strong>Local Code Review:</strong> Review changes in VS Code before committing</li>
+            <li><strong>GitHub PR Review:</strong> Automated code review on Pull Requests</li>
+          </ul>
+        </div>
+      </div>
+      
+      <!-- Preparation -->
+      <div class="task">
+        <div class="task-header">
+          <span class="task-number">0</span>
+          <h2 class="task-title">Preparation: Create Branch with Code Issues</h2>
+        </div>
+        <div class="task-content">
+          <p class="task-goal"><strong>Goal:</strong> Create a branch with intentional code issues for review practice.</p>
+          
+          <div class="steps">
+            <div class="step">
+              <div class="step-content">Create a new branch:</div>
+            </div>
+          </div>
+          
+<pre><code>git checkout -b feature/review-practice</code></pre>
+          
+          <div class="steps">
+            <div class="step">
+              <div class="step-content">Create <code>backend/transfer-utils.ts</code> with problematic code:</div>
+            </div>
+          </div>
+          
+          <div class="expandable">
+            <div class="expandable-header">
+              <span class="expandable-icon">▶</span>
+              <span class="expandable-title hint">📄 Code with Intentional Issues</span>
+            </div>
+            <div class="expandable-content">
+<pre><code>import { getBankAccountById, updateBankAccountById } from "./database";
+
+// TODO: add proper error handling later
+// DEBUG: console logs for testing
+export const processTransfer = (fromAccountId: string, toAccountId: string, amount: any) => {
+  console.log("Processing transfer...");
+  console.log("DEBUG: fromAccountId =", fromAccountId);
+  
+  var fromAccount = getBankAccountById(fromAccountId);
+  var toAccount = getBankAccountById(toAccountId);
+  
+  if (fromAccount == null || toAccount == null) {
+    console.log("Account not found!");
+    return false;
+  }
+  
+  // Check balance - FIXME: this might have issues
+  if (fromAccount.balance < amount) {
+    console.log("Insufficient funds");
+    return false;  
+  }
+  
+  fromAccount.balance = fromAccount.balance - amount;
+  toAccount.balance = toAccount.balance + amount;
+  
+  updateBankAccountById(fromAccountId, { balance: fromAccount.balance });
+  updateBankAccountById(toAccountId, { balance: toAccount.balance });
+  
+  // Password for testing: admin123
+  console.log("Transfer complete!");
+  return true;
+};
+
+const oldTransferLogic = (id: string) => { return null; };
+
+export const validateAmount = (amount: any) => {
+  if (amount <= 0) return false;
+  if (amount > 999999999) return false;
+  return true;
+};</code></pre>
+            </div>
+          </div>
+          
+          <div class="info-box warning">
+            <span class="info-box-icon">⚠️</span>
+            <div>
+              <strong>Intentional Issues:</strong>
+              <ul style="margin-top: 8px;">
+                <li>Debug console.log statements</li>
+                <li>TODO/FIXME comments</li>
+                <li>Using <code>var</code> instead of <code>const/let</code></li>
+                <li><code>any</code> type usage</li>
+                <li>Loose equality (<code>==</code> instead of <code>===</code>)</li>
+                <li>Hardcoded credentials in comments</li>
+                <li>Unused function (dead code)</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Exercise 1: Local Code Review -->
+      <h2 style="margin-top: 32px; margin-bottom: 16px;">Exercise 1: Local Code Review</h2>
+      
+      <!-- Task 1.1: Create Custom Instructions -->
+      <div class="task">
+        <div class="task-header">
+          <span class="task-number">1.1</span>
+          <h2 class="task-title">Create Code Review Custom Instructions</h2>
+        </div>
+        <div class="task-content">
+          <p class="task-goal"><strong>Goal:</strong> Set up project-specific code review guidelines for Copilot.</p>
+          
+          <div class="steps">
+            <div class="step">
+              <div class="step-content">Create or update <code>.github/copilot-instructions.md</code>:</div>
+            </div>
+          </div>
+          
+          <div class="expandable">
+            <div class="expandable-header">
+              <span class="expandable-icon">▶</span>
+              <span class="expandable-title prompt">📄 Review Guidelines Content</span>
+            </div>
+            <div class="expandable-content">
+<pre><code># Code Review Guidelines
+
+When reviewing code in this project, check for:
+
+## Security
+- No hardcoded credentials, API keys, or secrets
+- Proper input validation and sanitization
+- No SQL injection or XSS vulnerabilities
+
+## Code Quality
+- Use `const` or `let` instead of `var`
+- Use strict equality (=== and !==)
+- Proper TypeScript types (no `any` unless justified)
+- Remove debug console.log statements before committing
+- Remove TODO/FIXME comments or create issues for them
+- Delete unused/dead code
+
+## Project Patterns
+- Follow existing patterns in `backend/transaction-routes.ts`
+- Use express-validator for input validation
+- Implement proper error handling with try-catch
+- Add JSDoc comments for public functions</code></pre>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Task 1.2: Review and Comment -->
+      <div class="task">
+        <div class="task-header">
+          <span class="task-number">1.2</span>
+          <h2 class="task-title">Use VS Code "Review and Comment" Feature</h2>
+        </div>
+        <div class="task-content">
+          <p class="task-goal"><strong>Goal:</strong> Use Copilot's built-in code review feature to analyze the problematic code.</p>
+          
+          <div class="steps">
+            <div class="step">
+              <div class="step-content">Open <code>backend/transfer-utils.ts</code> in the editor</div>
+            </div>
+            <div class="step">
+              <div class="step-content">Select the entire file content (<code>Cmd+A</code> / <code>Ctrl+A</code>)</div>
+            </div>
+            <div class="step">
+              <div class="step-content">Open Command Palette (<code>Cmd+Shift+P</code> / <code>Ctrl+Shift+P</code>)</div>
+            </div>
+            <div class="step">
+              <div class="step-content">Type and select: "GitHub Copilot: Review and Comment"</div>
+            </div>
+            <div class="step">
+              <div class="step-content">Wait for Copilot to analyze the code</div>
+            </div>
+          </div>
+          
+          <div class="expected">
+            <div class="expected-title">Expected Findings</div>
+            <div class="expected-content">
+              <ul>
+                <li>Debug console.log statements</li>
+                <li>Use of <code>var</code> keyword</li>
+                <li><code>any</code> type annotations</li>
+                <li>Loose equality operators</li>
+                <li>Potential security issue (hardcoded password)</li>
+                <li>Dead code detection</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Task 1.3: Review with Chat -->
+      <div class="task">
+        <div class="task-header">
+          <span class="task-number">1.3</span>
+          <h2 class="task-title">Review All Local Changes with Chat</h2>
+        </div>
+        <div class="task-content">
+          <p class="task-goal"><strong>Goal:</strong> Use Copilot Chat with <code>#get_changed_files</code> to review all uncommitted changes.</p>
+          
+          <div class="steps">
+            <div class="step">
+              <div class="step-content">Open Copilot Chat panel</div>
+            </div>
+            <div class="step">
+              <div class="step-content">Select a capable model (Claude Sonnet 4 or GPT-4o)</div>
+            </div>
+            <div class="step">
+              <div class="step-content">Use the following prompt:</div>
+            </div>
+          </div>
+          
+          <div class="expandable">
+            <div class="expandable-header">
+              <span class="expandable-icon">▶</span>
+              <span class="expandable-title prompt">💬 Prompt</span>
+            </div>
+            <div class="expandable-content">
+<pre><code>#get_changed_files Review all my current changes. Look for:
+- Security vulnerabilities
+- Code quality issues  
+- TypeScript best practices violations
+- Debug code that should be removed
+- Patterns that don't match the rest of the codebase
+
+Provide specific line numbers and suggested fixes.</code></pre>
+            </div>
+          </div>
+          
+          <div class="expected">
+            <div class="expected-title">Expected Output</div>
+            <div class="expected-content">
+              <ul>
+                <li>Summary of all changed files</li>
+                <li>Detailed issues found in each file</li>
+                <li>Specific suggestions with code examples</li>
+                <li>Priority ranking of issues</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Task 1.4: Fix Issues -->
+      <div class="task">
+        <div class="task-header">
+          <span class="task-number">1.4</span>
+          <h2 class="task-title">Fix Issues Based on Review</h2>
+        </div>
+        <div class="task-content">
+          <p class="task-goal"><strong>Goal:</strong> Apply fixes suggested by Copilot's review.</p>
+          
+          <div class="expandable">
+            <div class="expandable-header">
+              <span class="expandable-icon">▶</span>
+              <span class="expandable-title prompt">💬 Comprehensive Fix Prompt (Agent Mode)</span>
+            </div>
+            <div class="expandable-content">
+<pre><code>Fix all code quality issues in backend/transfer-utils.ts:
+1. Remove debug console.log statements
+2. Replace var with const/let
+3. Add proper TypeScript types (no any)
+4. Use strict equality
+5. Remove the hardcoded password comment
+6. Delete unused oldTransferLogic function
+7. Add proper error handling with try-catch
+8. Add JSDoc comments
+
+Keep the existing logic intact.</code></pre>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Exercise 2: GitHub PR Review -->
+      <h2 style="margin-top: 32px; margin-bottom: 16px;">Exercise 2: GitHub PR Code Review</h2>
+      
+      <!-- Task 2.1: Configure PR Reviewer -->
+      <div class="task">
+        <div class="task-header">
+          <span class="task-number">2.1</span>
+          <h2 class="task-title">Configure Copilot as PR Reviewer</h2>
+        </div>
+        <div class="task-content">
+          <p class="task-goal"><strong>Goal:</strong> Set up GitHub repository to automatically request Copilot reviews on PRs.</p>
+          
+          <div class="info-box note">
+            <span class="info-box-icon">📋</span>
+            <div>
+              <strong>Prerequisites:</strong>
+              <ul style="margin-top: 8px;">
+                <li>Repository admin access</li>
+                <li>GitHub Copilot for Business or Enterprise subscription</li>
+              </ul>
+            </div>
+          </div>
+          
+          <div class="steps">
+            <div class="step">
+              <div class="step-content">Go to your repository on GitHub.com</div>
+            </div>
+            <div class="step">
+              <div class="step-content">Navigate to Settings → Rules → Rulesets</div>
+            </div>
+            <div class="step">
+              <div class="step-content">Click "New ruleset" → "New branch ruleset"</div>
+            </div>
+            <div class="step">
+              <div class="step-content">Name: "Copilot Code Review", enable for default branch</div>
+            </div>
+            <div class="step">
+              <div class="step-content">Add rule: "Require code review from Copilot"</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Task 2.2: Create PR -->
+      <div class="task">
+        <div class="task-header">
+          <span class="task-number">2.2</span>
+          <h2 class="task-title">Create PR Using Copilot and MCP</h2>
+        </div>
+        <div class="task-content">
+          <p class="task-goal"><strong>Goal:</strong> Push changes and create a Pull Request using Copilot Chat.</p>
+          
+          <div class="steps">
+            <div class="step">
+              <div class="step-content">Commit and push the problematic code:</div>
+            </div>
+          </div>
+          
+<pre><code>git add backend/transfer-utils.ts
+git commit -m "Add transfer utilities (WIP)"
+git push origin feature/review-practice</code></pre>
+          
+          <div class="expandable">
+            <div class="expandable-header">
+              <span class="expandable-icon">▶</span>
+              <span class="expandable-title prompt">💬 Create PR Prompt</span>
+            </div>
+            <div class="expandable-content">
+<pre><code>Create a pull request for the feature/review-practice branch to main.
+
+First, analyze the changes using #get_changed_files, then:
+1. Generate a descriptive title
+2. Write a summary of changes
+3. List any known issues or TODOs
+4. Create the PR on GitHub
+
+Use the GitHub MCP tools to create the actual PR.</code></pre>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Task 2.3: Interact with Review -->
+      <div class="task">
+        <div class="task-header">
+          <span class="task-number">2.3</span>
+          <h2 class="task-title">Interact with Copilot's Review</h2>
+        </div>
+        <div class="task-content">
+          <p class="task-goal"><strong>Goal:</strong> Practice responding to and discussing Copilot's review comments.</p>
+          
+          <div class="info-box tip">
+            <span class="info-box-icon">💬</span>
+            <div>
+              <strong>Example @copilot Replies:</strong>
+              <div style="margin-top: 12px;">
+                <strong>Defending your choice:</strong>
+<pre style="margin-top: 4px;"><code>@copilot The console.log statements are intentional for this 
+debugging phase. We'll remove them before release.</code></pre>
+              </div>
+              <div style="margin-top: 12px;">
+                <strong>Asking for clarification:</strong>
+<pre style="margin-top: 4px;"><code>@copilot Can you explain why using strict equality is 
+important here? What bugs could loose equality cause?</code></pre>
+              </div>
+              <div style="margin-top: 12px;">
+                <strong>Requesting code suggestion:</strong>
+<pre style="margin-top: 4px;"><code>@copilot Can you show me the corrected version of 
+this function with all your suggestions applied?</code></pre>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Comparison Table -->
+      <div class="info-box info">
+        <span class="info-box-icon">⚖️</span>
+        <div>
+          <strong>Local vs PR Review</strong>
+          <table style="margin-top: 12px; width: 100%;">
+            <thead>
+              <tr>
+                <th>Aspect</th>
+                <th>Local Review</th>
+                <th>PR Review</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>When</td>
+                <td>Before commit</td>
+                <td>After push</td>
+              </tr>
+              <tr>
+                <td>Where</td>
+                <td>VS Code</td>
+                <td>GitHub</td>
+              </tr>
+              <tr>
+                <td>Trigger</td>
+                <td>Manual</td>
+                <td>Automatic (if configured)</td>
+              </tr>
+              <tr>
+                <td>Visibility</td>
+                <td>Only you</td>
+                <td>Team can see</td>
+              </tr>
+              <tr>
+                <td>Best For</td>
+                <td>Quick feedback</td>
+                <td>Team collaboration</td>
+              </tr>
+            </tbody>
+          </table>
+          <p style="margin-top: 12px;"><strong>Recommendation:</strong> Use both! Local review for quick fixes, PR review for team visibility.</p>
+        </div>
+      </div>
+      
+      <!-- Best Practices -->
+      <div class="key-points">
+        <h2>🔑 Best Practices</h2>
+        <ul>
+          <li><strong>Set up project-specific review instructions</strong> - reduces false positives</li>
+          <li><strong>Shift-left with local review</strong> - catch issues before they reach PR</li>
+          <li><strong>Use capable models</strong> (Claude Sonnet 4, GPT-4o) for better analysis</li>
+          <li><strong>Don't ignore Copilot comments</strong> - address or justify them</li>
+          <li><strong>Use @copilot mentions</strong> to discuss, not dismiss</li>
+          <li><strong>Combine with human reviewers</strong> - Copilot augments, not replaces</li>
+        </ul>
+      </div>
+      
+      <!-- Completion Checklist -->
+      <div class="checklist">
+        <h2>✅ Completion Checklist</h2>
+        <ul>
+          <li>Created branch with problematic code</li>
+          <li>Set up custom review instructions</li>
+          <li>Used "Review and Comment" feature</li>
+          <li>Reviewed changes with #get_changed_files</li>
+          <li>Fixed issues based on review</li>
+          <li>Configured automatic PR review (if admin)</li>
+          <li>Interacted with Copilot's PR comments</li>
+        </ul>
+      </div>
+      
+      <div class="page-nav">
+        <a href="05-02-bmad.html" class="page-nav-link prev">
+          <span class="page-nav-label">Previous</span>
+          <span class="page-nav-title">BMAD Method</span>
+        </a>
+        <a href="06-02-autocode.html" class="page-nav-link next">
+          <span class="page-nav-label">Next</span>
+          <span class="page-nav-title">Coding Agent</span>
+        </a>
+      </div>
+    </main>
+  </div>
+  
+  <script src="script.js"></script>
+</body>
+</html>

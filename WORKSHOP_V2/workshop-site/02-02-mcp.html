@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Context7 MCP Server - GitHub Copilot Workshop</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="layout">
+    <!-- Sidebar Navigation -->
+    <nav class="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo">
+          <svg viewBox="0 0 16 16" fill="currentColor">
+            <path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"/>
+          </svg>
+          Copilot Workshop
+        </div>
+      </div>
+      
+      <div class="nav-section">
+        <div class="nav-section-title">Getting Started</div>
+        <ul class="nav-list">
+          <li class="nav-item"><a href="index.html">Welcome</a></li>
+          <li class="nav-item"><a href="00-setup.html">0.1 Project Setup</a></li>
+        </ul>
+      </div>
+      
+      <div class="nav-section">
+        <div class="nav-section-title">01 - Basic Usage</div>
+        <ul class="nav-list">
+          <li class="nav-item"><a href="01-01-basic-usage.html">1.1 Basic Usage</a></li>
+          <li class="nav-item"><a href="01-02-chat-participants.html">1.2 Chat Participants</a></li>
+        </ul>
+      </div>
+      
+      <div class="nav-section">
+        <div class="nav-section-title">02 - Context Engineering</div>
+        <ul class="nav-list">
+          <li class="nav-item"><a href="02-01-custom-instructions.html">2.1 Custom Instructions</a></li>
+          <li class="nav-item active"><a href="02-02-mcp.html">2.2 MCP (Context7)</a></li>
+        </ul>
+      </div>
+      
+      <div class="nav-section">
+        <div class="nav-section-title">03 - Daily Development</div>
+        <ul class="nav-list">
+          <li class="nav-item"><a href="03-01-chat-modes.html">3.1 Chat Modes</a></li>
+          <li class="nav-item"><a href="03-02-tasks.html">3.2 Mode Selection</a></li>
+          <li class="nav-item"><a href="03-03-bug-fixing.html">3.3 Bug Fixing</a></li>
+          <li class="nav-item"><a href="03-04-unit-tests.html">3.4 Unit Tests</a></li>
+          <li class="nav-item"><a href="03-05-custom-prompts.html">3.5 Prompt Files</a></li>
+          <li class="nav-item"><a href="03-06-awesome-copilot.html">3.6 Awesome Copilot</a></li>
+        </ul>
+      </div>
+      
+      <div class="nav-section">
+        <div class="nav-section-title">04 - MCP Servers</div>
+        <ul class="nav-list">
+          <li class="nav-item"><a href="04-01-github-mcp.html">4.1 GitHub MCP</a></li>
+          <li class="nav-item"><a href="04-02-docs.html">4.2 Documentation</a></li>
+          <li class="nav-item"><a href="04-04-playwright.html">4.3 Playwright</a></li>
+          <li class="nav-item"><a href="04-05-chrome-devtools.html">4.4 Chrome DevTools</a></li>
+          <li class="nav-item"><a href="04-06-exploratory.html">4.5 Exploratory Testing</a></li>
+        </ul>
+      </div>
+      
+      <div class="nav-section">
+        <div class="nav-section-title">05 - SDD Methods</div>
+        <ul class="nav-list">
+          <li class="nav-item"><a href="05-01-spec-kit.html">5.1 Spec Kit</a></li>
+          <li class="nav-item"><a href="05-02-bmad.html">5.2 BMAD Method</a></li>
+        </ul>
+      </div>
+      
+      <div class="nav-section">
+        <div class="nav-section-title">06 - GitHub Features</div>
+        <ul class="nav-list">
+          <li class="nav-item"><a href="06-01-code-review.html">6.1 Code Review</a></li>
+          <li class="nav-item"><a href="06-02-autocode.html">6.2 Coding Agent</a></li>
+          <li class="nav-item"><a href="06-03-copilot-cli.html">6.3 Copilot CLI</a></li>
+        </ul>
+      </div>
+    </nav>
+    
+    <!-- Main Content -->
+    <main class="main-content">
+      <header class="page-header">
+        <h1 class="page-title">Context7 MCP Server</h1>
+        <p class="page-subtitle">Get up-to-date, version-specific library documentation directly in your AI responses.</p>
+      </header>
+      
+      <div class="learning-objectives">
+        <h2>🎯 Learning Objectives</h2>
+        <ul>
+          <li>Understand what Context7 MCP is and what problem it solves</li>
+          <li>Configure Context7 in VS Code</li>
+          <li>Compare responses with and without Context7</li>
+          <li>Use Context7 for real-world library documentation</li>
+        </ul>
+      </div>
+      
+      <!-- What is Context7? -->
+      <div class="info-box info">
+        <span class="info-box-icon">🔌</span>
+        <div>
+          <strong>What is Context7?</strong>
+          <p style="margin-top: 8px;">Context7 is an MCP (Model Context Protocol) server that fetches up-to-date, version-specific documentation for libraries directly from the source.</p>
+          <p style="margin-top: 8px;">
+            <a href="https://github.com/upstash/context7" target="_blank">GitHub Repository</a> • 
+            <a href="https://context7.com" target="_blank">Website</a>
+          </p>
+        </div>
+      </div>
+      
+      <!-- Problem/Solution -->
+      <div class="info-box warning">
+        <span class="info-box-icon">❌</span>
+        <div>
+          <strong>Problems Context7 Solves:</strong>
+          <ul style="margin-top: 8px;">
+            <li>LLMs suggest outdated APIs from old training data</li>
+            <li>Hallucinated methods that don't exist</li>
+            <li>Code examples for deprecated package versions</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="info-box tip">
+        <span class="info-box-icon">✅</span>
+        <div>
+          <strong>What Context7 Provides:</strong>
+          <ul style="margin-top: 8px;">
+            <li>Current documentation for 1000+ libraries</li>
+            <li>Version-specific API references</li>
+            <li>Real code examples from official docs</li>
+          </ul>
+        </div>
+      </div>
+      
+      <!-- Exercise 1 -->
+      <div class="task">
+        <div class="task-header">
+          <span class="task-number">1</span>
+          <h2 class="task-title">Setup Context7 MCP</h2>
+        </div>
+        <div class="task-content">
+          <p class="task-goal"><strong>Task:</strong> Install and configure Context7 MCP server.</p>
+          
+          <div class="steps">
+            <div class="step">
+              <div class="step-content">Open VS Code Settings (<kbd>Cmd</kbd>+<kbd>,</kbd>)</div>
+            </div>
+            <div class="step">
+              <div class="step-content">Search for "GitHub Copilot MCP"</div>
+            </div>
+            <div class="step">
+              <div class="step-content">Add Context7 configuration:</div>
+            </div>
+          </div>
+          
+          <div class="expandable">
+            <div class="expandable-header">
+              <span class="expandable-icon">▶</span>
+              <span class="expandable-title prompt">📄 Configuration JSON</span>
+            </div>
+            <div class="expandable-content">
+<pre><code>{
+  "github.copilot.chat.mcp.servers": {
+    "context7": {
+      "command": "npx",
+      "args": ["-y", "@upstash/context7-mcp@latest"]
+    }
+  }
+}</code></pre>
+            </div>
+          </div>
+          
+          <div class="steps" style="margin-top: 16px;">
+            <div class="step">
+              <div class="step-content">Reload VS Code (<kbd>Cmd</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd> → "Reload Window")</div>
+            </div>
+          </div>
+          
+          <div class="expected">
+            <div class="expected-title">Expected Result</div>
+            <div class="expected-content">Context7 MCP server configured and ready</div>
+          </div>
+          
+          <div class="expandable">
+            <div class="expandable-header">
+              <span class="expandable-icon">▶</span>
+              <span class="expandable-title hint">🔮 Hint</span>
+            </div>
+            <div class="expandable-content">
+              Configuration goes in VS Code settings.json
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Exercise 2 -->
+      <div class="task">
+        <div class="task-header">
+          <span class="task-number">2</span>
+          <h2 class="task-title">Test Without Context7</h2>
+        </div>
+        <div class="task-content">
+          <p class="task-goal"><strong>Task:</strong> Establish baseline by asking without Context7.</p>
+          
+          <div class="expandable">
+            <div class="expandable-header">
+              <span class="expandable-icon">▶</span>
+              <span class="expandable-title prompt">💬 Test Prompt (Without Context7)</span>
+            </div>
+            <div class="expandable-content">
+<pre><code>How do I configure Vitest to run tests in watch mode with coverage?</code></pre>
+            </div>
+          </div>
+          
+          <div class="expected">
+            <div class="expected-title">Expected Result</div>
+            <div class="expected-content">Generic answer based on training data, may be outdated</div>
+          </div>
+          
+          <div class="expandable">
+            <div class="expandable-header">
+              <span class="expandable-icon">▶</span>
+              <span class="expandable-title hint">🔮 Hint</span>
+            </div>
+            <div class="expandable-content">
+              Save the response to compare with Context7 version
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Exercise 3 -->
+      <div class="task">
+        <div class="task-header">
+          <span class="task-number">3</span>
+          <h2 class="task-title">Test With Context7</h2>
+        </div>
+        <div class="task-content">
+          <p class="task-goal"><strong>Task:</strong> Ask same question with Context7 enabled.</p>
+          
+          <div class="expandable">
+            <div class="expandable-header">
+              <span class="expandable-icon">▶</span>
+              <span class="expandable-title prompt">💬 Test Prompt (With Context7)</span>
+            </div>
+            <div class="expandable-content">
+<pre><code>How do I configure Vitest to run tests in watch mode with coverage? use context7</code></pre>
+            </div>
+          </div>
+          
+          <div class="questions">
+            <div class="questions-title">Compare with Part 2</div>
+            <ul>
+              <li>Does it reference current Vitest documentation?</li>
+              <li>Are configuration options up-to-date?</li>
+              <li>Does it cite specific version information?</li>
+            </ul>
+          </div>
+          
+          <div class="expected">
+            <div class="expected-title">Expected Result</div>
+            <div class="expected-content">More accurate, current response with documentation references</div>
+          </div>
+          
+          <div class="expandable">
+            <div class="expandable-header">
+              <span class="expandable-icon">▶</span>
+              <span class="expandable-title hint">🔮 Hint</span>
+            </div>
+            <div class="expandable-content">
+              Trigger phrase "use context7" activates the MCP server
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Exercise 4 -->
+      <div class="task">
+        <div class="task-header">
+          <span class="task-number">4</span>
+          <h2 class="task-title">Real-World Scenarios</h2>
+        </div>
+        <div class="task-content">
+          <p class="task-goal"><strong>Task:</strong> Test Context7 with multiple libraries and complex setups.</p>
+          
+          <p>Try these prompts with "use context7":</p>
+          
+          <div class="expandable">
+            <div class="expandable-header">
+              <span class="expandable-icon">▶</span>
+              <span class="expandable-title prompt">💬 Prompt 1: Next.js + Upstash</span>
+            </div>
+            <div class="expandable-content">
+<pre><code>Create a Next.js API route with rate limiting using Upstash Redis. use context7</code></pre>
+            </div>
+          </div>
+          
+          <div class="expandable">
+            <div class="expandable-header">
+              <span class="expandable-icon">▶</span>
+              <span class="expandable-title prompt">💬 Prompt 2: tRPC + React Query</span>
+            </div>
+            <div class="expandable-content">
+<pre><code>Set up tRPC with React Query in a Next.js app. use context7</code></pre>
+            </div>
+          </div>
+          
+          <div class="expandable">
+            <div class="expandable-header">
+              <span class="expandable-icon">▶</span>
+              <span class="expandable-title prompt">💬 Prompt 3: Prisma + PostgreSQL</span>
+            </div>
+            <div class="expandable-content">
+<pre><code>Configure Prisma with PostgreSQL for a TypeScript project. use context7</code></pre>
+            </div>
+          </div>
+          
+          <div class="expected">
+            <div class="expected-title">Expected Result</div>
+            <div class="expected-content">Accurate, current docs for multiple libraries (Next.js, Upstash, tRPC, Prisma)</div>
+          </div>
+          
+          <div class="expandable">
+            <div class="expandable-header">
+              <span class="expandable-icon">▶</span>
+              <span class="expandable-title hint">🔮 Hint</span>
+            </div>
+            <div class="expandable-content">
+              Context7 can fetch docs for multiple libraries in a single request
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Bonus Exercise -->
+      <div class="task">
+        <div class="task-header">
+          <span class="task-number">★</span>
+          <h2 class="task-title">Bonus: Auto-Invoke Context7</h2>
+        </div>
+        <div class="task-content">
+          <p class="task-goal"><strong>Task:</strong> Configure automatic Context7 invocation for library questions.</p>
+          
+          <div class="steps">
+            <div class="step">
+              <div class="step-content">Choose your editor setup:
+                <ul style="margin-top: 8px; margin-left: 20px;">
+                  <li>Cursor: Open Settings → Rules</li>
+                  <li>OR create <code>.cursorrules</code> file</li>
+                  <li>OR create <code>.windsurfrules</code> file</li>
+                  <li>OR create <code>CLAUDE.md</code> file</li>
+                </ul>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-content">Add auto-invoke rule:</div>
+            </div>
+          </div>
+          
+          <div class="expandable">
+            <div class="expandable-header">
+              <span class="expandable-icon">▶</span>
+              <span class="expandable-title prompt">📄 Auto-Invoke Rule</span>
+            </div>
+            <div class="expandable-content">
+<pre><code>Always use context7 when generating code that involves external libraries, 
+setup/configuration steps, or API documentation. Automatically invoke Context7 
+MCP tools without explicit prompting.</code></pre>
+            </div>
+          </div>
+          
+          <div class="expected">
+            <div class="expected-title">Expected Result</div>
+            <div class="expected-content">Context7 automatically used for library-related questions without saying "use context7"</div>
+          </div>
+          
+          <div class="expandable">
+            <div class="expandable-header">
+              <span class="expandable-icon">▶</span>
+              <span class="expandable-title hint">🔮 Hint</span>
+            </div>
+            <div class="expandable-content">
+              Auto-invocation eliminates need to remember trigger phrase
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- When to Use Context7 -->
+      <div class="info-box tip">
+        <span class="info-box-icon">✓</span>
+        <div>
+          <strong>When to Use Context7:</strong>
+          <ul style="margin-top: 8px;">
+            <li>Library configuration and setup</li>
+            <li>API method signatures and parameters</li>
+            <li>Version-specific features</li>
+            <li>Official code examples</li>
+            <li>Migration guides</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="info-box note">
+        <span class="info-box-icon">✗</span>
+        <div>
+          <strong>Don't Need Context7 For:</strong>
+          <ul style="margin-top: 8px;">
+            <li>General programming concepts</li>
+            <li>Project-specific business logic</li>
+            <li>Custom code patterns</li>
+          </ul>
+        </div>
+      </div>
+      
+      <!-- Key Takeaways -->
+      <div class="key-points">
+        <h2>🔑 Key Takeaways</h2>
+        <ul>
+          <li>Context7 provides up-to-date library documentation</li>
+          <li>Use "use context7" trigger phrase to activate</li>
+          <li>Works with 1000+ popular libraries</li>
+          <li>Can fetch docs for multiple libraries at once</li>
+          <li>Optional: Auto-invoke with custom rules</li>
+          <li>Solves problem of outdated training data</li>
+        </ul>
+      </div>
+      
+      <!-- Resources -->
+      <div class="info-box info">
+        <span class="info-box-icon">📚</span>
+        <div>
+          <strong>Resources:</strong>
+          <ul style="margin-top: 8px;">
+            <li><a href="https://github.com/upstash/context7" target="_blank">Context7 GitHub</a></li>
+            <li><a href="https://context7.com" target="_blank">Context7 Website</a></li>
+            <li><a href="https://modelcontextprotocol.io" target="_blank">Model Context Protocol</a></li>
+          </ul>
+        </div>
+      </div>
+      
+      <!-- Completion Checklist -->
+      <div class="checklist">
+        <h2>✅ Completion Checklist</h2>
+        <ul>
+          <li>Configured Context7 MCP server in VS Code</li>
+          <li>Tested baseline response without Context7</li>
+          <li>Tested same query with Context7 enabled</li>
+          <li>Observed difference in response quality</li>
+          <li>Tried real-world multi-library scenarios</li>
+          <li>(Bonus) Configured auto-invoke rule</li>
+        </ul>
+      </div>
+      
+      <div class="page-nav">
+        <a href="02-01-custom-instructions.html" class="page-nav-link prev">
+          <span class="page-nav-label">Previous</span>
+          <span class="page-nav-title">Custom Instructions</span>
+        </a>
+        <a href="03-01-chat-modes.html" class="page-nav-link next">
+          <span class="page-nav-label">Next Module</span>
+          <span class="page-nav-title">Chat Modes</span>
+        </a>
+      </div>
+    </main>
+  </div>
+  
+  <script src="script.js"></script>
+</body>
+</html>

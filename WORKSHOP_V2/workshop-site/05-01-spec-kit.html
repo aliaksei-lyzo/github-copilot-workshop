@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Spec Kit - GitHub Copilot Workshop</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="layout">
+    <!-- Sidebar Navigation -->
+    <nav class="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo">
+          <svg viewBox="0 0 16 16" fill="currentColor">
+            <path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"/>
+          </svg>
+          Copilot Workshop
+        </div>
+      </div>
+      
+      <div class="nav-section">
+        <div class="nav-section-title">Getting Started</div>
+        <ul class="nav-list">
+          <li class="nav-item"><a href="index.html">Welcome</a></li>
+          <li class="nav-item"><a href="00-setup.html">0.1 Project Setup</a></li>
+        </ul>
+      </div>
+      
+      <div class="nav-section">
+        <div class="nav-section-title">01 - Basic Usage</div>
+        <ul class="nav-list">
+          <li class="nav-item"><a href="01-01-basic-usage.html">1.1 Basic Usage</a></li>
+          <li class="nav-item"><a href="01-02-chat-participants.html">1.2 Chat Participants</a></li>
+        </ul>
+      </div>
+      
+      <div class="nav-section">
+        <div class="nav-section-title">02 - Context Engineering</div>
+        <ul class="nav-list">
+          <li class="nav-item"><a href="02-01-custom-instructions.html">2.1 Custom Instructions</a></li>
+          <li class="nav-item"><a href="02-02-mcp.html">2.2 MCP (Context7)</a></li>
+        </ul>
+      </div>
+      
+      <div class="nav-section">
+        <div class="nav-section-title">03 - Daily Development</div>
+        <ul class="nav-list">
+          <li class="nav-item"><a href="03-01-chat-modes.html">3.1 Chat Modes</a></li>
+          <li class="nav-item"><a href="03-02-tasks.html">3.2 Mode Selection</a></li>
+          <li class="nav-item"><a href="03-03-bug-fixing.html">3.3 Bug Fixing</a></li>
+          <li class="nav-item"><a href="03-04-unit-tests.html">3.4 Unit Tests</a></li>
+          <li class="nav-item"><a href="03-05-custom-prompts.html">3.5 Prompt Files</a></li>
+          <li class="nav-item"><a href="03-06-awesome-copilot.html">3.6 Awesome Copilot</a></li>
+        </ul>
+      </div>
+      
+      <div class="nav-section">
+        <div class="nav-section-title">04 - MCP Servers</div>
+        <ul class="nav-list">
+          <li class="nav-item"><a href="04-01-github-mcp.html">4.1 GitHub MCP</a></li>
+          <li class="nav-item"><a href="04-02-docs.html">4.2 Documentation</a></li>
+          <li class="nav-item"><a href="04-04-playwright.html">4.3 Playwright</a></li>
+          <li class="nav-item"><a href="04-05-chrome-devtools.html">4.4 Chrome DevTools</a></li>
+          <li class="nav-item"><a href="04-06-exploratory.html">4.5 Exploratory Testing</a></li>
+        </ul>
+      </div>
+      
+      <div class="nav-section">
+        <div class="nav-section-title">05 - SDD Methods</div>
+        <ul class="nav-list">
+          <li class="nav-item active"><a href="05-01-spec-kit.html">5.1 Spec Kit</a></li>
+          <li class="nav-item"><a href="05-02-bmad.html">5.2 BMAD Method</a></li>
+        </ul>
+      </div>
+      
+      <div class="nav-section">
+        <div class="nav-section-title">06 - GitHub Features</div>
+        <ul class="nav-list">
+          <li class="nav-item"><a href="06-01-code-review.html">6.1 Code Review</a></li>
+          <li class="nav-item"><a href="06-02-autocode.html">6.2 Coding Agent</a></li>
+          <li class="nav-item"><a href="06-03-copilot-cli.html">6.3 Copilot CLI</a></li>
+        </ul>
+      </div>
+    </nav>
+    
+    <!-- Main Content -->
+    <main class="main-content">
+      <header class="page-header">
+        <h1 class="page-title">Spec Kit: Specification-Driven Development</h1>
+        <p class="page-subtitle">Define WHAT you want before HOW to build it with structured specifications.</p>
+      </header>
+      
+      <div class="learning-objectives">
+        <h2>🎯 Learning Objectives</h2>
+        <ul>
+          <li>Install and configure Spec Kit CLI</li>
+          <li>Create project constitution and specifications</li>
+          <li>Generate implementation plans and task breakdowns</li>
+          <li>Execute systematic implementation</li>
+        </ul>
+      </div>
+      
+      <!-- What is Spec Kit -->
+      <div class="info-box info">
+        <span class="info-box-icon">📐</span>
+        <div>
+          <strong>What is Spec Kit?</strong>
+          <p style="margin-top: 8px;">Spec Kit is an open-source toolkit from GitHub that enables Specification-Driven Development (SDD). Instead of "vibe coding" from scratch, you:</p>
+          <ul style="margin-top: 8px;">
+            <li>Define <strong>WHAT</strong> you want before <strong>HOW</strong> to build it</li>
+            <li>Generate structured specifications from natural language</li>
+            <li>Create implementation plans with your tech stack</li>
+            <li>Break down into actionable tasks</li>
+            <li>Execute implementation systematically</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="info-box note">
+        <span class="info-box-icon">💡</span>
+        <div>
+          <strong>Key Philosophy</strong>
+          <ul style="margin-top: 8px;">
+            <li>Specifications become executable (not just documentation)</li>
+            <li>Multi-step refinement instead of one-shot code generation</li>
+            <li>Intent-driven development (what & why before how)</li>
+          </ul>
+        </div>
+      </div>
+      
+      <!-- Prerequisites -->
+      <div class="info-box warning">
+        <span class="info-box-icon">⚠️</span>
+        <div>
+          <strong>Prerequisites</strong>
+          <ul style="margin-top: 8px;">
+            <li>Python 3.11+ installed</li>
+            <li>uv package manager installed (<a href="https://docs.astral.sh/uv/" target="_blank">docs.astral.sh/uv</a>)</li>
+            <li>Git installed</li>
+            <li>VS Code with GitHub Copilot extension</li>
+          </ul>
+        </div>
+      </div>
+      
+      <!-- Task 1: Install -->
+      <div class="task">
+        <div class="task-header">
+          <span class="task-number">1</span>
+          <h2 class="task-title">Install Spec Kit CLI</h2>
+        </div>
+        <div class="task-content">
+          <p class="task-goal"><strong>Goal:</strong> Install the Specify CLI tool to enable spec-driven development.</p>
+          
+          <h3>Installation Options</h3>
+          
+          <div class="expandable">
+            <div class="expandable-header">
+              <span class="expandable-icon">▶</span>
+              <span class="expandable-title prompt">Option A: Persistent Installation (Recommended)</span>
+            </div>
+            <div class="expandable-content">
+<pre><code>uv tool install specify-cli --from git+https://github.com/github/spec-kit.git</code></pre>
+            </div>
+          </div>
+          
+          <div class="expandable">
+            <div class="expandable-header">
+              <span class="expandable-icon">▶</span>
+              <span class="expandable-title hint">Option B: One-time Usage</span>
+            </div>
+            <div class="expandable-content">
+<pre><code>uvx --from git+https://github.com/github/spec-kit.git specify check</code></pre>
+            </div>
+          </div>
+          
+          <h3>Verify Installation</h3>
+<pre><code>specify check</code></pre>
+          
+          <div class="expected">
+            <div class="expected-title">Expected Output</div>
+            <div class="expected-content">
+              <ul>
+                <li>List of detected tools (git, VS Code, etc.)</li>
+                <li>"Specify CLI is ready to use!" message</li>
+              </ul>
+            </div>
+          </div>
+          
+          <div class="info-box tip">
+            <span class="info-box-icon">🔧</span>
+            <div>
+              <strong>Troubleshooting:</strong>
+              <ul style="margin-top: 8px;">
+                <li>If "command not found": Ensure uv is in PATH</li>
+                <li>If Python errors: Verify Python 3.11+</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Task 2: Initialize -->
+      <div class="task">
+        <div class="task-header">
+          <span class="task-number">2</span>
+          <h2 class="task-title">Initialize Spec Kit in Project</h2>
+        </div>
+        <div class="task-content">
+          <p class="task-goal"><strong>Goal:</strong> Bootstrap Spec Kit in the workshop project with GitHub Copilot support.</p>
+          
+          <div class="steps">
+            <div class="step">
+              <div class="step-content">Navigate to project root:</div>
+            </div>
+          </div>
+<pre><code>cd /path/to/github-copilot-workshop</code></pre>
+          
+          <div class="steps">
+            <div class="step">
+              <div class="step-content">Initialize Spec Kit for GitHub Copilot:</div>
+            </div>
+          </div>
+<pre><code>specify init --here --force --ai copilot</code></pre>
+          
+          <div class="expected">
+            <div class="expected-title">New Files Created</div>
+            <div class="expected-content">
+              <ul>
+                <li><code>.github/prompts/</code> - Speckit commands</li>
+                <li><code>scripts/bash/</code> - Helper scripts</li>
+                <li><code>templates/</code> - Specification templates</li>
+                <li><code>memory/</code> - Constitution folder</li>
+              </ul>
+            </div>
+          </div>
+          
+          <div class="info-box info">
+            <span class="info-box-icon">📁</span>
+            <div>
+              <strong>Available Slash Commands:</strong>
+              <ul style="margin-top: 8px;">
+                <li><code>/speckit.specify</code> - Create feature specification</li>
+                <li><code>/speckit.plan</code> - Generate implementation plan</li>
+                <li><code>/speckit.tasks</code> - Create task breakdown</li>
+                <li><code>/speckit.implement</code> - Execute implementation</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Task 3: User Story -->
+      <div class="task">
+        <div class="task-header">
+          <span class="task-number">3</span>
+          <h2 class="task-title">Understand the User Story</h2>
+        </div>
+        <div class="task-content">
+          <p class="task-goal"><strong>Goal:</strong> Familiarize yourself with the feature we'll build using SDD.</p>
+          
+          <div class="info-box note">
+            <span class="info-box-icon">📋</span>
+            <div>
+              <strong>User Story: Weekly Transaction Summary</strong>
+              <p style="margin-top: 8px;"><em>"As a user of the Real World App, I want to receive weekly summary emails of my transaction activity so that I can stay informed about my spending without logging into the app daily."</em></p>
+              
+              <p style="margin-top: 12px;"><strong>The weekly summary should include:</strong></p>
+              <ul style="margin-top: 8px;">
+                <li>Total transactions count and amount for the week</li>
+                <li>Top 3 transaction categories by spending</li>
+                <li>Comparison with previous week (up/down percentage)</li>
+                <li>Quick link to view full transaction history</li>
+              </ul>
+              
+              <p style="margin-top: 12px;"><strong>Users should be able to:</strong></p>
+              <ul style="margin-top: 8px;">
+                <li>Enable/disable weekly summaries in profile settings</li>
+                <li>Choose the day of the week to receive summaries (default: Monday)</li>
+                <li>Select summary format (detailed or brief)</li>
+              </ul>
+            </div>
+          </div>
+          
+          <div class="info-box info">
+            <span class="info-box-icon">❓</span>
+            <div>
+              <strong>Questions to Answer:</strong>
+              <ul style="margin-top: 8px;">
+                <li>What new backend endpoints are needed?</li>
+                <li>What new database fields are required?</li>
+                <li>What new UI components are necessary?</li>
+                <li>What's unclear and needs clarification?</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Task 4: Constitution -->
+      <div class="task">
+        <div class="task-header">
+          <span class="task-number">4</span>
+          <h2 class="task-title">Establish Project Constitution</h2>
+        </div>
+        <div class="task-content">
+          <p class="task-goal"><strong>Goal:</strong> Create project principles that guide all AI-generated code.</p>
+          
+          <div class="info-box note">
+            <span class="info-box-icon">📜</span>
+            <div>The constitution defines coding standards, architectural decisions, and quality requirements that Copilot must follow.</div>
+          </div>
+          
+          <div class="steps">
+            <div class="step">
+              <div class="step-content">Open GitHub Copilot Chat (<code>Ctrl+Shift+I</code> or <code>Cmd+Shift+I</code>)</div>
+            </div>
+            <div class="step">
+              <div class="step-content">Use the constitution command:</div>
+            </div>
+          </div>
+          
+          <div class="expandable">
+            <div class="expandable-header">
+              <span class="expandable-icon">▶</span>
+              <span class="expandable-title prompt">💬 Prompt</span>
+            </div>
+            <div class="expandable-content">
+<pre><code>/speckit.constitution Create principles focused on:
+- TypeScript strict mode with explicit types
+- Express.js patterns matching existing routes (see backend/transaction-routes.ts)
+- React functional components with hooks
+- Material-UI styling following existing patterns
+- JSON database using lowdb patterns
+- Comprehensive error handling with proper HTTP codes
+- Test-first development approach
+- JSDoc comments for all public functions</code></pre>
+            </div>
+          </div>
+          
+          <div class="expected">
+            <div class="expected-title">Expected Output</div>
+            <div class="expected-content">
+              <ul>
+                <li>File created: <code>memory/constitution.md</code></li>
+                <li>Contains coding standards, testing requirements, architectural decisions</li>
+                <li>Specific to this project's stack</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Task 5: Create Specification -->
+      <div class="task">
+        <div class="task-header">
+          <span class="task-number">5</span>
+          <h2 class="task-title">Create Feature Specification (/speckit.specify)</h2>
+        </div>
+        <div class="task-content">
+          <p class="task-goal"><strong>Goal:</strong> Transform the user story into a structured feature specification.</p>
+          
+          <div class="expandable">
+            <div class="expandable-header">
+              <span class="expandable-icon">▶</span>
+              <span class="expandable-title prompt">💬 Prompt</span>
+            </div>
+            <div class="expandable-content">
+<pre><code>/speckit.specify Build a weekly transaction summary email feature for users. 
+Users can enable/disable weekly summaries in profile settings, choose which 
+day to receive them (default Monday), and select between detailed or brief 
+format. Summary includes: total transactions count and amount, top 3 spending 
+categories, comparison with previous week, and link to full history. 
+This integrates with the existing Express backend, React frontend, and 
+lowdb database.</code></pre>
+            </div>
+          </div>
+          
+          <div class="expected">
+            <div class="expected-title">Expected Output</div>
+            <div class="expected-content">
+              <ul>
+                <li>New branch created (e.g., <code>001-weekly-summary</code>)</li>
+                <li>File: <code>specs/001-weekly-summary/spec.md</code> containing:
+                  <ul>
+                    <li>User Scenarios & Testing section</li>
+                    <li>Requirements section</li>
+                    <li>Success Criteria section</li>
+                    <li>Possibly [NEEDS CLARIFICATION] markers</li>
+                  </ul>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Task 6: Clarify -->
+      <div class="task">
+        <div class="task-header">
+          <span class="task-number">6</span>
+          <h2 class="task-title">Clarify Specification Requirements (/speckit.clarify)</h2>
+        </div>
+        <div class="task-content">
+          <p class="task-goal"><strong>Goal:</strong> Resolve any unclear aspects in the specification before planning.</p>
+          
+          <div class="expandable">
+            <div class="expandable-header">
+              <span class="expandable-icon">▶</span>
+              <span class="expandable-title prompt">💬 Prompt</span>
+            </div>
+            <div class="expandable-content">
+<pre><code>/speckit.clarify Address the following:
+1. Email delivery: Use a mock email service (console.log) for development
+2. Scheduling: Use node-cron for weekly job scheduling
+3. Time zone: Store user preference, default to UTC
+4. Email template: Simple HTML with inline CSS
+5. Retry logic: 3 attempts with exponential backoff for failed sends</code></pre>
+            </div>
+          </div>
+          
+          <div class="expected">
+            <div class="expected-title">Expected Output</div>
+            <div class="expected-content">Updated spec.md with clarifications resolved</div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Task 7: Create Plan -->
+      <div class="task">
+        <div class="task-header">
+          <span class="task-number">7</span>
+          <h2 class="task-title">Create Implementation Plan (/speckit.plan)</h2>
+        </div>
+        <div class="task-content">
+          <p class="task-goal"><strong>Goal:</strong> Generate a technical implementation plan with architecture decisions.</p>
+          
+          <div class="expandable">
+            <div class="expandable-header">
+              <span class="expandable-icon">▶</span>
+              <span class="expandable-title prompt">💬 Prompt</span>
+            </div>
+            <div class="expandable-content">
+<pre><code>/speckit.plan The implementation uses:
+- Express.js backend with TypeScript (match existing patterns in backend/)
+- lowdb JSON database (see backend/database.ts for patterns)
+- React frontend with Material-UI (see src/components/)
+- node-cron for scheduling
+- Mock email service (console.log for now)
+- Integration with existing user-routes.ts for preferences
+- New email-service.ts for summary generation
+- New scheduled-jobs.ts for cron scheduling</code></pre>
+            </div>
+          </div>
+          
+          <div class="expected">
+            <div class="expected-title">Files Created in specs/001-weekly-summary/</div>
+            <div class="expected-content">
+              <ul>
+                <li><code>plan.md</code> - Implementation plan with phases</li>
+                <li><code>research.md</code> - Technology research and decisions</li>
+                <li><code>data-model.md</code> - Database schema changes</li>
+                <li><code>quickstart.md</code> - Key validation scenarios</li>
+                <li><code>contracts/</code> - API endpoint specifications</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Task 8: Generate Tasks -->
+      <div class="task">
+        <div class="task-header">
+          <span class="task-number">8</span>
+          <h2 class="task-title">Generate Task Breakdown (/speckit.tasks)</h2>
+        </div>
+        <div class="task-content">
+          <p class="task-goal"><strong>Goal:</strong> Break down the implementation plan into actionable tasks.</p>
+          
+          <div class="expandable">
+            <div class="expandable-header">
+              <span class="expandable-icon">▶</span>
+              <span class="expandable-title prompt">💬 Prompt</span>
+            </div>
+            <div class="expandable-content">
+<pre><code>/speckit.tasks</code></pre>
+            </div>
+          </div>
+          
+          <div class="expected">
+            <div class="expected-title">Expected Output</div>
+            <div class="expected-content">
+              File: <code>specs/001-weekly-summary/tasks.md</code> containing:
+              <ul>
+                <li>Phase-organized task list</li>
+                <li>Task IDs and descriptions</li>
+                <li>File paths for each task</li>
+                <li>Dependencies between tasks</li>
+                <li>[P] markers for parallelizable tasks</li>
+              </ul>
+            </div>
+          </div>
+          
+          <div class="info-box tip">
+            <span class="info-box-icon">📋</span>
+            <div>
+              <strong>Sample Expected Tasks:</strong>
+              <ul style="margin-top: 8px;">
+                <li><strong>Setup:</strong> Configure node-cron dependency</li>
+                <li><strong>Tests:</strong> Write tests for summary generation</li>
+                <li><strong>Core:</strong> Implement email-service.ts</li>
+                <li><strong>Core:</strong> Add user preference fields</li>
+                <li><strong>Integration:</strong> Create preferences API endpoint</li>
+                <li><strong>Integration:</strong> Build PreferencesPanel component</li>
+                <li><strong>Polish:</strong> Add loading states and error handling</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Task 9: Validate & Analyze -->
+      <div class="task">
+        <div class="task-header">
+          <span class="task-number">9</span>
+          <h2 class="task-title">Validate and Analyze</h2>
+        </div>
+        <div class="task-content">
+          <p class="task-goal"><strong>Goal:</strong> Create a validation checklist and audit the specification.</p>
+          
+          <h3>Create Checklist</h3>
+          <div class="expandable">
+            <div class="expandable-header">
+              <span class="expandable-icon">▶</span>
+              <span class="expandable-title prompt">💬 Prompt</span>
+            </div>
+            <div class="expandable-content">
+<pre><code>/speckit.checklist</code></pre>
+            </div>
+          </div>
+          
+          <h3>Run Analysis</h3>
+          <div class="expandable">
+            <div class="expandable-header">
+              <span class="expandable-icon">▶</span>
+              <span class="expandable-title prompt">💬 Prompt</span>
+            </div>
+            <div class="expandable-content">
+<pre><code>/speckit.analyze</code></pre>
+            </div>
+          </div>
+          
+          <div class="expected">
+            <div class="expected-title">Expected Output</div>
+            <div class="expected-content">
+              <ul>
+                <li>Validation checklist covering specification completeness</li>
+                <li>Analysis report with gaps, inconsistencies, and risk areas</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Task 10: Implement -->
+      <div class="task">
+        <div class="task-header">
+          <span class="task-number">10</span>
+          <h2 class="task-title">Begin Implementation (/speckit.implement)</h2>
+        </div>
+        <div class="task-content">
+          <p class="task-goal"><strong>Goal:</strong> Execute the implementation plan systematically.</p>
+          
+          <div class="info-box warning">
+            <span class="info-box-icon">⚠️</span>
+            <div>
+              <strong>Important:</strong> This task modifies your codebase. Consider:
+              <ul style="margin-top: 8px;">
+                <li>Working on a feature branch (already created by /speckit.specify)</li>
+                <li>Having tests ready to verify changes</li>
+                <li>Reviewing changes incrementally</li>
+              </ul>
+            </div>
+          </div>
+          
+          <div class="expandable">
+            <div class="expandable-header">
+              <span class="expandable-icon">▶</span>
+              <span class="expandable-title prompt">💬 Prompt</span>
+            </div>
+            <div class="expandable-content">
+<pre><code>/speckit.implement</code></pre>
+            </div>
+          </div>
+          
+          <div class="info-box info">
+            <span class="info-box-icon">🔄</span>
+            <div>
+              <strong>What Happens:</strong>
+              <ol style="margin-top: 8px;">
+                <li>Validates prerequisites (constitution, spec, plan, tasks)</li>
+                <li>Parses task breakdown from tasks.md</li>
+                <li>Executes tasks in order, respecting dependencies</li>
+                <li>Follows TDD approach from task plan</li>
+                <li>Provides progress updates</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Workflow Summary -->
+      <div class="info-box info">
+        <span class="info-box-icon">📊</span>
+        <div>
+          <strong>Complete SDD Workflow</strong>
+          <ol style="margin-top: 8px;">
+            <li><code>/speckit.constitution</code> → Project principles</li>
+            <li><code>/speckit.specify</code> → Feature specification from user story</li>
+            <li><code>/speckit.clarify</code> → Resolve ambiguities</li>
+            <li><code>/speckit.plan</code> → Technical implementation plan</li>
+            <li><code>/speckit.tasks</code> → Actionable task breakdown</li>
+            <li><code>/speckit.checklist</code> → Pre-implementation validation</li>
+            <li><code>/speckit.analyze</code> → AI audit of artifacts</li>
+            <li><code>/speckit.implement</code> → Execute implementation</li>
+          </ol>
+          <p style="margin-top: 12px;"><strong>Time Comparison:</strong><br>
+          Traditional: ~12 hours documentation + implementation<br>
+          SDD: ~30 minutes specification + systematic implementation</p>
+        </div>
+      </div>
+      
+      <!-- Key Learnings -->
+      <div class="key-points">
+        <h2>🔑 Key Learnings</h2>
+        <ul>
+          <li><strong>Specification First:</strong> Define WHAT before HOW. Clear specs lead to better code.</li>
+          <li><strong>Structured Process:</strong> Each step builds on previous, reducing ambiguity and rework.</li>
+          <li><strong>AI-Assisted, Human-Guided:</strong> AI generates artifacts, human reviews and refines.</li>
+          <li><strong>Consistency Through Constitution:</strong> Project principles prevent drift.</li>
+          <li><strong>Iterative Refinement:</strong> Review → Analyze → Adjust → Continue.</li>
+        </ul>
+      </div>
+      
+      <!-- Troubleshooting -->
+      <div class="info-box tip">
+        <span class="info-box-icon">🔧</span>
+        <div>
+          <strong>Troubleshooting</strong>
+          <ul style="margin-top: 8px;">
+            <li><strong>"Slash commands not recognized":</strong> Verify <code>.github/prompts/</code> folder exists. Re-run: <code>specify init --here --force --ai copilot</code></li>
+            <li><strong>"Branch not detected":</strong> Ensure you're on feature branch or set: <code>export SPECIFY_FEATURE="001-weekly-summary"</code></li>
+            <li><strong>"Script permission denied":</strong> Run: <code>chmod +x scripts/bash/*.sh</code></li>
+          </ul>
+        </div>
+      </div>
+      
+      <!-- Resources -->
+      <div class="info-box note">
+        <span class="info-box-icon">📚</span>
+        <div>
+          <strong>Resources</strong>
+          <ul style="margin-top: 8px;">
+            <li><a href="https://github.com/github/spec-kit" target="_blank">Spec Kit GitHub</a></li>
+            <li><a href="https://github.com/github/spec-kit/blob/main/spec-driven.md" target="_blank">SDD Methodology</a></li>
+            <li><a href="https://github.github.io/spec-kit/" target="_blank">Documentation</a></li>
+          </ul>
+        </div>
+      </div>
+      
+      <!-- Completion Checklist -->
+      <div class="checklist">
+        <h2>✅ Completion Checklist</h2>
+        <ul>
+          <li>Installed Spec Kit CLI</li>
+          <li>Initialized Spec Kit in project</li>
+          <li>Created project constitution</li>
+          <li>Generated feature specification</li>
+          <li>Clarified requirements</li>
+          <li>Created implementation plan</li>
+          <li>Generated task breakdown</li>
+          <li>Validated with checklist and analysis</li>
+          <li>Executed implementation</li>
+        </ul>
+      </div>
+      
+      <div class="page-nav">
+        <a href="04-06-exploratory.html" class="page-nav-link prev">
+          <span class="page-nav-label">Previous</span>
+          <span class="page-nav-title">Exploratory Testing</span>
+        </a>
+        <a href="05-02-bmad.html" class="page-nav-link next">
+          <span class="page-nav-label">Next</span>
+          <span class="page-nav-title">BMAD Method</span>
+        </a>
+      </div>
+    </main>
+  </div>
+  
+  <script src="script.js"></script>
+</body>
+</html>
